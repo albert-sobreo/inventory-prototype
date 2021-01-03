@@ -151,19 +151,19 @@ body{
 .c-nav-item{
     display: inline-flex;
     align-items: center;
-    width: 15%;
+    width: 10%;
 }
 
 .c-nav-links{
     display: inline-flex;
     align-items: center;
-    width: 70%;
+    width: 80%;
 }
 
 .c-nav-links div{
     transition: .2s;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 14px;
+    padding-right: 14px;
     cursor: pointer;
     height: 100%;
     display: flex;
@@ -184,5 +184,25 @@ body{
 }
 
 .logo{
+    cursor: pointer;
+}
+.btn{
+    display: flex;
+    height: 24px;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0px 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-name{
+    display: flex;
+    height: 24px;
+    background: #ECECEC;
+    padding: 0px 15px;
+    align-items: center;
+    border-radius: 12px;
     cursor: pointer;
 }
