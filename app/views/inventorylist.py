@@ -4,7 +4,10 @@ from app.models import Warehouse, Product
 
 # Create your views here.
 # functions for Warehouse
+
 def inventory_page(request):
+    if request.session.is_empty():
+        return redirect('/')
     context = {
         'Warehouse': Warehouse.objects.all()
     }
@@ -24,6 +27,8 @@ def warehouse_save_process(request):
     return redirect('/')
 
 def warehouse_list(request):
+    if request.session.is_empty():
+        return redirect('login/')
     context = {
         'app': Warehouse.objects.all()  
     }
