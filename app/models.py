@@ -23,7 +23,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     quantity = models.IntegerField()
-    turnover = models.DecimalField()
+    turnover = models.DecimalField(max_digits=3, decimal_places=2)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
 
 class Vendor(models.Model):
@@ -49,4 +49,48 @@ class Customer(models.Model):
     bank_number = models.CharField(max_length=255)
 
 class Purchase_Order(models.Model):
-    
+    ref_id = models.CharField(max_length=255)
+    date = models.DateField()
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    approved = models.BooleanField()
+
+class Purchase_Item(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    purchase_order = models.ForeignKey(Purchase_Order, on_delete=models.CASCADE)
+    remaining = models.IntegerField()
+    purchase_quantity = models.IntegerField()
+
+class Sales_Order(models.Model):
+    ref_id = models.CharField(max_length=255)
+    date = models.DateField()
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    approved = models.BooleanField()
+
+class Sales_Item(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sales_order = models.ForeignKey(Sales_Order, on_delete=models.CASCADE)
+    remaining = models.IntegerField()
+    sales_quantity = models.IntegerField()
+
+class Transfer(models.Model):
+    ref_id = models.CharField(max_length=255)
+    date = models.DateField()
+    description = models.TextField()
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+
+class Transfer_Item(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    transfer = models.ForeignKey(Transfer, on_delete=models.CASCADE)
+    remaining = models.IntegerField()
+    transfer_quantity = models.IntegerField()
+
+class Spoilage(models.Model):
+    ref_id = models.CharField(max_length=255)
+    date = models.DateField()
+
+class Spoilage_Item(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    spoilage = models.ForeignKey(Spoilage, on_delete=models.CASCADE)
+    remaining = models.IntegerField()
+    spoilage_quantity = models.IntegerField()
+    reason = models.TextField()
