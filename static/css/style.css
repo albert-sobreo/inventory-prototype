@@ -2,15 +2,29 @@
 
 .form-container{
     background: #fff;
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 15px rgba(0,0,0,0.20);
+    border-radius: 15px;
+    box-shadow: 0px 2px 15px rgba(0,0,0,0.15);
     margin-top: 10vh;
     border: 1px solid rgba(0,0,0,0.10);
+    width: 400px;
 }
 
 body{
     font-family: 'Poppins', sans-serif;
+}
+
+.form-control{
+    font-size: 12px;
+}
+
+.flex{
+    display: flex;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .font-size-8{
@@ -41,12 +55,21 @@ body{
     font-size: 40px;
 }
 
+.font-size-64{
+    font-size: 64px;
+}
+
 .table{
     background: #fff;
-    padding: 50px;
-    border-radius: 10px;
+    border-radius: 15px;
+}
+
+.box-shadow-small{
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.20);
+}
+
+.box-shadow-medium{
     box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-    margin-top: 10vh;
 }
 
 .form-control::placeholder{
@@ -87,4 +110,76 @@ body{
 
 .font-w-900{
     font-weight: 900;
+}
+
+.b-radius-5{
+    border-radius: 5px;
+}
+
+.b-radius-10{
+    border-radius: 10px;
+}
+
+.b-tl-radius-10{
+    border-top-left-radius: 10px;
+}
+
+.b-tr-radius-10{
+    border-top-right-radius: 10px;
+}
+
+.b-bl-radius-10{
+    border-bottom-left-radius: 10px;
+}
+
+.b-br-radius-10{
+    border-bottom-right-radius: 10px;
+}
+
+.c-nav{
+    height: 42px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.10);
+    width: 100%;
+    padding-left:5vh;
+    padding-right: 5vh;
+}
+
+.c-nav-item{
+    display: inline-flex;
+    align-items: center;
+    width: 15%;
+}
+
+.c-nav-links{
+    display: inline-flex;
+    align-items: center;
+    width: 70%;
+}
+
+.c-nav-links div{
+    transition: .2s;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.c-nav-links div:hover{
+    color: #339DE9;
+}
+.c-nav-links div:active{
+    transition: 0ms;
+    color: #0a69ad;
+}
+
+.active{
+    color: #339DE9;
+}
+
+.logo{
+    cursor: pointer;
 }
