@@ -39,7 +39,7 @@ def logout(request):
     return redirect('/login/')
 
 def register(request):
-    return render(request, 'register.html')
+    return render(request, 'registration.html')
 
 def registerprocess(request):
     if request.method == "POST":

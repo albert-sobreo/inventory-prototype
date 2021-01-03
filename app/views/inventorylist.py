@@ -27,12 +27,12 @@ def warehouse_list(request):
     context = {
         'app': Warehouse.objects.all()  
     }
-    return render(request, 'warehouselist.html', context)
+    return render(request, 'warehouse.html', context)
 
-def warehouse_delete(request, id):
-    Warehouse.objects.filter(id=id).delete{
-        return redirect('/warehouse_list')
-    }
+#def warehouse_delete(request, id):
+#    Warehouse.objects.filter(id=id).delete{
+#        return redirect('/warehouse_list')
+#    }
 
 
 def warehouse_edit(request, id):
