@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+</head>
+<body class="font-size-12">
+    <!-- NAV -->
+  <div class="c-nav d-flex font-w-600 mb-3">
+
+    <div class="c-nav-item justify-content-start">
+      <img src="../static/media/Group 117.svg" class="logo">
+    </div>
+
+    <div class="justify-content-center c-nav-links">
+        <div onclick="location.href='#'">Dashboard</div>
+        <div onclick="location.href='#'">In</div>
+        <div onclick="location.href='#'">Out</div>
+        <div onclick="location.href='#'">Transfer</div>
+        <div onclick="location.href='#'">Spoilage</div>
+        <div onclick="location.href='#'" class="active">Inventory</div>
+        <div onclick="location.href='#'">Warehouse</div>
+        <div onclick="location.href='#'">Reports</div>
+        <div onclick="location.href='#'">Logs</div>
+        <div onclick="location.href='#'">Customers</div>
+        <div onclick="location.href='#'">Receipts</div>
+        <div onclick="location.href='#'">Vendors</div>
+    </div>
+
+    <div class="c-nav-item justify-content-end">
+      <div class="nav-name">
+        <span>User</span>
+      </div>
+    </div>
+    
+  </div>
+  <!-- END NAV -->
+
+  <div class="container">
+    <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+        <thead class="thead-dark">
+        <tr class="">
+            <th class="b-tl-radius-10" style="border-top: 0px;">Item Code</th>
+            <th style="border-top: 0px;">Item Name</th>
+            <th style="border-top: 0px;">Quantity</th>
+            <th style="border-top: 0px;">Unit Cost</th>
+            <th style="border-top: 0px;">Total Cost</th>
+            <th style="border-top: 0px;">Selling Price</th>
+            <th style="border-top: 0px;">Date</th>
+            <th class="b-tr-radius-10" style="border-top: 0px;">Warehouse</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>w-np-8</td>
+            <td>Narra Planks 8x8</td>
+            <td>8</td>
+            <td>P50.00</td>
+            <td>P400.00</td>
+            <td>P125.00</td>
+            <td>Jan.15,2020</td>
+            <td>SBFZ Warehouse 1</td>
+        </tr>
+        <tr>
+            <td>w-np-4</td>
+            <td>Narra Planks 4x4</td>
+            <td>4</td>
+            <td>P40.00</td>
+            <td>P160.00</td>
+            <td>P120.00</td>
+            <td>Jan.15,2020</td>
+            <td>SBFZ Warehouse 1</td>
+        </tr>
+        <tr>
+            <td>w-np-2</td>
+            <td>Narra Planks 2x2</td>
+            <td>87</td>
+            <td>P35.00</td>
+            <td>P3045.00</td>
+            <td>P110.00</td>
+            <td>Jan.15,2020</td>
+            <td>SBFZ Warehouse 1</td>
+        </tr>
+        
+        </tbody>
+    </table>
+    
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#table').DataTable({
+        dom: "<'d-flex p-0 m-0 '<'p-0 m-0 justify-content-start d-flex flex-fill align-items-center flex-grow-0 mr-3 'l><'justify-content-center flex-fill 'B><'justify-content-end flex-fill  align-items-center'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        buttons: {
+          buttons: [
+          {
+            text: '<i class="fas fa-plus"></i>',
+            className: 'btn btn-warning',
+            titleAttr: 'Add Warehouse',
+            action: function(){
+              alert('Add Warehouse')
+            }
+          },
+          {
+            text: '<i class="fas fa-file-excel"></i>',
+            className: 'btn btn-success',
+            titleAttr: 'Export Excel',
+            action: function(){
+              alert('Export Excel')
+            }
+          },
+          {
+            text: '<i class="fas fa-file-pdf"></i>',
+            className: 'btn btn-danger',
+            titleAttr: 'Export PDF',
+            action: function(){
+              alert('Export PDF')
+            }
+          },
+          {
+            text: '<i class="fas fa-file-csv"></i>',
+            className: 'btn btn-warning',
+            titleAttr: 'Export CSV',
+            action: function(){
+              alert('Export CSV')
+            }
+          },
+          {
+            text: '<i class="fas fa-print"></i>',
+            className: 'btn',
+            titleAttr: 'Print',
+            action: function(){
+              alert('Print')
+            }
+          }
+        ],
+          dom: {
+            button: {
+              className: 'btn'
+            }
+          }
+        }
+      });
+  } );
+  </script>
+  
+</html>
