@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
-<body class="font-size-12">
+<body class="font-size-12" style="background: url('/static/media/iv-bg.png');">
     <div class="container bg">
         <div class="justify-content-center">
             <div class="container flex flex-center flex-column">
@@ -19,10 +19,10 @@
               <div class="IMPS label font-size-18 font-w-600">
                 <span>Inventory Management & Planning System</span>
               </div>
-                <form method="POST" action="/registerprocess/" class="form-container-1 box-shadow-medium b-radius-15 py-4 px-4 mt-5">{%csrf_token%}
-                  <h1 class="font-size-40">Sign Up</h1>
+                <form method="POST" action="/registerprocess/" class="form-container-1 box-shadow-medium b-radius-15 py-4 px-4 mt-5 font-w-600" style="background: white;">{%csrf_token%}
+                  <span class="font-w-600 font-size-40">Sign Up</span>
 
-                    <div class="form-group row">
+                    <div class="form-group row mt-4">
                         <div class="col">
                       <label for="Username">Username</label>
                       <input name="username" type="text" class="form-control" id="Username" aria-describedby="emailHelp" placeholder="Enter Username">

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
-<body class="font-size-12">
-    <div class="container-fluid bg">
+<body class="font-size-12" style="background: url('/static/media/iv-bg.png');">
+    <div class="container-fluid">
         <div class="justify-content-center">
             <div class="flex flex-center flex-column">
 
@@ -21,7 +21,7 @@
                 <span>Inventory Management & Planning System</span>
               </div>
 
-              <form method="POST" action="/loginprocess/" class="form-container b-radius-15 box-shadow-medium py-4 px-4 mt-5">{% csrf_token %}
+              <form method="POST" action="/loginprocess/" class="form-container b-radius-15 box-shadow-medium py-4 px-4 mt-5" style="background: white">{% csrf_token %}
                 <span class="font-w-600 font-size-40">Login</span>
 
                 <div class="form-group mt-4 mb-4">
