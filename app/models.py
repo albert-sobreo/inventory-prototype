@@ -4,7 +4,7 @@ from django.db.models.fields import EmailField
 # Create your models here.
 
 class Login(models.Model):
-    user_name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     auth_level = models.CharField(max_length=255)
 

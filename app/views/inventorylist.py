@@ -14,6 +14,8 @@ def inventory_page(request):
     return render(request, 'inventory_page.html', context)
 
 def warehouse_save_process(request):
+    if request.session.is_empty():
+        return redirect('/')
     name = request.POST['name']
     address = request.POST['address']
 
@@ -41,12 +43,16 @@ def warehouse_list(request):
 
 
 def warehouse_edit(request, id):
+    if request.session.is_empty():
+        return redirect('/')
     context = {
         'app': Warehouse.objects.get(id=id)
     }
     return render(request, 'warehouseedit.html', context)
 
 def warehouse_edit_save(request, id):
+    if request.session.is_empty():
+        return redirect('/')
     warehouse = Warehouse.objects.get(id=id)
     warehouse.name=request.POST['name']
     warehouse.address=request.POST['address']
@@ -56,6 +62,8 @@ def warehouse_edit_save(request, id):
 
 # functions for Inventory list
 def inventory_save_process(request):
+    if request.session.is_empty():
+        return redirect('/')
     code = request.POST['code']
     name = request.POST['name']
     description = request.POST['description']
@@ -74,16 +82,22 @@ def inventory_save_process(request):
     return redirect('/')
 
 def inventory_delete(request, id):
+    if request.session.is_empty():
+        return redirect('/')
     Product.objects.filter(id=id).delete()
     return redirect('/')
     
 def inventory_edit(request, id):
+    if request.session.is_empty():
+        return redirect('/')
     context = {
         'app': Product.objects.get(id=id), 'Warehouse': Warehouse.objects.all()
     }
     return render(request, 'edit.html', context)
 
 def inventory_edit_save(request, id):
+    if request.session.is_empty():
+        return redirect('/')
     product = Product.objects.get(id=id)
     product.code = request.POST['code']
     product.name = request.POST['name']

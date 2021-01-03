@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, HttpResponse
 from ..models import Login, User
 from passlib.hash import pbkdf2_sha256
-from django.contrib.auth import logout
+from django.contrib.auth import logout as lg
 from django.views.decorators.cache import never_cache
 
 # Create your views here.
@@ -35,7 +35,7 @@ def loginprocess(request):
 
 @never_cache
 def logout(request):
-    logout(request)
+    lg(request)
     return redirect('/login/')
 
 def register(request):

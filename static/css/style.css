@@ -187,7 +187,7 @@ body{
     cursor: pointer;
 }
 .btn{
-    display: flex;
+    display: inline-flex;
     height: 24px;
     margin: 0;
     font-size: 12px;
