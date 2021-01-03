@@ -16,37 +16,37 @@ class User(models.Model):
 
 class Warehouse(models.Model):
     name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, null=True, blank=True)
 
 class Product(models.Model):
     code = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     quantity = models.IntegerField()
-    turnover = models.DecimalField(max_digits=3, decimal_places=2)
-    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+    turnover = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, null=True, blank=True)
 
 class Vendor(models.Model):
     name = models.CharField(max_length=255)
-    owner_first_name = models.CharField(max_length=255)
-    owner_first_name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    landline = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    mobile = models.CharField(max_length=255)
-    bank = models.CharField(max_length=255) 
-    bank_number = models.CharField(max_length=255)
+    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    landline = models.CharField(max_length=255, null=True, blank=True)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    mobile = models.CharField(max_length=255, null=True, blank=True)
+    bank = models.CharField(max_length=255, null=True, blank=True) 
+    bank_number = models.CharField(max_length=255, null=True, blank=True)
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
-    owner_first_name = models.CharField(max_length=255)
-    owner_first_name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    landline = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    mobile = models.CharField(max_length=255)
-    bank = models.CharField(max_length=255) 
-    bank_number = models.CharField(max_length=255)
+    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    landline = models.CharField(max_length=255, null=True, blank=True)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    mobile = models.CharField(max_length=255, null=True, blank=True)
+    bank = models.CharField(max_length=255, null=True, blank=True) 
+    bank_number = models.CharField(max_length=255, null=True, blank=True)
 
 class Purchase_Order(models.Model):
     ref_id = models.CharField(max_length=255)

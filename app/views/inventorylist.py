@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app.models import Warehouse, Product 
+from app.models import Warehouse, Product, User
 
 
 # Create your views here.
@@ -7,17 +7,19 @@ from app.models import Warehouse, Product
 
 def inventory_page(request):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     context = {
-        'Warehouse': Warehouse.objects.all()
+        'items': Product.objects.all(),
+        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'warehouses': Warehouse.objects.all()
     }
-    return render(request, 'inventory_page.html', context)
+    return render(request, 'inventory.html', context)
 
 def warehouse_save_process(request):
     if request.session.is_empty():
-        return redirect('/')
-    name = request.POST['name']
-    address = request.POST['address']
+        return redirect('/login/')
+    name = request.GET['name']
+    address = request.GET['address']
 
     warehouse = Warehouse()
 
@@ -30,9 +32,10 @@ def warehouse_save_process(request):
 
 def warehouse_list(request):
     if request.session.is_empty():
-        return redirect('login/')
+        return redirect('/login/')
     context = {
-        'app': Warehouse.objects.all()  
+        'warehouses': Warehouse.objects.all(),
+        'me': User.objects.select_related().get(login__username=request.session.get('username'))
     }
     return render(request, 'warehouse.html', context)
 
@@ -44,7 +47,7 @@ def warehouse_list(request):
 
 def warehouse_edit(request, id):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     context = {
         'app': Warehouse.objects.get(id=id)
     }
@@ -52,7 +55,7 @@ def warehouse_edit(request, id):
 
 def warehouse_edit_save(request, id):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     warehouse = Warehouse.objects.get(id=id)
     warehouse.name=request.POST['name']
     warehouse.address=request.POST['address']
@@ -63,12 +66,13 @@ def warehouse_edit_save(request, id):
 # functions for Inventory list
 def inventory_save_process(request):
     if request.session.is_empty():
-        return redirect('/')
-    code = request.POST['code']
-    name = request.POST['name']
-    description = request.POST['description']
-    quantity = request.POST['quantity']
-    turnover = request.POST['turnover']
+        return redirect('/login/')
+    code = request.GET['code']
+    name = request.GET['name']
+    description = request.GET['description']
+    quantity = int(request.GET['quantity'])
+
+    warehouse_pk = int(request.GET['warehouse'])
 
     product = Product()
 
@@ -76,20 +80,20 @@ def inventory_save_process(request):
     product.name = name
     product.description = description
     product.quantity = quantity
-    product.turnover = turnover
+    product.warehouse = Warehouse.objects.get(pk=warehouse_pk)
 
     product.save()
-    return redirect('/')
+    return redirect('/inventory-page')
 
 def inventory_delete(request, id):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     Product.objects.filter(id=id).delete()
     return redirect('/')
     
 def inventory_edit(request, id):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     context = {
         'app': Product.objects.get(id=id), 'Warehouse': Warehouse.objects.all()
     }
@@ -97,7 +101,7 @@ def inventory_edit(request, id):
 
 def inventory_edit_save(request, id):
     if request.session.is_empty():
-        return redirect('/')
+        return redirect('/login/')
     product = Product.objects.get(id=id)
     product.code = request.POST['code']
     product.name = request.POST['name']

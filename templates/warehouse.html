@@ -29,8 +29,9 @@
         <div onclick="location.href='#'">Out</div>
         <div onclick="location.href='#'">Transfer</div>
         <div onclick="location.href='#'">Spoilage</div>
-        <div onclick="location.href='#'">Inventory</div>
-        <div onclick="location.href='#'" class="active">Warehouse</div>
+        <div onclick="location.href='#'">Vendor</div>
+        <div onclick="location.href='/inventory-page'">Inventory</div>
+        <div onclick="location.href='/'" class="active">Warehouse</div>
         <div onclick="location.href='#'">Reports</div>
         <div onclick="location.href='#'">Logs</div>
         <div onclick="location.href='#'">Customers</div>
@@ -38,14 +39,41 @@
         <div onclick="location.href='#'">Vendors</div>
     </div>
 
-    <div class="c-nav-item justify-content-end">
-      <div class="nav-name">
-        <span>User</span>
+    <div class="c-nav-item justify-content-end dropdown">
+      <div class="nav-name dropdown-toggle" data-toggle="dropdown">
+        <span>{{me.first_name}} {{me.last_name}}</span>
+      </div>
+      <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
+        <a href="/logout" class="dropdown-item font-size-12">Logout</a>
       </div>
     </div>
     
   </div>
   <!-- END NAV -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content b-radius-15">
+        <div class="modal-body">
+          <form method="GET" action="/warehouse-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
+            <h3 class="mb-3 font-w-700">Add Warehouse</h3>
+
+            <div class="form-group">
+              <label for="itemcode">Warehouse Name</label>
+              <input name="name" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Item Code" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <label for="itemname">Warehouse Address</label>
+              <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Item Name" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-block mt-3 mb-3 btn-primary">Add Warehouse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
@@ -56,24 +84,17 @@
         </tr>
       </thead>
       <tbody>
+        {% for warehouse in warehouses.all %}
         <tr>
-          <td>Warehouse 1</td>
-          <td>SBMA</td>
+          <td>{{warehouse.name}}</td>
+          <td>{{warehouse.address}}</td>
         </tr>
-        <tr>
-          <td>Warehouse 2</td>
-          <td>Bataan</td>
-        </tr>
-        <tr>
-          <td>Warehouse 3</td>
-          <td>Castillejos</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
@@ -91,7 +112,7 @@
           className: 'btn-warning',
           titleAttr: 'Add Warehouse',
           action: function(){
-            alert('alert')
+            $("#exampleModal").modal('show')
           }
         }],
         dom: {

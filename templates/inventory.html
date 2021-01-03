@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
 </head>
 <body class="font-size-12">
@@ -17,7 +17,7 @@
   <div class="c-nav d-flex font-w-600 mb-3">
 
     <div class="c-nav-item justify-content-start">
-      <img src="../static/media/Group 117.svg" class="logo">
+      <img src="/static/media/Group 117.svg" class="logo">
     </div>
 
     <div class="justify-content-center c-nav-links">
@@ -26,8 +26,9 @@
         <div onclick="location.href='#'">Out</div>
         <div onclick="location.href='#'">Transfer</div>
         <div onclick="location.href='#'">Spoilage</div>
-        <div onclick="location.href='#'" class="active">Inventory</div>
-        <div onclick="location.href='#'">Warehouse</div>
+        <div onclick="location.href='#'">Vendor</div>
+        <div onclick="location.href='/inventory-page'" class="active">Inventory</div>
+        <div onclick="location.href='/'">Warehouse</div>
         <div onclick="location.href='#'">Reports</div>
         <div onclick="location.href='#'">Logs</div>
         <div onclick="location.href='#'">Customers</div>
@@ -35,72 +36,54 @@
         <div onclick="location.href='#'">Vendors</div>
     </div>
 
-    <div class="c-nav-item justify-content-end">
-      <div class="nav-name">
-        <span>User</span>
+    <div class="c-nav-item justify-content-end dropdown">
+      <div class="nav-name dropdown-toggle" data-toggle="dropdown">
+        <span>{{me.first_name}} {{me.last_name}}</span>
+      </div>
+      <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
+        <a href="/logout" class="dropdown-item font-size-12">Logout</a>
       </div>
     </div>
     
   </div>
   <!-- END NAV -->
-  
-  <!--Modal Button-->
-    <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Inventory</button>
-    </div>
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      <div class="modal-content b-radius-15">
         <div class="modal-body">
-            <form class="form-container-1 py-4 px-4 mt-5">
-                <h1 class="font-size-40">Add Inventory</h1>
+          <form method="GET" action="/inventory-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
+            <h3 class="mb-3 font-w-700">Add Inventory</h3>
 
-                  <div class="form-group row">
-                      <div class="col">
-                    <label for="itemcode">Item Code</label>
-                    <input type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Item Code">
-                      </div>
-                      <div class="col">
-                    <label for="itemname">Item Name</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Item Name">
-                      </div>
-                  </div>
+            <div class="form-group row">
+                <div class="col">
+                  <label for="itemcode">Item Code</label>
+                  <input name="code" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Item Code" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="itemname">Item Name</label>
+                  <input name="name" type="text" class="form-control" id="exampleInputPassword1" placeholder="Item Name" autocomplete="off">
+                </div>
+            </div>
 
-                  <div class="form-group">
-                      <label for="quantity">Quantity</label>
-                      <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity">
-                  </div>
-                  <div class="form-group">
-                      <label for="warehouse">Warehouse</label>
-                      <select class="form-control" id="warehouse">
-                        <option>Warehouse 1</option>
-                        <option>Warehouse 2</option>
-                        <option>Warehouse 3</option>
-                        <option>Warehouse 4</option>
-                      </select>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col">
-                      <label for="unitcost">Unit Cost</label>
-                      <input type="text" class="form-control" id="unitcost" aria-describedby="emailHelp" placeholder="Enter Unit Cost">
-                        </div>
-                        <div class="col">
-                      <label for="sellingprice">Selling Price</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Selling Price">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Description:</label>
-                        <textarea class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
-                      </div>
-                  <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add inventory</button>
-                </form>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input name="quantity" type="number" class="form-control" id="quantity" placeholder="Enter Quantity" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="warehouse">Warehouse</label>
+                <select name="warehouse" class="form-control" id="warehouse">
+                  {% for warehouse in warehouses.all %}
+                  <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                  <label for="comment">Description:</label>
+                  <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
+                </div>
+            <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add inventory</button>
+          </form>
         </div>
       </div>
     </div>
@@ -113,44 +96,18 @@
             <th class="b-tl-radius-10" style="border-top: 0px;">Item Code</th>
             <th style="border-top: 0px;">Item Name</th>
             <th style="border-top: 0px;">Quantity</th>
-            <th style="border-top: 0px;">Unit Cost</th>
-            <th style="border-top: 0px;">Total Cost</th>
-            <th style="border-top: 0px;">Selling Price</th>
-            <th style="border-top: 0px;">Date</th>
             <th class="b-tr-radius-10" style="border-top: 0px;">Warehouse</th>
         </tr>
         </thead>
         <tbody>
+        {% for item in items%}
         <tr>
-            <td>w-np-8</td>
-            <td>Narra Planks 8x8</td>
-            <td>8</td>
-            <td>P50.00</td>
-            <td>P400.00</td>
-            <td>P125.00</td>
-            <td>Jan.15,2020</td>
-            <td>SBFZ Warehouse 1</td>
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.warehouse.name}}</td>
         </tr>
-        <tr>
-            <td>w-np-4</td>
-            <td>Narra Planks 4x4</td>
-            <td>4</td>
-            <td>P40.00</td>
-            <td>P160.00</td>
-            <td>P120.00</td>
-            <td>Jan.15,2020</td>
-            <td>SBFZ Warehouse 1</td>
-        </tr>
-        <tr>
-            <td>w-np-2</td>
-            <td>Narra Planks 2x2</td>
-            <td>87</td>
-            <td>P35.00</td>
-            <td>P3045.00</td>
-            <td>P110.00</td>
-            <td>Jan.15,2020</td>
-            <td>SBFZ Warehouse 1</td>
-        </tr>
+        {% endfor %}
         
         </tbody>
     </table>
@@ -159,7 +116,6 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
@@ -175,9 +131,9 @@
           {
             text: '<i class="fas fa-plus"></i>',
             className: 'btn btn-warning',
-            titleAttr: 'Add Warehouse',
+            titleAttr: 'Add Inventory',
             action: function(){
-              alert('Add Warehouse')
+              $("#exampleModal").modal('show')
             }
           },
           {
