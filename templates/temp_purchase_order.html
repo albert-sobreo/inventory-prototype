@@ -1,11 +1,14 @@
 <html>
-    <form action="#">
+    <form action="/po-process/"> {%csrf_token%}
         <label for="ref_no">Reference Number</label>
-        <input type="text" name="ref_no">
+        <input type="text" name="ref_id" value="{{new_ref_id}}" readonly>
         <br>
         <label for="date">Date</label>
-        <input type="date" name="date">
+        <input id="datePicker" type="date" name="date" readonly>
         <br>
         <button type="submit">Submit</button>
     </form>
+    <script>
+        document.getElementById('datePicker').valueAsDate = new Date();
+    </script>
 </html>

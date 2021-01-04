@@ -21,5 +21,6 @@ urlpatterns = [
     path('test-error', views.test_error),
     path('test-warning', views.test_warning),
     path('test-info', views.test_info),
-    path('temp-po/', views.po)
+    path('temp-po/', views.po),
+    path('po-process/', views.poProcess)
 ]
