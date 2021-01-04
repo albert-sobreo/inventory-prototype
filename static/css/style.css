@@ -14,6 +14,7 @@
 
 body{
     font-family: 'Poppins', sans-serif;
+    min-width: 720px;
 }
 
 .form-control{
@@ -201,7 +202,7 @@ body{
     display: flex;
     height: 24px;
     background: #ECECEC;
-    padding: 0px 15px;
+    padding: 0px 12px 0px 15px;
     align-items: center;
     border-radius: 12px;
     cursor: pointer;

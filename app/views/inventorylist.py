@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from app.models import Warehouse, Product, User
+import sweetify
 
 
 # Create your views here.
@@ -25,9 +26,12 @@ def warehouse_save_process(request):
 
     warehouse.name = name
     warehouse.address = address
+    try:
+        warehouse.save()
+        sweetify.sweetalert(request, icon='success', title='Added Warehouse Successfully!', persistent='Dismiss')
+    except:
+        sweetify.sweetalert(request, icon='error', title='YOU DID IT', text="YOU FUCKED IT UP", persistent='BRUH')
 
-    warehouse.save()
-    
     return redirect('/')
 
 def warehouse_list(request):
@@ -82,7 +86,13 @@ def inventory_save_process(request):
     product.quantity = quantity
     product.warehouse = Warehouse.objects.get(pk=warehouse_pk)
 
-    product.save()
+    try:
+        product.save()
+        sweetify.sweetalert(request, icon='success', title='Added Product Successfully', text='{} {} successfully added'.format(product.quantity, product.name), persistent='Dismiss')
+    except:
+        sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')
+
+
     return redirect('/inventory-page')
 
 def inventory_delete(request, id):

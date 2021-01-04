@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -26,19 +25,18 @@
         <div onclick="location.href='#'">Out</div>
         <div onclick="location.href='#'">Transfer</div>
         <div onclick="location.href='#'">Spoilage</div>
-        <div onclick="location.href='#'">Vendor</div>
+        <div onclick="location.href='#'">Vendors</div>
         <div onclick="location.href='/inventory-page'" class="active">Inventory</div>
         <div onclick="location.href='/'">Warehouse</div>
         <div onclick="location.href='#'">Reports</div>
         <div onclick="location.href='#'">Logs</div>
         <div onclick="location.href='#'">Customers</div>
         <div onclick="location.href='#'">Receipts</div>
-        <div onclick="location.href='#'">Vendors</div>
     </div>
 
     <div class="c-nav-item justify-content-end dropdown">
-      <div class="nav-name dropdown-toggle" data-toggle="dropdown">
-        <span>{{me.first_name}} {{me.last_name}}</span>
+      <div class="nav-name" data-toggle="dropdown">
+        <span>{{me.first_name}} {{me.last_name}}</span> <i class="fas fa-angle-down ml-1"></i>
       </div>
       <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
         <a href="/logout" class="dropdown-item font-size-12">Logout</a>
@@ -113,7 +111,6 @@
     </table>
     
 </body>
-
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 <script src="/static/js/jquery.dataTables.min.js"></script>
@@ -123,6 +120,10 @@
 <script src="/static/js/jszip.min.js"></script>
 <script src="/static/js/buttons.html5.min.js"></script>
 <script src="/static/js/buttons.print.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+{% load sweetify %}
+{% sweetify %}
 
 <script>
     $(document).ready(function() {

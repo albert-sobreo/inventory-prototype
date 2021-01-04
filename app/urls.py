@@ -17,4 +17,8 @@ urlpatterns = [
     path('inventory-delete/', views.inventory_delete),
     path('inventory-edit/', views.inventory_edit),
     path('inventory-edit-save/', views.inventory_edit_save),
+    path('test-success/', views.test_success),
+    path('test-error', views.test_error),
+    path('test-warning', views.test_warning),
+    path('test-info', views.test_info)
 ]
