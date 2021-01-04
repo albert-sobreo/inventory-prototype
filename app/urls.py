@@ -20,5 +20,6 @@ urlpatterns = [
     path('test-success/', views.test_success),
     path('test-error', views.test_error),
     path('test-warning', views.test_warning),
-    path('test-info', views.test_info)
+    path('test-info', views.test_info),
+    path('temp-po/', views.po)
 ]

@@ -51,7 +51,7 @@ class Customer(models.Model):
 class Purchase_Order(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, blank=True, null=True)
     approved = models.BooleanField()
 
 class Purchase_Item(models.Model):
