@@ -1,3 +1,4 @@
+from app.views.sales import outView
 from django.contrib import admin
 from django.urls import path, include
 from . import views
@@ -24,4 +25,7 @@ urlpatterns = [
     #path('temp-po/', views.po),
     #path('po-process/', views.poProcess),
     path('in/', views.inView),
+    path('out/', views.outView),
+    path('getitemremaining/', views.getItemRemaining),
+    path('purchaseprocess/', views.purchaseProcess)
 ]
