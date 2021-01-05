@@ -9,6 +9,9 @@
         <button type="submit">Submit</button>
     </form>
     <script>
-        document.getElementById('datePicker').valueAsDate = new Date();
+        function getNewDate(){
+            document.getElementById('datePicker').valueAsDate = new Date();
+        }
+        document.onload(getNewDate())
     </script>
 </html>
