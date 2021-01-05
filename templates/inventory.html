@@ -21,7 +21,7 @@
 
     <div class="justify-content-center c-nav-links">
         <div onclick="location.href='#'">Dashboard</div>
-        <div onclick="location.href='#'">In</div>
+        <div onclick="location.href='/in'">In</div>
         <div onclick="location.href='#'">Out</div>
         <div onclick="location.href='#'">Transfer</div>
         <div onclick="location.href='#'">Spoilage</div>
@@ -70,7 +70,7 @@
             </div>
             <div class="form-group">
                 <label for="warehouse">Warehouse</label>
-                <select name="warehouse" class="form-control" id="warehouse">
+                <select name="warehouse" class="form-control py-0" id="warehouse">
                   {% for warehouse in warehouses.all %}
                   <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                   {% endfor %}
