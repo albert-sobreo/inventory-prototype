@@ -7,7 +7,6 @@ import json
 from time import sleep
 
 def outView(request):
-    sleep(1)
     if request.session.is_empty():
         return redirect('/login/')
 
@@ -81,6 +80,6 @@ def salesProcess(request):
         si.sales_quantity = int(line['quantity'])
 
         si.save()
-        sweetify.sweetalert(request, icon='success', title='Sucess!', persistent='Dismiss')
+        sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')
 
     return JsonResponse(0, safe=0)

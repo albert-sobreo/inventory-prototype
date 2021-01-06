@@ -7,7 +7,6 @@ import json
 from time import sleep
 
 def inView(request):
-    sleep(1)
     if request.session.is_empty():
         return redirect('/login/')
     try:

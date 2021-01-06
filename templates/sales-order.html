@@ -203,7 +203,8 @@
                 },
                 body: JSON.stringify(payload)
             })
-            .then(location.reload())
+            .then(res=>res.json())
+            .then(data=>data==0?location.reload():'')
         }
     }
 

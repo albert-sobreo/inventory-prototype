@@ -217,7 +217,7 @@
                 body: JSON.stringify(payload)
             })
             .then(res=>res.json())
-            .then(location.reload())
+            .then(data=>data==0?location.reload():'')
         }
     }
 
