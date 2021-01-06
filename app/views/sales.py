@@ -4,8 +4,10 @@ from app.models import Customer, Sales_Item, Sales_Order, Warehouse, Product, Us
 import sweetify
 from datetime import date as now
 import json
+from time import sleep
 
 def outView(request):
+    sleep(1)
     if request.session.is_empty():
         return redirect('/login/')
 
