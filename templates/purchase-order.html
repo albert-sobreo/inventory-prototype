@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <form class="mt-3" autocomplete="off">
+    <form class="mt-3" autocomplete="off" id="mainForm" onsubmit="return stopSubmit(event)">
         <div class="row">
             <div class="col-3 form-group">
                 <label for="ref_id" class="font-w-600 font-size-14 mb-0">Reference Number</label>
@@ -88,7 +88,7 @@
         <div class="row">
             <div class="col-5 form-group">
                 <label for="vendor" class="font-w-600 font-size-14 mb-0">Vendor</label>
-                <select name="vendor" id="" class="py-0 form-control" v-model="vendor" required>
+                <select name="vendor" id="vendor" class="py-0 form-control" v-model="vendor" required>
                     <option value="" disabled selected>Select Vendor</option>
                     {% for vendor in vendors.all %}
                     <option value="{{vendor.pk}}">{{vendor.name}}</option>
@@ -143,7 +143,6 @@
             <div class="row">
                 <div class="col px-1">
                     <button class="btn btn-warning px-3 mr-1" type="button" @click="addLine"><span class="font-w-600">+ Add New Line</span></button>
-                    <button type="button" @click="confirmPurchase" class="btn btn-primary px-3 mx-1">Confirm Inputs</button>
                 </div>
             </div>
         </div>
@@ -153,12 +152,15 @@
             </div>
         </div>
     </form>
+    
+    <button form="mainForm" id="button" @click="confirmPurchase" class="btn btn-primary px-3 mx-1" form>Confirm Inputs</button>
   </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/jquery.validate.js"></script>
 
 {% load sweetify %}
 {% sweetify %}
@@ -214,7 +216,7 @@
                 },
                 body: JSON.stringify(payload)
             })
-            .then(location.href='/in/')
+            .then(location.reload())
         }
     }
 
@@ -252,18 +254,21 @@
                 this.$delete(this.lines, index)
             },
 
-            confirmPurchase(){
-                Swal.fire({
-                    title: 'Confirm Purchase?',
-                    html: this.lines.length + " item " + (this.lines.length > 1 ? "codes are" : "code is") + " included.",
-                    icon: 'warning',
-                    confirmButtonText: 'Ok',
-                    denyButtonText: `Cancel`,
-                }).then((result) => {
-                    if(result.isConfirmed){
-                        this.purchase()
-                    }
-                })
+            confirmPurchase(e){
+                $('#vendor').validate()
+                if(document.getElementById('mainForm').checkValidity()){
+                    Swal.fire({
+                        title: 'Confirm Purchase?',
+                        html: this.lines.length + " item " + (this.lines.length > 1 ? "codes are" : "code is") + " included.",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes',
+                        showCancelButton: true,
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            this.purchase()
+                        }
+                    })
+                }                  
             },
             
             purchase(){
@@ -274,5 +279,17 @@
 </script>
 <script>
     document.getElementById('date').valueAsDate = new Date();
+
+    $('#vendor').prop('required', true)
+    $('#button').on('click', function(e){
+        $('#vendor').validate()
+        if(document.getElementById('mainForm').checkValidity()){
+            console.log(true)
+        }
+    })
+    
+    function stopSubmit(){
+        return false
+    }
 </script>
 </html>

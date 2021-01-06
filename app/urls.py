@@ -27,5 +27,6 @@ urlpatterns = [
     path('in/', views.inView),
     path('out/', views.outView),
     path('getitemremaining/', views.getItemRemaining),
-    path('purchaseprocess/', views.purchaseProcess)
+    path('purchaseprocess/', views.purchaseProcess),
+    path('salesprocess/', views.salesProcess)
 ]

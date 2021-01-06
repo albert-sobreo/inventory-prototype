@@ -73,12 +73,8 @@ def purchaseProcess(request):
     po.vendor = Vendor.objects.get(pk=vendor)
     po.approved = False
 
-    try:
-        po.save()
-    except:
-        sweetify.sweetalert(request, icon='error', title='Error', text="Some fields are empty", persistent='Dismiss')
-        return JsonResponse(0, safe=0)
-
+    po.save()
+    
     for line in lines:
         pi = Purchase_Item()
 
