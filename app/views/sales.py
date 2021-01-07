@@ -20,13 +20,13 @@ def outView(request):
 
         if listed_ref_id[1] == listed_date[0] and listed_ref_id[2] == listed_date[1]:
             current_code += 1
-            new_ref_id = 'PO-{}-{}-{}'.format(listed_date[0], listed_date[1], str(current_code).zfill(4))
+            new_ref_id = 'SO-{}-{}-{}'.format(listed_date[0], listed_date[1], str(current_code).zfill(4))
         else:
-            new_ref_id = 'PO-{}-{}-0001'.format(listed_date[0], listed_date[1])
+            new_ref_id = 'SO-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
     except:
         listed_date = str(now.today()).split('-')
-        new_ref_id = 'PO-{}-{}-0001'.format(listed_date[0], listed_date[1])
+        new_ref_id = 'SO-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
     
     context = {
@@ -60,7 +60,7 @@ def salesProcess(request):
 
         if listed_ref_id[1] == listed_date[0] and listed_ref_id[2] == listed_date[1]:
             current_code += 1
-            new_ref_id = 'PO-{}-{}-{}'.format(listed_date[0], listed_date[1], str(current_code).zfill(4))
+            new_ref_id = 'SO-{}-{}-{}'.format(listed_date[0], listed_date[1], str(current_code).zfill(4))
 
     so = Sales_Order()
 

@@ -28,5 +28,6 @@ urlpatterns = [
     path('out/', views.outView),
     path('getitemremaining/', views.getItemRemaining),
     path('purchaseprocess/', views.purchaseProcess),
-    path('salesprocess/', views.salesProcess)
+    path('salesprocess/', views.salesProcess),
+    path('transfer/', views.transferView)
 ]

@@ -40,7 +40,7 @@ def getItemRemaining(request):
     data = json.loads(request.body)
     item = Product.objects.get(pk=data['code'])
 
-    return JsonResponse(item.quantity, safe=False)
+    return JsonResponse({'remaining': item.quantity, 'warehouse': {'pk': item.warehouse.pk, 'name': item.warehouse.name}})
 
 def purchaseProcess(request):
     data = json.loads(request.body)

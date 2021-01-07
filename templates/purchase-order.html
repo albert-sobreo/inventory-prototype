@@ -196,7 +196,7 @@
                 body: JSON.stringify(payload)
             })
             .then(res => res.json())
-            .then(data => app.lines[index].remaining = data)
+            .then(data => app.lines[index].remaining = data.remaining)
         },
 
         pushPurchase(ref_id, date, vendor, lines){
@@ -278,6 +278,7 @@
         }
     })
 </script>
+
 <script>
     document.getElementById('date').valueAsDate = new Date();
 
