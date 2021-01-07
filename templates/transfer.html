@@ -40,7 +40,7 @@
         <div onclick="location.href='#'">Dashboard</div>
         <div onclick="location.href='/in'">In</div>
         <div onclick="location.href='/out'">Out</div>
-        <div onclick="location.href='#'" class="active">Transfer</div>
+        <div onclick="location.href='/transfer'" class="active">Transfer</div>
         <div onclick="location.href='#'">Spoilage</div>
         <div onclick="location.href='#'">Vendors</div>
         <div onclick="location.href='/inventory-page'">Inventory</div>
@@ -199,6 +199,26 @@
                   app.lines[index].warehouse = data.warehouse;
 
               })
+          },
+          pushTransfer(ref_id, date, new_warehouse, lines){
+              payload = {
+                  ref_id: ref_id,
+                  date: date,
+                  new_warehouse: new_warehouse,
+                  lines: lines,
+              }
+
+              fetch('/transferprocess/', {
+                  method: 'POST',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json;charset=UTF-8',
+                      'X-CSRFToken': getCookie('csrftoken')
+                  },
+                  body: JSON.stringify(payload)
+              })
+              .then(res=>res.json())
+              .then(data=>data==0?location.reload():'')
           }
       }
 
@@ -241,6 +261,22 @@
               },
               confirmTransfer(e){
                   $('#date').validate()
+                  if(document.getElementById('mainForm').checkValidity()){
+                      Swal.fire({
+                        title: 'Confirm Purchase?',
+                        html: this.lines.length + " item " + (this.lines.length > 1 ? "codes are" : "code is") + " included.",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes',
+                        showCancelButton: true,
+                      }).then((result)=>{
+                          if(result.isConfirmed){
+                              this.transfer()
+                          }
+                      })
+                  }
+              },
+              transfer(){
+                  Server.pushTransfer(this.ref_id, this.date, this.new_warehouse, this.lines)
               }
           }
       })
