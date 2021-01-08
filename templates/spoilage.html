@@ -64,7 +64,7 @@
         <a href="/logout" class="dropdown-item font-size-12">Logout</a>
       </div>
     </div>
-    
+
   </div>
   <!-- END NAV -->
   <div class="container-custom" id="app">
@@ -135,7 +135,7 @@
             </div>
         </div>
     </form>
-    
+
     <button form="mainForm" id="button" @click="confirmSpoilage" class="btn btn-primary px-3 mx-1" form>Confirm Inputs</button>
   </div>
 </body>
@@ -153,11 +153,11 @@
         if (!document.cookie) {
           return null;
         }
-      
+
         const xsrfCookies = document.cookie.split(';')
           .map(c => c.trim())
           .filter(c => c.startsWith(name + '='));
-      
+
         if (xsrfCookies.length === 0) {
           return null;
         }
@@ -184,7 +184,6 @@
               .then(data=>{
                   app.lines[index].remaining = data.remaining;
                   app.lines[index].warehouse = data.warehouse;
-
               })
           },
           pushSpoilage(ref_id, date, lines){
@@ -279,7 +278,7 @@
             console.log(true)
         }
     })
-    
+
     function stopSubmit(){
         return false
     }
