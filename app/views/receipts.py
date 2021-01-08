@@ -1,38 +1,38 @@
 from django.shortcuts import render, redirect
 from app.models import User, Purchase_Order, Sales_Order
 
-def delivery_notapproved(request):
+def sales_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
         'purchases': Purchase_Order.objects.filter(approved=False),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
-    return render(request, 'delivery_not.html', context)
+    return render(request, 'sales_not.html', context)
 
-def delivery_approved(request):
+def sales_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
         'purchases': Purchase_Order.objects.all(),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
-    return render(request, 'delivery_approved.html', context)
+    return render(request, 'sales_approved.html', context)
 
-def warehouse_notapproved(request):
+def purchase_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
         'purchases': Sales_Order.objects.all(),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
-    return render(request, 'warehouse_not.html', context)
+    return render(request, 'purchase_not.html', context)
 
-def warehouse_approved(request):
+def purchase_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
         'purchases': Sales_Order.objects.all(),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
-    return render(request, 'warehouse_approved.html', context)
+    return render(request, 'purchase_approved.html', context)
