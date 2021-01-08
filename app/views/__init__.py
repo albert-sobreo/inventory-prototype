@@ -7,3 +7,4 @@ from .sales import *
 from .transfer import *
 from .spoilage import *
 from .receipts import *
+from .logs import *
