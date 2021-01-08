@@ -300,6 +300,14 @@ body{
 }
 
 .dropdown-item:hover{
-    background:#339DE9;
+    background:#0095ff;
     color: white;
+}
+
+.reject{
+    color: #ff0000;
+}
+
+.approved{
+    color: blue;
 }
