@@ -6,3 +6,4 @@ from .purchase import *
 from .sales import *
 from .transfer import *
 from .spoilage import *
+from .receipts import *

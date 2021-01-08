@@ -5,7 +5,7 @@ def delivery_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'purchases': Purchase_Order.objects.all(),
+        'purchases': Purchase_Order.objects.filter(approved=False),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'delivery_not.html', context)
