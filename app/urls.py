@@ -30,5 +30,7 @@ urlpatterns = [
     path('purchaseprocess/', views.purchaseProcess),
     path('salesprocess/', views.salesProcess),
     path('transfer/', views.transferView),
-    path('transferprocess/', views.transferProcess)
+    path('transferprocess/', views.transferProcess),
+    path('spoilage/', views.spoilageView),
+    path('spoilageprocess/', views.spoilageProcess),
 ]
