@@ -31,7 +31,7 @@
             <div onclick="location.href='/inventory-page'">Inventory</div>
             <div onclick="location.href='/'">Warehouse</div>
             <div onclick="location.href='#'">Reports</div>
-            <div onclick="location.href='#'" class="active">Logs</div>
+            <div onclick="location.href='/logs/in'" class="active">Logs</div>
             <div onclick="location.href='#'">Customers</div>
             <div onclick="location.href='#'">Receipts</div>
         </div>
@@ -52,12 +52,12 @@
         
       </div>
       <!-- END NAV -->
-      <div class="d-flex font-w-600 mt-5 mb-5 justify-content-center">
+      <div class="d-flex font-w-600 mb-2 justify-content-center">
         <div class="justify-content-center c-nav-links">
-            <div onclick="location.href='#'">Purchase</div>
-            <div onclick="location.href='#'">Sales</div>
-            <div onclick="location.href='#'">Transfer</div>
-            <div onclick="location.href='#'" class="active">Spoilage</div>
+            <div onclick="location.href='/logs/in'">In</div>
+            <div onclick="location.href='/logs/out'">Out</div>
+            <div onclick="location.href='/logs/transfer'">Transfer</div>
+            <div onclick="location.href='/logs/spoilage'" class="active">Spoilage</div>
         </div>
         </div>  
     
@@ -69,17 +69,25 @@
                     <th style="border-top: 0px;">Date</th>
                     <th style="border-top: 0px;">Reason</th>
                     <th style="border-top: 0px;">Items</th>
-                    <th class="b-tr-radius-10" style="border-top: 0px;">Total Cost</th>
                 </tr>
                 </thead>
                 <tbody>
+                {%for spoilage in spoils.all%}
                 <tr>
-                    <td>SP-2020-01-1201</td>
-                    <td>Jan. 6, 2020</td>
-                    <td>Termites</td>
-                    <td>Items</td>
-                    <td>P150.00</td>
+                    <td>{{spoilage.ref_id}}</td>
+                    <td>{{spoilage.date}}</td>
+                    <td>
+                      {%for reason in spoilage.spoilage_item_set.all%}
+                      <span>{{reason.reason}}</span><br/>
+                      {%endfor%}
+                    </td>
+                    <td>
+                      {%for item in spoilage.spoilage_item_set.all%}
+                      <span class="font-w-300">{{item.product.code}}</span> <span>{{item.product.name}}</span><br/>
+                      {%endfor%}
+                    </td>
                 </tr>
+                {%endfor%}
                 
                 
                 </tbody>

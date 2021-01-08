@@ -72,6 +72,7 @@ def spoilageProcess(request):
         si.spoilage = sp
         si.remaining = int(line['remaining'])
         si.spoilage_quantity = int(line['quantity'])
+        si.reason = line['reason']
 
         si.save()
         sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')

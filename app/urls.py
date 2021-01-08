@@ -33,5 +33,9 @@ urlpatterns = [
     path('transferprocess/', views.transferProcess),
     path('spoilage/', views.spoilageView),
     path('spoilageprocess/', views.spoilageProcess),
-    path('deliverynotapproved/', views.sales_notapproved)
+    path('deliverynotapproved/', views.sales_notapproved),
+    path('logs/in/', views.purchaseLogsView),
+    path('logs/out/', views.salesLogsView),
+    path('logs/transfer/', views.transferLogsView),
+    path('logs/spoilage/', views.spoilageLogsView),
 ]
