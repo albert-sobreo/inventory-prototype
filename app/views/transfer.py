@@ -61,7 +61,7 @@ def transferProcess(request):
     tr.ref_id = ref_id
     tr.date = date
     tr.warehouse = Warehouse.objects.get(pk=new_warehouse)
-
+    #b0ss
     tr.save()
 
     for line in lines:
