@@ -105,7 +105,7 @@ class Sales_Item(models.Model):
 class Transfer(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -303,6 +303,7 @@ body{
     background:#0095ff;
     color: white;
 }
+<<<<<<< HEAD
 
 .reject{
     color: #ff0000;
@@ -310,4 +311,8 @@ body{
 
 .approved{
     color: blue;
+=======
+#table_length{
+    font-weight: 600;
+>>>>>>> c193405f50b2d1c12bf623272300bce6c2235520
 }

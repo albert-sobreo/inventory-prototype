@@ -28,5 +28,10 @@ urlpatterns = [
     path('out/', views.outView),
     path('getitemremaining/', views.getItemRemaining),
     path('purchaseprocess/', views.purchaseProcess),
-    path('salesprocess/', views.salesProcess)
+    path('salesprocess/', views.salesProcess),
+    path('transfer/', views.transferView),
+    path('transferprocess/', views.transferProcess),
+    path('spoilage/', views.spoilageView),
+    path('spoilageprocess/', views.spoilageProcess),
+    path('deliverynotapproved/', views.delivery_notapproved)
 ]
