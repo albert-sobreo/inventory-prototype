@@ -38,4 +38,6 @@ urlpatterns = [
     path('logs/out/', views.salesLogsView),
     path('logs/transfer/', views.transferLogsView),
     path('logs/spoilage/', views.spoilageLogsView),
+    path('sales/approved/', views.sales_approved),
+    path('sales/notapproved/', views.sales_notapproved),
 ]
