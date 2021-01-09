@@ -56,8 +56,8 @@
   <!-- END NAV -->
   <div class="d-flex font-w-600 mb-2 justify-content-center">
     <div class="justify-content-center c-nav-links">
-        <div onclick="location.href='#'">Approved</div>
-        <div onclick="location.href='#'" class="active">Not Approved</div>
+        <div onclick="location.href='#'" class="active">Approved</div>
+        <div onclick="location.href='#'">Not Approved</div>
     </div>
   </div>  
   <div class="container">
@@ -74,7 +74,7 @@
       <tbody>
         {% for sale in sales %}
         <tr>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" checked></td>
           <td>{{sale.ref_id}}</td>
           <td>{{sale.date}}</td>
           <td>{{sale.customer.name}}</td>
