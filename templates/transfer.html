@@ -36,19 +36,25 @@
       <img src="/static/media/Group 117.svg" class="logo">
     </div>
 
-    <div class="justify-content-center c-nav-links">
-        <div onclick="location.href='#'">Dashboard</div>
-        <div onclick="location.href='/in'">In</div>
-        <div onclick="location.href='/out'">Out</div>
-        <div onclick="location.href='/transfer'" class="active">Transfer</div>
-        <div onclick="location.href='/spoilage'">Spoilage</div>
-        <div onclick="location.href='#'">Vendors</div>
-        <div onclick="location.href='/inventory-page'">Inventory</div>
-        <div onclick="location.href='/'">Warehouse</div>
-        <div onclick="location.href='#'">Reports</div>
-        <div onclick="location.href='/logs/in'">Logs</div>
-        <div onclick="location.href='#'">Customers</div>
-        <div onclick="location.href='#'">Requests</div>
+    <div class="justify-content-center navbar">
+        <div class="mx-3" onclick="location.href='#'">Dashboard</div>
+        <div class="mx-3" onclick="location.href='/in'">In</div>
+        <div class="mx-3" onclick="location.href='/out'">Out</div>
+        <div class="mx-3 active" onclick="location.href='/transfer'">Transfer</div>
+        <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
+        <div class="mx-3" onclick="location.href='#'">Vendors</div>
+        <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
+        <div class="mx-3" onclick="location.href='/'">Warehouse</div>
+        <div class="mx-3" onclick="location.href='#'">Reports</div>
+        <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
+        <div class="mx-3" onclick="location.href='#'">Customers</div>
+        <div class="btn-group mx-3">
+          <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
+          <div class="dropdown-menu b-radius-5 py-0">
+            <a href="/purchase/notapproved" class="dropdown-item font-size-12">Purchase</a>
+            <a href="/sales/notapproved" class="dropdown-item font-size-12">Sales</a>
+          </div>
+        </div>
     </div>
 
     <div class="c-nav-item justify-content-end dropdown">

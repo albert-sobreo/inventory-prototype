@@ -167,10 +167,13 @@ body{
     width: 10%;
 }
 
-.c-nav-links{
+.c-nav-links, .navbar-nav, .navbar{
     display: inline-flex;
     align-items: center;
     width: 80%;
+}
+.navbar div{
+    cursor: pointer;
 }
 
 .c-nav-links div{
@@ -222,7 +225,7 @@ body{
 }
 
 .btn-danger, .btn-danger:hover, .btn-danger:focus{
-    color: #8e1818;
+    color: #ffebeb;
 }
 
 .btn-danger{
@@ -314,4 +317,13 @@ body{
 
 #table_length{
     font-weight: 600;
+}
+
+.receipt-link{
+    cursor: pointer;
+    color: #1981cc;
+}
+
+.gray{
+    color: #A6A6A6;
 }

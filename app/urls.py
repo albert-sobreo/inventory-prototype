@@ -40,5 +40,11 @@ urlpatterns = [
     path('logs/spoilage/', views.spoilageLogsView),
     path('sales/approved/', views.sales_approved),
     path('sales/notapproved/', views.sales_notapproved),
-    path('sales/approved/', views.sales_approved)
+    path('sales/approved/', views.sales_approved),
+    path('purchase/notapproved/', views.purchase_notapproved),
+    path('purchase/approved/', views.purchase_approved),
+    path('getpurchasemodaldata/', views.getPurchaseModalData),
+    path('getsalesmodaldata/', views.getSalesModalData),
+    path('approvepurchase/', views.approvePurchase),
+    path('approvesales/', views.approveSales)
 ]

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 
 
 </head>
@@ -23,20 +24,26 @@
       <img src="/static/media/Group 117.svg" class="logo">
     </div>
 
-    <div class="justify-content-center c-nav-links">
-        <div onclick="location.href='#'">Dashboard</div>
-        <div onclick="location.href='/in'">In</div>
-        <div onclick="location.href='/out'">Out</div>
-        <div onclick="location.href='/transfer'">Transfer</div>
-        <div onclick="location.href='/spoilage'">Spoilage</div>
-        <div onclick="location.href='#'">Vendors</div>
-        <div onclick="location.href='/inventory-page'">Inventory</div>
-        <div onclick="location.href='/'">Warehouse</div>
-        <div onclick="location.href='#'">Reports</div>
-        <div onclick="location.href='#'">Logs</div>
-        <div onclick="location.href='#'">Customers</div>
-        <div onclick="location.href='#'" class="active">Requests</div>
-    </div>
+    <div class="justify-content-center navbar">
+      <div class="mx-3" onclick="location.href='#'">Dashboard</div>
+      <div class="mx-3" onclick="location.href='/in'">In</div>
+      <div class="mx-3" onclick="location.href='/out'">Out</div>
+      <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
+      <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
+      <div class="mx-3" onclick="location.href='#'">Vendors</div>
+      <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
+      <div class="mx-3" onclick="location.href='/'">Warehouse</div>
+      <div class="mx-3" onclick="location.href='#'">Reports</div>
+      <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
+      <div class="mx-3" onclick="location.href='#'">Customers</div>
+      <div class="btn-group mx-3">
+        <span class="active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
+        <div class="dropdown-menu b-radius-5 py-0">
+          <a href="/purchase/notapproved" class="dropdown-item font-size-12">Purchase</a>
+          <a href="/sales/notapproved" class="dropdown-item font-size-12">Sales</a>
+        </div>
+      </div>
+  </div>
 
     <div class="c-nav-item justify-content-end dropdown">
       <div class="nav-name" data-toggle="dropdown">
@@ -56,12 +63,12 @@
   <!-- END NAV -->
   <div class="d-flex font-w-600 mb-2 justify-content-center">
     <div class="justify-content-center c-nav-links">
-        <div onclick="location.href='#'" class="active">Approved</div>
-        <div onclick="location.href='#'">Not Approved</div>
+        <div onclick="location.href='/sales/approved'" class="active">Approved</div>
+        <div onclick="location.href='/sales/notapproved'">Not Approved</div>
     </div>
   </div>  
-  <div class="container">
-    
+  <div class="container" id="app">
+    <h3 class="font-w-600">Sales</h3>
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
       <thead class="thead-dark">
         <tr class="">
@@ -75,13 +82,78 @@
         {% for sale in sales %}
         <tr>
           <td><input type="checkbox" checked></td>
-          <td>{{sale.ref_id}}</td>
+          <td data-toggle="modal" data-target="#productModal" class="receipt-link" @click="salesmodaldata({{sale.pk}})">{{sale.ref_id}}</td>
           <td>{{sale.date}}</td>
           <td>{{sale.customer.name}}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+    <div class="modal fade" id="productModal">
+      <div class="modal-dialog">
+        <div class="modal-content b-radius-15">
+          <div class="modal-body">
+            <div class="row my-3">
+              <div class="col-6">
+                <span class="font-w-700 gray">Reference Code</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 gray">Status</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18">[[modal.ref_id]]</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18 text-success">Approved</span>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <span class="font-w-700 gray">Customer</span>
+              </div>
+              <div class="col-12">
+                <span class="font-w-700 font-size-18">[[modal.customer]]</span>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <span class="font-w-700 gray">Items</span>
+              </div>
+              <div class="col-12">
+                <table class="col">
+                  <thead>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Sales Qty.</th>
+                    <th>Remaining</th>
+                  </thead>
+                  <tbody v-if="modal.items.length">
+                    <tr v-for='item in modal.items'>
+                      <td class="font-w-400">[[item.code]]</td>
+                      <td class="font-w-400">[[item.name]]</td>
+                      <td class="font-w-400">[[item.quantity]]</td>
+                      <td class="font-w-400">[[item.remaining]]</td>
+                    </tr>
+                  </tbody>
+                  <tbody v-else>
+                    <tr>
+                      <td align="center" colspan="4">No data available</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col">
+                <button class="btn btn-primary">Disapprove</button>
+                <button class="btn btn-danger">Void</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -145,4 +217,97 @@
 } );
 </script>
 <!-- END DATATABLES -->
+<script>
+  function getCookie(name) {
+    if (!document.cookie) {
+      return null;
+    }
+
+    const xsrfCookies = document.cookie.split(';')
+      .map(c => c.trim())
+      .filter(c => c.startsWith(name + '='));
+
+    if (xsrfCookies.length === 0) {
+      return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+  }
+  
+  Server = {
+    getSalesModalData(pk){
+      payload = {
+        pk: pk
+      }
+
+      fetch('/getsalesmodaldata/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res=>res.json())
+      .then(data => app.modal = data)
+    },
+
+    pushSalesApproval(pk){
+      payload = {
+        pk:pk
+      }
+      fetch('/approvesales/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res=>res.json())
+      .then(data=>data==0?location.reload():'')
+    }
+  }
+
+  var app = new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#app',
+    data: {
+      modal: {
+        ref_id: '',
+        customer: '',
+        pk: '',
+        items: [{
+          code: '',
+          name: '',
+          quantity: '',
+          remaining: ''
+        }]
+      }
+    },
+    methods: {
+      salesmodaldata(pk){
+        Server.getSalesModalData(pk)
+      },
+
+      confirmSalesApproval(pk){
+        Swal.fire({
+          text: 'Are you sure you want to approve this sales?',
+          icon: 'warning',
+          confirmButtonText: 'Yes',
+          showCancelButton: true,
+        }).then((result)=>{
+          if(result.isConfirmed){
+            this.salesApproval(pk)
+          }
+        })
+      },
+
+      salesApproval(pk){
+        Server.pushSalesApproval(pk)
+      }
+    }
+  })
+</script>
 </html>
