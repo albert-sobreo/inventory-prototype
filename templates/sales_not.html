@@ -132,7 +132,8 @@
                     <tr v-for='item in modal.items'>
                       <td class="font-w-400">[[item.code]]</td>
                       <td class="font-w-400">[[item.name]]</td>
-                      <td class="font-w-400">[[item.quantity]]</td>
+                      <td class="font-w-400 text-danger" v-if="item.quantity > item.remaining">[[item.quantity]]</td>
+                      <td class="font-w-400 text-success" v-else>[[item.quantity]]</td>
                       <td class="font-w-400">[[item.remaining]]</td>
                     </tr>
                   </tbody>
