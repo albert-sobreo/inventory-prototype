@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from app.models import Warehouse, Product, User
 import sweetify
-
+from decimal import Decimal
 
 # Create your views here.
 # functions for Warehouse
@@ -75,6 +75,8 @@ def inventory_save_process(request):
     name = request.GET['name']
     description = request.GET['description']
     quantity = int(request.GET['quantity'])
+    cost_per_item = Decimal(request.GET['cost-per-item'])
+    total_cost = Decimal(request.GET['total-cost'])
 
     warehouse_pk = int(request.GET['warehouse'])
 
@@ -85,6 +87,8 @@ def inventory_save_process(request):
     product.description = description
     product.quantity = quantity
     product.warehouse = Warehouse.objects.get(pk=warehouse_pk)
+    product.cost_per_item = cost_per_item
+    product.total_cost = total_cost
 
     try:
         product.save()

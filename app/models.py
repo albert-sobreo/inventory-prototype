@@ -32,6 +32,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
     turnover = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -80,6 +82,8 @@ class Purchase_Item(models.Model):
     purchase_order = models.ForeignKey(Purchase_Order, on_delete=models.CASCADE)
     remaining = models.IntegerField()
     purchase_quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
@@ -98,6 +102,8 @@ class Sales_Item(models.Model):
     sales_order = models.ForeignKey(Sales_Order, on_delete=models.CASCADE)
     remaining = models.IntegerField()
     sales_quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
@@ -133,6 +139,8 @@ class Spoilage_Item(models.Model):
     remaining = models.IntegerField()
     spoilage_quantity = models.IntegerField()
     reason = models.TextField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name

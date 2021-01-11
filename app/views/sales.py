@@ -78,6 +78,8 @@ def salesProcess(request):
         si.sales_order = so
         si.remaining = int(line['remaining'])
         si.sales_quantity = int(line['quantity'])
+        si.cost_per_item = float(line['cost_per_item'])
+        si.total_cost = float(line['total_cost'])
 
         si.save()
         sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')
