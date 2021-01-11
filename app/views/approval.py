@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 import sweetify
@@ -9,7 +8,7 @@ def sales_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'sales': Sales_Order.objects.filter(approved=False).order_by('date').reverse(),
+        'sales': Sales_Order.objects.filter(approved=False),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'sales_not.html', context)
@@ -18,7 +17,7 @@ def sales_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'sales': Sales_Order.objects.filter(approved=True).order_by('date').reverse(),
+        'sales': Sales_Order.objects.filter(approved=True),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'sales_approved.html', context)
@@ -27,7 +26,7 @@ def purchase_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'purchases': Purchase_Order.objects.filter(approved=False).order_by('date').reverse(),
+        'purchases': Purchase_Order.objects.filter(approved=False),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'purchase_not.html', context)
@@ -36,7 +35,7 @@ def purchase_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'purchases': Purchase_Order.objects.filter(approved=True).order_by('date').reverse(),
+        'purchases': Purchase_Order.objects.filter(approved=True),
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'purchase_approved.html', context)
@@ -102,8 +101,6 @@ def approvePurchase(request):
 
     for element in purchase.purchase_item_set.all():
         element.product.quantity += element.purchase_quantity
-        element.product.total_cost += element.total_cost
-        element.product.cost_per_item = Decimal(round((element.product.total_cost / element.product.quantity), 2))
         element.product.save()
 
     purchase.approved = True
@@ -126,7 +123,6 @@ def approveSales(request):
     
     for element in sales.sales_item_set.all():
         element.product.quantity -= element.sales_quantity
-        element.product.total_cost -= element.total_cost
         element.product.save()
 
     sales.approved = True

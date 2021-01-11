@@ -46,5 +46,7 @@ urlpatterns = [
     path('getpurchasemodaldata/', views.getPurchaseModalData),
     path('getsalesmodaldata/', views.getSalesModalData),
     path('approvepurchase/', views.approvePurchase),
-    path('approvesales/', views.approveSales)
+    path('approvesales/', views.approveSales),
+    path('vendor/', views.vendors_page),
+    path('customer/', views.customer_page)
 ]
