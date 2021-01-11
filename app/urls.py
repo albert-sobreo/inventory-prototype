@@ -1,3 +1,4 @@
+from app.views.vc import customers_save_process, vendors_save_process
 from app.views.sales import outView
 from django.contrib import admin
 from django.urls import path, include
@@ -49,6 +50,8 @@ urlpatterns = [
     path('approvesales/', views.approveSales),
     path('vendor/', views.vendors_page),
     path('customer/', views.customers_page),
+    path('vendorsaveprocess/', views.vendors_save_process),
+    path('customersaveprocess/', views.customers_save_process),
     path('getvendormodaldata/', views.getVendorModalData),
     path('getcustomermodaldata/', views.getCustomerModalData)
 ]

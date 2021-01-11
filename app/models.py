@@ -43,7 +43,7 @@ class Product(models.Model):
 class Vendor(models.Model):
     name = models.CharField(max_length=255)
     owner_first_name = models.CharField(max_length=255, null=True, blank=True)
-    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_last_name = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     landline = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)
@@ -57,7 +57,7 @@ class Vendor(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     owner_first_name = models.CharField(max_length=255, null=True, blank=True)
-    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_last_name = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     landline = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)

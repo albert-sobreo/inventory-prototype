@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/fontawesome.all.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 </head>
 <body class="font-size-12">
     <!-- NAV -->
@@ -57,7 +58,7 @@
   <!-- Add Vendor Modal -->
   
 <!--END Customer Modal-->
-  <div class="container">
+  <div class="container" id="app">
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
         <thead class="thead-dark">
         <tr class="">
@@ -70,7 +71,7 @@
         <tbody>
           {% for vendor in vendors %}
         <tr>
-            <td data-toggle="modal" data-target="#vendorModal" class="receipt-link">{{vendor.name}}</td>
+            <td data-toggle="modal" data-target="#vendorModal" class="receipt-link" @click="vendorModalData({{vendor.pk}})">{{vendor.name}}</td>
             <td>{{vendor.address}}</td>
             <td>{{vendor.email}}</td>
             <td>{{vendor.landline}}</td>
@@ -83,45 +84,51 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content b-radius-15">
           <div class="modal-body">
-            <form method="GET" action="/inventory-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
+            <form method="GET" action="/vendorsaveprocess/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
               <h3 class="mb-3 font-w-700">Add Vendor</h3>
   
               <div class="form-group row">
                   <div class="col">
                     <label for="name">Name</label>
-                    <input name="VendorName" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
+                    <input name="name" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
                   </div>
                   <div class="col">
                     <label for="address">Address</label>
                     <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" autocomplete="off">
                   </div>
               </div>
-              <div class="form-group">
-                <label for="owner">Owner Name</label>
-                <input name="owner" type="email" class="form-control" id="owner" placeholder="Enter Owner Name" autocomplete="off">
+              <div class="form-group row">
+                <div class="col">
+                  <label for="owner_first_name">Owner First Name</label>
+                  <input name="owner_first_name" type="text" class="form-control" id="owner_first_name" placeholder="Enter Owner Name" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="owner_last_name">Owner Last Name</label>
+                  <input name="owner_last_name" type="text" class="form-control" id="owner_last_name" placeholder="Enter Owner Name" autocomplete="off">
+                </div>
               </div>
               <div class="form-group">
                   <label for="VendorEmail">Email</label>
-                  <input name="VendorEmail" type="email" class="form-control" id="VendorEmail" placeholder="Enter Email" autocomplete="off">
+                  <input name="email" type="email" class="form-control" id="VendorEmail" placeholder="Enter Email" autocomplete="off">
               </div>
               <div class="form-group row">
                 <div class="col">
                   <label for="vendorPhone">Phone</label>
-                  <input name="vendorPhone" type="number" class="form-control" id="vendorPhone" placeholder="Enter Phone Number" autocomplete="off">
+                  <input name="mobile" type="text" class="form-control" id="vendorPhone" placeholder="Enter Phone Number" autocomplete="off">
                 </div>
                 <div class="col">
                   <label for="vendorLandline">Landline</label>
-                  <input name="vendorLandline" type="number" class="form-control" id="vendorLandline" placeholder="Enter Landline Number" autocomplete="off">
+                  <input name="landline" type="text" class="form-control" id="vendorLandline" placeholder="Enter Landline Number" autocomplete="off">
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col">
                   <label for="bank">Bank</label>
-                  <input name="vendorBank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
+                  <input name="bank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
                 </div>
                 <div class="col">
                   <label for="bankNumber">Bank Number</label>
-                  <input name="bankNumber" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
+                  <input name="bank_number" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
                 </div>
               </div>
                 <div class="form-group">
@@ -140,6 +147,11 @@
         <div class="modal-content b-radius-15">
           <div class="modal-body">
             <div class="row my-3">
+              <div class="col-12">
+                <h3 class="font-w-700 text-success">Vendor Profile</h3>
+              </div>
+            </div>
+            <div class="row my-3">
               <div class="col-6">
                 <span class="font-w-700 gray">Vendor Name</span>
               </div>
@@ -147,21 +159,72 @@
                 <span class="font-w-700 gray">Owner's Name</span>
               </div>
               <div class="col-6">
-                <span class="font-w-700 font-size-18">b0ss</span>
+                <span class="font-w-700 font-size-18">[[modal.name]]</span>
               </div>
               <div class="col-6">
                 <span class="font-w-700 font-size-18">Mr. B0ss</span>
               </div>
-            </div>
+            </div>              
+            <div class="row my-3">
+              <div class="col-6">
+                <span class="font-w-700 gray">Mobile</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 gray">Landline</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18">[[modal.mobile]]</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18">[[modal.landline]]</span>
+              </div>
             </div>
             <div class="row my-3">
-              
-            <div class="row my-3">
-              <div class="col-4">
+              <div class="col-12">
                 <span class="font-w-700 gray">Email</span>
               </div>
-              <div class="col-4">
-
+              <div class="col-12">
+                <span class="font-w-700 font-size-18">[[modal.email]]</span>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <h3 class="font-w-700 text-warning">Bank Info</h3>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <span class="font-w-700 gray">Bank</span>
+              </div>
+              <div class="col-12">
+                <span class="font-w-700 font-size-18">[[modal.bank]]</span>
+              </div>
+              <div class="col-12">
+                <span class="font-w-700 gray">Bank Account</span>
+              </div>
+              <div class="col-12">
+                <span class="font-w-700 font-size-18">[[modal.bank_number]]</span>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <h3 class="font-w-700 text-danger">Purchase History</h3>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <table class="col">
+                  <thead>
+                    <th>Reference No.</th>
+                    <th>Date</th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in modal.items">
+                      <td>[[item.code]]</td>
+                      <td>[[item.date]]</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -280,6 +343,11 @@
           code: '',
           date: '',
         }],
+      }
+    },
+    methods: {
+      vendorModalData(pk){
+        Server.getVendorModalData(pk)
       }
     }
   })
