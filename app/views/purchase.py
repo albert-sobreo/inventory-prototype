@@ -40,7 +40,14 @@ def getItemRemaining(request):
     data = json.loads(request.body)
     item = Product.objects.get(pk=data['code'])
 
-    return JsonResponse({'remaining': item.quantity, 'warehouse': {'pk': item.warehouse.pk, 'name': item.warehouse.name}})
+    return JsonResponse({
+        'remaining': item.quantity, 
+        'warehouse': {
+            'pk': item.warehouse.pk, 
+            'name': item.warehouse.name
+            },
+        'cost_per_item': item.cost_per_item
+        })
 
 def purchaseProcess(request):
     data = json.loads(request.body)
@@ -82,6 +89,8 @@ def purchaseProcess(request):
         pi.purchase_order = po
         pi.remaining = int(line['remaining'])
         pi.purchase_quantity = int(line['quantity'])
+        pi.cost_per_item = float(line['cost_per_item'])
+        pi.total_cost = float(line['total_cost'])
 
         pi.save()
         sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')
