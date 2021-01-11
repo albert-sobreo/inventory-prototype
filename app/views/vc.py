@@ -27,23 +27,24 @@ def customers_page(request):
 def vendors_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
-    name = request.GET['name']
+    owner_first_name = request.GET['owner_first_name']
+    owner_last_name = request.GET['owner_last_name']
     address = request.GET['address']
-    tele = request.GET['tele']
+    landline = request.GET['tele']
     email = request.GET['email']
-    num = request.GET['num']
+    mobile = request.GET['num']
     bank = request.GET['bank']
-    account_num = request.GET['account_num']
+    bank_number = request.GET['account_num']
 
     vendor = Vendor()
 
-    vendor.name = name
+    vendor.name = ( owner_first_name + " " + owner_last_name)
     vendor.address = address
-    vendor.tele = tele
+    vendor.landline = landline
     vendor.email = email
-    vendor.num = num
+    vendor.mobile = mobile
     vendor.bank = bank
-    vendor.account_num = account_num
+    vendor.bank_number = bank_number
 
     try:
         vendor.save()
@@ -77,37 +78,38 @@ def getVendorModalData(request):
     context = {
         'name': vendor.name,
         'address' : vendor.address,
-        'tele' : vendor.tele,
+        'landline' : vendor.landline,
         'email' : vendor.email,
-        'num' : vendor.num,
+        'mobile' : vendor.mobile,
         'bank' : vendor.bank,
-        'account_num' : vendor.account_num,
+        'bank_number' : vendor.bank_number,
         'items': items
     }
 
     return JsonResponse(context)
 
 # Functions for Customers
-def customer_save_process(request):
+def customers_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
-    name = request.GET['name']
+    owner_first_name = request.GET['owner_first_name']
+    owner_last_name = request.GET['owner_last_name']
     address = request.GET['address']
-    tele = request.GET['tele']
+    landline = request.GET['tele']
     email = request.GET['email']
-    num = request.GET['num']
+    mobile = request.GET['num']
     bank = request.GET['bank']
-    account_num = request.GET['account_num']
+    bank_number = request.GET['account_num']
 
     customer = Customer()
 
-    customer.name = name
+    customer.name = ( owner_first_name + " " + owner_last_name)
     customer.address = address
-    customer.tele = tele
+    customer.landline = landline
     customer.email = email
-    customer.num = num
+    customer.mobile = mobile
     customer.bank = bank
-    customer.account_num = account_num
+    customer.bank_number = bank_number
 
     try:
         customer.save()
@@ -141,11 +143,11 @@ def getCustomerModalData(request):
     context = {
         'name': customer.name,
         'address' : customer.address,
-        'tele' : customer.tele,
+        'landline' : customer.landline,
         'email' : customer.email,
-        'num' : customer.num,
+        'mobile' : customer.mobile,
         'bank' : customer.bank,
-        'account_num' : customer.account_num,
+        'bank_number' : customer.bank_number,
         'items': items
     }
 
