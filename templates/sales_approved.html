@@ -90,7 +90,7 @@
       </tbody>
     </table>
     <div class="modal fade" id="productModal">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content b-radius-15">
           <div class="modal-body">
             <div class="row my-3">
@@ -125,7 +125,9 @@
                     <th>Item Code</th>
                     <th>Item Name</th>
                     <th>Sales Qty.</th>
-                    <th>Remaining</th>
+                    <th class="text-success">Remaining</th>
+                    <th class="text-success">Cost/Item</th>
+                    <th class="text-success">Total Cost</th>
                   </thead>
                   <tbody v-if="modal.items.length">
                     <tr v-for='item in modal.items'>
@@ -133,6 +135,8 @@
                       <td class="font-w-400">[[item.name]]</td>
                       <td class="font-w-400">[[item.quantity]]</td>
                       <td class="font-w-400">[[item.remaining]]</td>
+                      <th class="font-w-400">₱[[item.cost_per_item]]</th>
+                      <th class="font-w-400">₱[[item.total_cost]]</th>
                     </tr>
                   </tbody>
                   <tbody v-else>
@@ -282,7 +286,9 @@
           code: '',
           name: '',
           quantity: '',
-          remaining: ''
+          remaining: '',
+          cost_per_item: '',
+          total_cost: '',
         }]
       }
     },
