@@ -55,81 +55,120 @@
   </div>
   <!-- END NAV -->
   <!-- Add Vendor Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content b-radius-15">
-        <div class="modal-body">
-          <form method="GET" action="/inventory-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
-            <h3 class="mb-3 font-w-700">Add Vendor</h3>
-
-            <div class="form-group row">
-                <div class="col">
-                  <label for="name">Name</label>
-                  <input name="VendorName" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
-                </div>
-                <div class="col">
-                  <label for="address">Address</label>
-                  <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" autocomplete="off">
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="owner">Owner Name</label>
-              <input name="owner" type="email" class="form-control" id="owner" placeholder="Enter Owner Name" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="VendorEmail">Email</label>
-                <input name="VendorEmail" type="email" class="form-control" id="VendorEmail" placeholder="Enter Email" autocomplete="off">
-            </div>
-            <div class="form-group row">
-              <div class="col">
-                <label for="vendorPhone">Phone</label>
-                <input name="vendorPhone" type="number" class="form-control" id="vendorPhone" placeholder="Enter Phone Number" autocomplete="off">
-              </div>
-              <div class="col">
-                <label for="vendorLandline">Landline</label>
-                <input name="vendorLandline" type="number" class="form-control" id="vendorLandline" placeholder="Enter Landline Number" autocomplete="off">
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col">
-                <label for="bank">Bank</label>
-                <input name="vendorBank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
-              </div>
-              <div class="col">
-                <label for="bankNumber">Bank Number</label>
-                <input name="bankNumber" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
-              </div>
-            </div>
-              <div class="form-group">
-                  <label for="comment">Description:</label>
-                  <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
-                </div>
-            <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add Vendor</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 <!--END Customer Modal-->
   <div class="container">
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
         <thead class="thead-dark">
         <tr class="">
-            <th class="b-tl-radius-10" style="border-top: 0px;">Customer Name</th>
+            <th class="b-tl-radius-10" style="border-top: 0px;">Vendor Name</th>
             <th style="border-top: 0px;">Address</th>
             <th style="border-top: 0px;">Email</th>
             <th class="b-tr-radius-10" style="border-top: 0px;">Phone</th>
         </tr>
         </thead>
         <tbody>
+          {% for vendor in vendors %}
         <tr>
-            <td>Bob's Construction Firm</td>
-            <td>Subic Bay Freeport Zone</td>
-            <td>sample@email.com</td>
-            <td>+639123456789</td>
+            <td data-toggle="modal" data-target="#vendorModal" class="receipt-link">{{vendor.name}}</td>
+            <td>{{vendor.address}}</td>
+            <td>{{vendor.email}}</td>
+            <td>{{vendor.landline}}</td>
         </tr>
+        {% endfor %}
         </tbody>
     </table>
+    <!-- add vendor modal -->
+    <div class="modal fade" id="addVendorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content b-radius-15">
+          <div class="modal-body">
+            <form method="GET" action="/inventory-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
+              <h3 class="mb-3 font-w-700">Add Vendor</h3>
+  
+              <div class="form-group row">
+                  <div class="col">
+                    <label for="name">Name</label>
+                    <input name="VendorName" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
+                  </div>
+                  <div class="col">
+                    <label for="address">Address</label>
+                    <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" autocomplete="off">
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="owner">Owner Name</label>
+                <input name="owner" type="email" class="form-control" id="owner" placeholder="Enter Owner Name" autocomplete="off">
+              </div>
+              <div class="form-group">
+                  <label for="VendorEmail">Email</label>
+                  <input name="VendorEmail" type="email" class="form-control" id="VendorEmail" placeholder="Enter Email" autocomplete="off">
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <label for="vendorPhone">Phone</label>
+                  <input name="vendorPhone" type="number" class="form-control" id="vendorPhone" placeholder="Enter Phone Number" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="vendorLandline">Landline</label>
+                  <input name="vendorLandline" type="number" class="form-control" id="vendorLandline" placeholder="Enter Landline Number" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <label for="bank">Bank</label>
+                  <input name="vendorBank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="bankNumber">Bank Number</label>
+                  <input name="bankNumber" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
+                </div>
+              </div>
+                <div class="form-group">
+                    <label for="comment">Description:</label>
+                    <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
+                  </div>
+              <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add Vendor</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end add vendor modal -->
+    <div class="modal fade" id="vendorModal">
+      <div class="modal-dialog">
+        <div class="modal-content b-radius-15">
+          <div class="modal-body">
+            <div class="row my-3">
+              <div class="col-6">
+                <span class="font-w-700 gray">Vendor Name</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 gray">Owner's Name</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18">b0ss</span>
+              </div>
+              <div class="col-6">
+                <span class="font-w-700 font-size-18">Mr. B0ss</span>
+              </div>
+            </div>
+            </div>
+            <div class="row my-3">
+              
+            <div class="row my-3">
+              <div class="col-4">
+                <span class="font-w-700 gray">Email</span>
+              </div>
+              <div class="col-4">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     
 </body>
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
@@ -160,7 +199,7 @@
             className: 'btn btn-warning',
             titleAttr: 'Add Inventory',
             action: function(){
-              $("#exampleModal").modal('show')
+              $("#addVendorModal").modal('show')
             }
           },
           {
@@ -231,7 +270,16 @@
     el: '#app',
     data: {
       modal: {
-        
+        name: '',
+        address: '',
+        landline: '',
+        mobile: '',
+        bank: '',
+        bank_number: '',
+        items: [{
+          code: '',
+          date: '',
+        }],
       }
     }
   })

@@ -71,19 +71,19 @@
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
       <thead class="thead-dark">
         <tr class="">
-          <th class="b-tl-radius-10" style="border-top: 0px;">Approval</th>
-          <th style="border-top: 0px;">Reference No.</th>
+          <th class="b-tl-radius-10" style="border-top: 0px;">Reference No.</th>
           <th style="border-top: 0px;">Date Created</th>
-          <th class="b-tr-radius-10" style="border-top: 0px;">Vendor</th>
+          <th style="border-top: 0px;">Vendor</th>
+          <th class="b-tr-radius-10" style="border-top: 0px;">Created By</th>
         </tr>
       </thead>
       <tbody>
         {% for purchase in purchases %}
         <tr>
-          <td><input type="checkbox"></td>
           <td data-toggle="modal" data-target="#productModal" class="receipt-link" @click="purchasemodaldata({{purchase.pk}})">{{purchase.ref_id}}</td>
           <td>{{purchase.date}}</td>
           <td>{{purchase.vendor.name}}</td>
+          <td></td>
         </tr>
         {% endfor %}
       </tbody>
