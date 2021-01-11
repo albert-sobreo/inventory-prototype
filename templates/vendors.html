@@ -191,5 +191,49 @@
       });
   } );
 </script>
-  
+<script>
+  function getCookie(name) {
+    if (!document.cookie) {
+      return null;
+    }
+
+    const xsrfCookies = document.cookie.split(';')
+      .map(c => c.trim())
+      .filter(c => c.startsWith(name + '='));
+
+    if (xsrfCookies.length === 0) {
+      return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+  }
+  Server = {
+    getVendorModalData(pk){
+      payload = {
+        pk: pk
+      }
+
+      fetch('/getvendormodaldata/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res=>res.json())
+      .then(data => app.modal = data)
+    }
+  }
+
+  var app = new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#app',
+    data: {
+      modal: {
+        
+      }
+    }
+  })
+</script>
 </html>
