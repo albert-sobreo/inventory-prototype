@@ -49,7 +49,11 @@ def getPurchaseModalData(request):
     items = []
 
     for element in object.purchase_item_set.all():
-        items.append({'code': element.product.code, 'name': element.product.name, 'quantity': element.purchase_quantity, 'remaining':element.product.quantity})
+        items.append({
+            'code': element.product.code, 
+            'name': element.product.name, 
+            'quantity': element.purchase_quantity, 
+            'remaining':element.product.quantity})
 
     context = {
         'ref_id': object.ref_id,
