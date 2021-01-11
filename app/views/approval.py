@@ -53,7 +53,10 @@ def getPurchaseModalData(request):
             'code': element.product.code, 
             'name': element.product.name, 
             'quantity': element.purchase_quantity, 
-            'remaining':element.product.quantity})
+            'remaining':element.remaining,
+            'cost_per_item': element.cost_per_item,
+            'total_cost': element.total_cost
+        })
 
     context = {
         'ref_id': object.ref_id,
@@ -76,7 +79,9 @@ def getSalesModalData(request):
             'code': element.product.code,
             'name': element.product.name,
             'quantity': element.sales_quantity,
-            'remaining': element.product.quantity
+            'remaining': element.remaining,
+            'cost_per_item': element.cost_per_item,
+            'total_cost': element.total_cost
         })
 
     context = {
