@@ -146,82 +146,52 @@
       <div class="modal-dialog">
         <div class="modal-content b-radius-15">
           <div class="modal-body">
-            <div class="row my-3">
-              <div class="col-12">
-                <h3 class="font-w-700 text-success">Vendor Profile</h3>
+            <div class="row my-5">
+              <div class="col-12 d-flex justify-content-center">
+                <h1 class="font-w-700">[[modal.name]]</h1>
               </div>
             </div>
-            <div class="row my-3">
-              <div class="col-6">
-                <span class="font-w-700 gray">Vendor Name</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 gray">Owner's Name</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 font-size-18">[[modal.name]]</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 font-size-18">Mr. B0ss</span>
-              </div>
-            </div>              
-            <div class="row my-3">
-              <div class="col-6">
-                <span class="font-w-700 gray">Mobile</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 gray">Landline</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 font-size-18">[[modal.mobile]]</span>
-              </div>
-              <div class="col-6">
-                <span class="font-w-700 font-size-18">[[modal.landline]]</span>
+            <div class="row">
+              <div class="col-12">
+                <span class="font-w-700 font-size-14">Customer Profile</span>
               </div>
             </div>
-            <div class="row my-3">
-              <div class="col-12">
-                <span class="font-w-700 gray">Email</span>
-              </div>
-              <div class="col-12">
-                <span class="font-w-700 font-size-18">[[modal.email]]</span>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-12">
-                <h3 class="font-w-700 text-warning">Bank Info</h3>
+            <div class="row">
+              <div class="col d-flex flex-wrap mb-4">
+                <div class="modal-info-container"><i class="fas fa-user mr-2 icon-gray"></i> [[modal.owner_first_name]] [[modal.owner_last_name]]</div>
+                <div class="modal-info-container"><i class="fas fa-map-marker-alt mr-2 icon-gray"></i> [[modal.address]]</div>
+                <div class="modal-info-container"><i class="fas fa-mobile mr-2 icon-gray"></i> [[modal.mobile]]</div>
+                <div class="modal-info-container"><i class="fas fa-phone-alt mr-2 icon-gray"></i> [[modal.landline]]</div>
+                <div class="modal-info-container"><i class="fas fa-envelope mr-2 icon-gray"></i> [[modal.email]]</div>
               </div>
             </div>
-            <div class="row my-3">
+            <div class="row">
               <div class="col-12">
-                <span class="font-w-700 gray">Bank</span>
-              </div>
-              <div class="col-12">
-                <span class="font-w-700 font-size-18">[[modal.bank]]</span>
-              </div>
-              <div class="col-12">
-                <span class="font-w-700 gray">Bank Account</span>
-              </div>
-              <div class="col-12">
-                <span class="font-w-700 font-size-18">[[modal.bank_number]]</span>
+                <span class="font-w-700 font-size-14">Bank Information</span>
               </div>
             </div>
-            <div class="row my-3">
-              <div class="col-12">
-                <h3 class="font-w-700 text-danger">Purchase History</h3>
+            <div class="row">
+              <div class="col d-flex flex-wrap mb-5">
+                <div class="modal-info-container"><i class="fas fa-university mr-2 icon-gray"></i> [[modal.bank]]</div>
+                <div class="modal-info-container"><i class="fas fa-credit-card mr-2 icon-gray"></i>[[modal.bank_number]]</div>
               </div>
             </div>
-            <div class="row my-3">
+            <div class="row">
               <div class="col-12">
-                <table class="col">
+                <h3 class="font-w-700">Purchase History</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <table class="col table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
                   <thead>
-                    <th>Reference No.</th>
-                    <th>Date</th>
+                    <th class="b-tl-radius-10" style="border-top: 0px;">Reference No.</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Date</th>
                   </thead>
                   <tbody>
                     <tr v-for="item in modal.items">
-                      <td>[[item.code]]</td>
-                      <td>[[item.date]]</td>
+                      <td class="font-w-600">[[item.code]]</td>
+                      <td class="font-w-600">[[item.date]]</td>
                     </tr>
                   </tbody>
                 </table>
@@ -334,6 +304,8 @@
     data: {
       modal: {
         name: '',
+        owner_first_name: '',
+        owner_last_name: '',
         address: '',
         landline: '',
         mobile: '',
