@@ -27,6 +27,7 @@ def customers_page(request):
 def vendors_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
+    name = request.GET['name']
     owner_first_name = request.GET['owner_first_name']
     owner_last_name = request.GET['owner_last_name']
     address = request.GET['address']
@@ -38,7 +39,9 @@ def vendors_save_process(request):
 
     vendor = Vendor()
 
-    vendor.name = ( owner_first_name + " " + owner_last_name)
+    vendor.name = name
+    vendor.owner_first_name = owner_first_name
+    vendor.owner_last_name = owner_last_name
     vendor.address = address
     vendor.landline = landline
     vendor.email = email
@@ -77,6 +80,8 @@ def getVendorModalData(request):
     
     context = {
         'name': vendor.name,
+        'owner_first_name' : vendor.owner_first_name,
+        'owner_last_name' : vendor.owner_last_name,
         'address' : vendor.address,
         'landline' : vendor.landline,
         'email' : vendor.email,
@@ -92,6 +97,7 @@ def getVendorModalData(request):
 def customers_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
+    name = request.GET['name']
     owner_first_name = request.GET['owner_first_name']
     owner_last_name = request.GET['owner_last_name']
     address = request.GET['address']
@@ -103,7 +109,9 @@ def customers_save_process(request):
 
     customer = Customer()
 
-    customer.name = ( owner_first_name + " " + owner_last_name)
+    customer.name = name
+    customer.owner_first_name = owner_first_name
+    customer.owner_last_name = owner_last_name
     customer.address = address
     customer.landline = landline
     customer.email = email
@@ -142,6 +150,8 @@ def getCustomerModalData(request):
     
     context = {
         'name': customer.name,
+        'owner_first_name' : customer.owner_first_name,
+        'owner_last_name' : customer.owner_last_name,
         'address' : customer.address,
         'landline' : customer.landline,
         'email' : customer.email,
