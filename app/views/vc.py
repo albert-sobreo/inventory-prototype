@@ -69,7 +69,8 @@ def getVendorModalData(request):
     for element in vendor.purchase_order_set.all():
         items.append({
             'code': element.ref_id, 
-            'date': element.date
+            'date': element.date,
+            'total_cost': element.total_amount_due
         })
     
     context = {
@@ -95,11 +96,11 @@ def customers_save_process(request):
     owner_first_name = request.GET['owner_first_name']
     owner_last_name = request.GET['owner_last_name']
     address = request.GET['address']
-    landline = request.GET['tele']
+    landline = request.GET['landline']
     email = request.GET['email']
-    mobile = request.GET['num']
+    mobile = request.GET['mobile']
     bank = request.GET['bank']
-    bank_number = request.GET['account_num']
+    bank_number = request.GET['bank_number']
 
     customer = Customer()
 
@@ -115,12 +116,12 @@ def customers_save_process(request):
 
     try:
         customer.save()
-        sweetify.sweetalert(request, icon='success', title='Added Customer Successfully', text='{} {} successfully added'.format(customer.name), persistent='Dismiss')
+        sweetify.sweetalert(request, icon='success', title='Added Customer Successfully', text='{} successfully added'.format(customer.name), persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')
 
 
-    return redirect('customer/')
+    return redirect('/customer/')
 
 def getCustomerModalData(request):
     data = json.loads(request.body)
@@ -133,7 +134,8 @@ def getCustomerModalData(request):
     for element in customer.sales_order_set.all():
         items.append({
             'code': element.ref_id,
-            'date': element.date
+            'date': element.date,
+            'total_cost': element.total_amount_due,
         })
     
     context = {

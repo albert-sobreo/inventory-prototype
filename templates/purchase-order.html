@@ -40,12 +40,12 @@
         <div class="mx-3" onclick="location.href='/out'">Sales</div>
         <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
         <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
-        <div class="mx-3" onclick="location.href='#'">Vendors</div>
+        <div class="mx-3" onclick="location.href='/vendor'">Vendors</div>
         <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
         <div class="mx-3" onclick="location.href='/'">Warehouse</div>
         <div class="mx-3" onclick="location.href='#'">Reports</div>
         <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
-        <div class="mx-3" onclick="location.href='#'">Customers</div>
+        <div class="mx-3" onclick="location.href='/customer'">Customers</div>
         <div class="btn-group mx-3">
           <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
           <div class="dropdown-menu b-radius-5 py-0">
@@ -146,14 +146,14 @@
                     <input type="number" class="form-control" readonly v-model="line.remaining" required>
                 </div>
                 <div class="col-1 form-group px-1">
-                    <input type="number" class="form-control" v-model="line.quantity" required min="1" v-on:change="onQtyChange(index)">
+                    <input type="number" class="form-control" v-model="line.quantity" required min="1" v-on:change="onQtyChange(index)" @focus="$event.target.select()">
                 </div>
                 <div class="col-2 form-group px-1">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">₱</span>
                         </div>
-                        <input type="number" step="0.01" v-model="line.cost_per_item" name="cost-per-item" class="box-shadow-off form-control" v-on:change="onPPIChange(index)">
+                        <input type="number" step="0.01" v-model="line.cost_per_item" name="cost-per-item" class="box-shadow-off form-control" v-on:change="onPPIChange(index)" @focus="$event.target.select()">
                     </div>
                 </div>
                 <div class="col form-group px-1">
@@ -161,7 +161,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">₱</span>
                         </div>
-                        <input type="number" step="0.01" v-model="line.total_cost" name="Total Cost" class="box-shadow-off form-control" readonly>
+                        <input type="number" step="0.01" v-model="line.total_cost" name="Total Cost" class="box-shadow-off form-control" readonly @change="onTotalCostChange(index)">
                     </div>
                 </div>
                 <i class="fas fa-minus-circle stop text-shadow-small" @click="remove(index)" style="line-height: 25px;"></i>
@@ -171,10 +171,18 @@
                     <button class="btn btn-warning px-3 mr-1" type="button" @click="addLine"><span class="font-w-600">+ Add New Line</span></button>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-2 offset-10">
-                
+            <div class="row">
+                <div class="col-2 offset-10 px-1">
+                    <div class="form-group">
+                        <label for="total_amount_due" class="font-w-600 m-0">Total Amount Due</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="number" step="0.01" class="form-control box-shadow-off" v-model="total_amount_due" readonly>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -225,12 +233,13 @@
             .then(data => app.lines[index].remaining = data.remaining)
         },
 
-        pushPurchase(ref_id, date, vendor, lines){
+        pushPurchase(ref_id, date, vendor, lines, total_amount_due){
             payload = {
                 ref_id: ref_id,
                 date: date,
                 vendor: vendor,
-                lines: lines
+                lines: lines,
+                total_amount_due: total_amount_due
             }
 
             fetch('/purchaseprocess/', {
@@ -264,7 +273,21 @@
                 quantity: null,
                 cost_per_item: null,
                 total_cost: null
-                }]
+                }],
+            total_amount_due: '',
+        },
+
+        computed: {
+            total_cost(){
+                return this.lines.map(line=>line.total_cost)
+            }
+        },
+
+        watch: {
+            total_cost(){
+                app.total_amount_due = (this.total_cost.reduce((a, b)=> Number(a)+Number(b), 0)).toFixed(2)
+                console.log(app.total_amount_due)
+            }
         },
 
         methods: {
@@ -289,6 +312,15 @@
                 row = this.lines[index]
                 row.total_cost = (row.quantity * row.cost_per_item).toFixed(2)
             },
+           //onTotalCostChange(index){
+           //    console.log('help')
+           //    var totalList = []
+           //    this.lines.forEach(line => {
+           //        totalList.push(line.total_cost)
+           //    })
+           //    console.log(totalList)
+           //},
+
             remove (index) {
                 this.$delete(this.lines, index)
             },
@@ -311,7 +343,7 @@
             },
             
             purchase(){
-                Server.pushPurchase(this.ref_id, this.date, this.vendor, this.lines)
+                Server.pushPurchase(this.ref_id, this.date, this.vendor, this.lines, this.total_amount_due)
             }
         }
     })

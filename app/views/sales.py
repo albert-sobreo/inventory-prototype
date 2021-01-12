@@ -45,6 +45,7 @@ def salesProcess(request):
     date = data['date']
     customer = data['customer']
     lines = data['lines']
+    total_amount_due = data['total_amount_due']
 
     if customer == '':
         sweetify.sweetalert(request, icon='error', title='Error', text='Customer is empty', persistent="Dismiss")
@@ -67,6 +68,7 @@ def salesProcess(request):
     so.ref_id = ref_id
     so.date = date
     so.customer = Customer.objects.get(pk=customer)
+    so.total_amount_due = total_amount_due
     so.approved = False
 
     so.save()

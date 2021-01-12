@@ -56,6 +56,7 @@ def purchaseProcess(request):
     date = data['date']
     vendor = data['vendor']
     lines = data['lines']
+    total_amount_due = data['total_amount_due']
 
     if vendor == '':
         sweetify.sweetalert(request, icon='error', title="Error", text='Vendor is empty', persistent="Dismiss")
@@ -78,6 +79,7 @@ def purchaseProcess(request):
     po.ref_id = ref_id
     po.date = date
     po.vendor = Vendor.objects.get(pk=vendor)
+    po.total_amount_due = total_amount_due
     po.approved = False
 
     po.save()

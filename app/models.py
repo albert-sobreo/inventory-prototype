@@ -73,6 +73,7 @@ class Purchase_Order(models.Model):
     date = models.DateField()
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     approved = models.BooleanField()
+    total_amount_due = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -93,6 +94,7 @@ class Sales_Order(models.Model):
     date = models.DateField()
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     approved = models.BooleanField()
+    total_amount_due = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -129,6 +131,7 @@ class Transfer_Item(models.Model):
 class Spoilage(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
+    total_lost = models.DecimalField(max_digits=24, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id

@@ -28,12 +28,12 @@
       <div class="mx-3" onclick="location.href='/out'">Sales</div>
       <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
       <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
-      <div class="mx-3" onclick="location.href='#'">Vendors</div>
+      <div class="mx-3" onclick="location.href='/vendor'">Vendors</div>
       <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
       <div class="mx-3" onclick="location.href='/'">Warehouse</div>
       <div class="mx-3" onclick="location.href='#'">Reports</div>
       <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
-      <div class="mx-3" onclick="location.href='#'">Customers</div>
+      <div class="mx-3" onclick="location.href='customer'">Customers</div>
       <div class="btn-group mx-3">
         <span class="active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
         <div class="dropdown-menu b-radius-5 py-0">
@@ -73,6 +73,7 @@
           <th class="b-tl-radius-10" style="border-top: 0px;">Reference No.</th>
           <th style="border-top: 0px;">Date Created</th>
           <th style="border-top: 0px;">Customer</th>
+          <th style="border-top: 0px">Total Cost</th>
           <th class="b-tr-radius-10" style="border-top: 0px;">Created By</th>
         </tr>
       </thead>
@@ -82,6 +83,7 @@
           <td data-toggle="modal" data-target="#productModal" class="receipt-link" @click="salesmodaldata({{sale.pk}})">{{sale.ref_id}}</td>
           <td>{{sale.date}}</td>
           <td>{{sale.customer.name}}</td>
+          <th>₱{{sale.total_amount_due}}</th>
           <td></td>
         </tr>
         {% endfor %}

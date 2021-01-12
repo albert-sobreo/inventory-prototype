@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/fontawesome.all.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 </head>
 <body class="font-size-12">
     <!-- NAV -->
@@ -23,12 +24,12 @@
       <div class="mx-3" onclick="location.href='/out'">Sales</div>
       <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
       <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
-      <div class="mx-3" onclick="location.href='#'">Vendors</div>
+      <div class="mx-3" onclick="location.href='/vendor'">Vendors</div>
       <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
       <div class="mx-3" onclick="location.href='/'">Warehouse</div>
       <div class="mx-3" onclick="location.href='#'">Reports</div>
       <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
-      <div class="mx-3 active" onclick="location.href='#'">Customers</div>
+      <div class="mx-3 active" onclick="location.href='/customer'">Customers</div>
       <div class="btn-group mx-3">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
         <div class="dropdown-menu b-radius-5 py-0">
@@ -54,64 +55,7 @@
     
   </div>
   <!-- END NAV -->
-  <!-- Add Customer Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content b-radius-15">
-        <div class="modal-body">
-          <form method="GET" action="/inventory-save-process/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
-            <h3 class="mb-3 font-w-700">Add Customer</h3>
-
-            <div class="form-group row">
-                <div class="col">
-                  <label for="name">Name</label>
-                  <input name="customerName" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
-                </div>
-                <div class="col">
-                  <label for="address">Address</label>
-                  <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" autocomplete="off">
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="owner">Owner Name</label>
-              <input name="owner" type="email" class="form-control" id="owner" placeholder="Enter Owner Name" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="customerEmail">Email</label>
-                <input name="customerEmail" type="email" class="form-control" id="customerEmail" placeholder="Enter Email" autocomplete="off">
-            </div>
-            <div class="form-group row">
-              <div class="col">
-                <label for="customerPhone">Phone</label>
-                <input name="customerPhone" type="number" class="form-control" id="customerPhone" placeholder="Enter Phone Number" autocomplete="off">
-              </div>
-              <div class="col">
-                <label for="customerLandline">Landline</label>
-                <input name="customerLandline" type="number" class="form-control" id="customerLandline" placeholder="Enter Landline Number" autocomplete="off">
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col">
-                <label for="bank">Bank</label>
-                <input name="customerBank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
-              </div>
-              <div class="col">
-                <label for="bankNumber">Bank Number</label>
-                <input name="bankNumber" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
-              </div>
-          </div>
-              <div class="form-group">
-                  <label for="comment">Description:</label>
-                  <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
-                </div>
-            <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add Customer</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--END Customer Modal-->
-  <div class="container">
+  <div class="container" id="app">
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
         <thead class="thead-dark">
         <tr class="">
@@ -122,15 +66,141 @@
         </tr>
         </thead>
         <tbody>
+          {% for customer in customers %}
         <tr>
-            <td>Bob's Construction Firm</td>
-            <td>Subic Bay Freeport Zone</td>
-            <td>sample@email.com</td>
-            <td>+639123456789</td>
+          <td data-toggle="modal" data-target="#customerModal" class="receipt-link" @click="customerModalData({{customer.pk}})">{{customer.name}}</td>
+          <td>{{customer.address}}</td>
+          <td>{{customer.email}}</td>
+          <td>{{customer.landline}}</td>
         </tr>
+        {% endfor %}
         </tbody>
     </table>
-    
+    <!-- Add Customer Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content b-radius-15">
+          <div class="modal-body">
+            <form method="GET" action="/customersaveprocess/" class="form-container-1 py-2 px-1 mt-4 font-w-600" autocomplete="off">{%csrf_token%}
+              <h3 class="mb-3 font-w-700">Add Customer</h3>
+  
+              <div class="form-group row">
+                  <div class="col">
+                    <label for="name">Business Name</label>
+                    <input name="name" type="text" class="form-control" placeholder="Enter Business Name">
+                  </div>
+                  <div class="col">
+                    <label for="address">Address</label>
+                    <input name="address" type="text" class="form-control" placeholder="Enter Address">
+                  </div>
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <label for="owner_first_name">Owner First Name</label>
+                  <input name="owner_first_name" type="text" class="form-control" id="owner_first_name" placeholder="Enter Owner Name" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="owner_last_name">Owner Last Name</label>
+                  <input name="owner_last_name" type="text" class="form-control" id="owner_last_name" placeholder="Enter Owner Name" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input name="email" type="email" class="form-control" id="customerEmail" placeholder="Enter Email" autocomplete="off">
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <label for="mobile">Phone</label>
+                  <input name="mobile" type="text" class="form-control" id="customerPhone" placeholder="Enter Phone Number" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="landline">Landline</label>
+                  <input name="landline" type="text" class="form-control" id="customerLandline" placeholder="Enter Landline Number" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col">
+                  <label for="bank">Bank</label>
+                  <input name="bank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
+                </div>
+                <div class="col">
+                  <label for="bank_number">Bank Number</label>
+                  <input name="bank_number" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
+                </div>
+            </div>
+                <div class="form-group">
+                    <label for="comment">Description:</label>
+                    <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
+                  </div>
+              <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add Customer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!--END Customer Modal-->
+  <div class="modal fade" id="customerModal">
+      <div class="modal-dialog">
+        <div class="modal-content b-radius-15">
+          <div class="modal-body">
+            <div class="row my-5">
+              <div class="col-12 d-flex justify-content-center">
+                <h1 class="font-w-700">[[modal.name]]</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <span class="font-w-700 font-size-14">Customer Profile</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col d-flex flex-wrap mb-4">
+                <div class="modal-info-container"><i class="fas fa-user mr-2 icon-gray"></i> [[modal.owner_first_name]] [[modal.owner_last_name]]</div>
+                <div class="modal-info-container"><i class="fas fa-map-marker-alt mr-2 icon-gray"></i> [[modal.address]]</div>
+                <div class="modal-info-container"><i class="fas fa-mobile mr-2 icon-gray"></i> [[modal.mobile]]</div>
+                <div class="modal-info-container"><i class="fas fa-phone-alt mr-2 icon-gray"></i> [[modal.landline]]</div>
+                <div class="modal-info-container"><i class="fas fa-envelope mr-2 icon-gray"></i> [[modal.email]]</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <span class="font-w-700 font-size-14">Bank Information</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col d-flex flex-wrap mb-5">
+                <div class="modal-info-container"><i class="fas fa-university mr-2 icon-gray"></i> [[modal.bank]]</div>
+                <div class="modal-info-container"><i class="fas fa-credit-card mr-2 icon-gray"></i>[[modal.bank_number]]</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <h3 class="font-w-700">Sales History</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <table class="col table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+                  <thead>
+                    <th class="b-tl-radius-10" style="border-top: 0px;">Reference No.</th>
+                    <th style="border-top: 0px;">Date</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Total Cost</th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in modal.items">
+                      <td class="font-w-600">[[item.code]]</td>
+                      <td class="font-w-600">[[item.date]]</td>
+                      <td class="font-w-600">₱[[item.total_cost]]</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>
@@ -160,7 +230,7 @@
             className: 'btn btn-warning',
             titleAttr: 'Add Inventory',
             action: function(){
-              $("#exampleModal").modal('show')
+              $("#addCustomerModal").modal('show')
             }
           },
           {
@@ -191,5 +261,66 @@
       });
   } );
 </script>
-  
+<script>
+  function getCookie(name) {
+    if (!document.cookie) {
+      return null;
+    }
+
+    const xsrfCookies = document.cookie.split(';')
+      .map(c => c.trim())
+      .filter(c => c.startsWith(name + '='));
+
+    if (xsrfCookies.length === 0) {
+      return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+  }
+  Server = {
+    getCustomerModalData(pk){
+      payload = {
+        pk: pk
+      }
+
+      fetch('/getcustomermodaldata/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res=>res.json())
+      .then(data => app.modal = data)
+    }
+  }
+
+  var app = new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#app',
+    data: {
+      modal: {
+        name: '',
+        owner_first_name: '',
+        owner_last_name: '',
+        address: '',
+        landline: '',
+        mobile: '',
+        bank: '',
+        bank_number: '',
+        items: [{
+          code: '',
+          date: '',
+          total_cost: '',
+        }],
+      }
+    },
+    methods: {
+      customerModalData(pk){
+        Server.getCustomerModalData(pk)
+      }
+    }
+  })
+</script>
 </html>

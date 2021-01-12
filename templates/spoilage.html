@@ -39,12 +39,12 @@
         <div class="mx-3" onclick="location.href='/out'">Sales</div>
         <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
         <div class="mx-3 active" onclick="location.href='/spoilage'">Spoilage</div>
-        <div class="mx-3" onclick="location.href='#'">Vendors</div>
+        <div class="mx-3" onclick="location.href='/vendor'">Vendors</div>
         <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
         <div class="mx-3" onclick="location.href='/'">Warehouse</div>
         <div class="mx-3" onclick="location.href='#'">Reports</div>
         <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
-        <div class="mx-3" onclick="location.href='#'">Customers</div>
+        <div class="mx-3" onclick="location.href='/customer'">Customers</div>
         <div class="btn-group mx-3">
           <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
           <div class="dropdown-menu b-radius-5 py-0">
@@ -158,6 +158,19 @@
                     <button class="btn btn-warning px-3 mr-1" type="button" @click="addLine"><span class="font-w-600">+ Add New Line</span></button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-2 offset-10 px-1">
+                    <div class="form-group">
+                        <label for="total_amount_due" class="font-w-600 m-0">Total Lost</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="number" step="0.01" class="form-control box-shadow-off" v-model="total_lost" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 
@@ -212,11 +225,12 @@
                   app.lines[index].cost_per_item = data.cost_per_item
               })
           },
-          pushSpoilage(ref_id, date, lines){
+          pushSpoilage(ref_id, date, lines, total_lost){
               payload = {
                   ref_id: ref_id,
                   date: date,
                   lines: lines,
+                  total_lost: total_lost,
               }
 
               fetch('/spoilageprocess/', {
@@ -251,9 +265,23 @@
                   reason: null,
                   cost_per_item: null,
                   total_cost: null
-              }]
+              }],
+              total_lost: ''
           },
 
+          computed: {
+              total_cost(){
+                  return this.lines.map(line=>line.total_cost)
+              }
+          },
+  
+          watch: {
+              total_cost(){
+                  app.total_lost = (this.total_cost.reduce((a, b)=> Number(a)+Number(b), 0)).toFixed(2)
+                  console.log(app.total_lost)
+              }
+          },
+  
           methods: {
               addLine(){
                   this.lines.push({
@@ -300,7 +328,7 @@
                   }
               },
               spoilage(){
-                  Server.pushSpoilage(this.ref_id, this.date, this.lines)
+                  Server.pushSpoilage(this.ref_id, this.date, this.lines, this.total_lost)
               }
           }
       })
