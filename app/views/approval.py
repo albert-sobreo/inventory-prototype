@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 import sweetify
 from app.models import Product, User, Purchase_Order, Sales_Order
 import json
+from decimal import Decimal, ROUND_05UP
 
 def sales_notapproved(request):
     if request.session.is_empty():
@@ -49,7 +50,14 @@ def getPurchaseModalData(request):
     items = []
 
     for element in object.purchase_item_set.all():
-        items.append({'code': element.product.code, 'name': element.product.name, 'quantity': element.purchase_quantity, 'remaining':element.product.quantity})
+        items.append({
+            'code': element.product.code,
+            'name': element.product.name,
+            'quantity': element.purchase_quantity,
+            'remaining':element.product.quantity,
+            'cost_per_item': element.cost_per_item,
+            'total_cost': element.total_cost,
+            })
 
     context = {
         'ref_id': object.ref_id,
@@ -72,7 +80,9 @@ def getSalesModalData(request):
             'code': element.product.code,
             'name': element.product.name,
             'quantity': element.sales_quantity,
-            'remaining': element.product.quantity
+            'remaining': element.product.quantity,
+            'cost_per_item': element.cost_per_item,
+            'total_cost': element.total_cost,
         })
 
     context = {
@@ -92,6 +102,9 @@ def approvePurchase(request):
 
     for element in purchase.purchase_item_set.all():
         element.product.quantity += element.purchase_quantity
+        element.product.total_cost += element.total_cost
+        element.product.save()
+        element.product.cost_per_item = (Decimal((element.product.total_cost / element.product.quantity)))
         element.product.save()
 
     purchase.approved = True
@@ -114,6 +127,7 @@ def approveSales(request):
     
     for element in sales.sales_item_set.all():
         element.product.quantity -= element.sales_quantity
+        element.product.total_cost -= element.total_cost
         element.product.save()
 
     sales.approved = True

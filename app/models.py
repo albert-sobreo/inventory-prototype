@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.fields import EmailField
+from decimal import Decimal
+from django.db.models import Avg, Max, Min, Sum
 
 # Create your models here.
 
@@ -32,16 +34,29 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
     turnover = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.code + ' ' + self.name
 
+    @property
+    def cost_sold(self):
+        #"%.2f" % a
+        cost_of_good_sold = self.sales_item_set.filter(sales_order__approved=True).aggregate(total=Sum('total_cost'))
+        return cost_of_good_sold
+
+    @property
+    def quantity_sold(self):
+        quantity_sold = self.sales_item_set.filter(sales_order__approved=True).aggregate(total=Sum('sales_quantity'))
+        return quantity_sold
+
 class Vendor(models.Model):
     name = models.CharField(max_length=255)
     owner_first_name = models.CharField(max_length=255, null=True, blank=True)
-    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_last_name = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     landline = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)
@@ -55,7 +70,7 @@ class Vendor(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     owner_first_name = models.CharField(max_length=255, null=True, blank=True)
-    owner_first_name = models.CharField(max_length=255, null=True, blank=True)
+    owner_last_name = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     landline = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)
@@ -69,8 +84,10 @@ class Customer(models.Model):
 class Purchase_Order(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
     approved = models.BooleanField()
+    total_amount_due = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -80,6 +97,8 @@ class Purchase_Item(models.Model):
     purchase_order = models.ForeignKey(Purchase_Order, on_delete=models.CASCADE)
     remaining = models.IntegerField()
     purchase_quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
@@ -87,8 +106,10 @@ class Purchase_Item(models.Model):
 class Sales_Order(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     approved = models.BooleanField()
+    total_amount_due = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -98,6 +119,8 @@ class Sales_Item(models.Model):
     sales_order = models.ForeignKey(Sales_Order, on_delete=models.CASCADE)
     remaining = models.IntegerField()
     sales_quantity = models.IntegerField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
@@ -107,6 +130,7 @@ class Transfer(models.Model):
     date = models.DateField()
     description = models.TextField(blank=True, null=True)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -123,6 +147,8 @@ class Transfer_Item(models.Model):
 class Spoilage(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
+    total_lost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.ref_id
@@ -133,6 +159,8 @@ class Spoilage_Item(models.Model):
     remaining = models.IntegerField()
     spoilage_quantity = models.IntegerField()
     reason = models.TextField()
+    cost_per_item = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
+    total_cost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name

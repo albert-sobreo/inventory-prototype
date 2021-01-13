@@ -4,6 +4,7 @@ from app.models import Customer, Sales_Item, Sales_Order, Spoilage, Spoilage_Ite
 import sweetify
 from datetime import date as now
 import json
+from decimal import Decimal
 
 def spoilageView(request):
     if request.session.is_empty():
@@ -42,6 +43,9 @@ def spoilageProcess(request):
     ref_id = data['ref_id']
     date = data['date']
     lines = data['lines']
+    total_lost = data['total_lost']
+    
+    myUsername = request.session.get('username')
 
     if Spoilage.objects.filter(ref_id=ref_id).exists():
         sp = Spoilage.objects.latest('pk')
@@ -59,11 +63,14 @@ def spoilageProcess(request):
 
     sp.ref_id = ref_id
     sp.date = date
+    sp.total_lost = total_lost
+    sp.created_by = User.objects.get(login__username=myUsername)
     sp.save()
 
     for line in lines:
         product = Product.objects.get(pk=int(line['code']))
         product.quantity -= int(line['quantity'])
+        product.total_cost -= Decimal(line['total_cost'])
         product.save()
 
         si = Spoilage_Item()
@@ -73,6 +80,8 @@ def spoilageProcess(request):
         si.remaining = int(line['remaining'])
         si.spoilage_quantity = int(line['quantity'])
         si.reason = line['reason']
+        si.cost_per_item = float(line['cost_per_item'])
+        si.total_cost = float(line['total_cost'])
 
         si.save()
         sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')

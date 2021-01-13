@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Logs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <link rel="stylesheet" href="/static/css/fontawesome.all.css">
+    <script src="/static/js/nav.js"></script>
 </head>
 <body>
     <body class="font-size-12">
@@ -21,26 +20,7 @@
           <img src="/static/media/Group 117.svg" class="logo">
         </div>
     
-        <div class="justify-content-center navbar">
-          <div class="mx-3" onclick="location.href='#'">Dashboard</div>
-          <div class="mx-3" onclick="location.href='/in'">In</div>
-          <div class="mx-3" onclick="location.href='/out'">Out</div>
-          <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
-          <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
-          <div class="mx-3" onclick="location.href='#'">Vendors</div>
-          <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
-          <div class="mx-3" onclick="location.href='/'">Warehouse</div>
-          <div class="mx-3" onclick="location.href='#'">Reports</div>
-          <div class="mx-3 active" onclick="location.href='/logs/in'">Logs</div>
-          <div class="mx-3" onclick="location.href='#'">Customers</div>
-          <div class="btn-group mx-3">
-            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
-            <div class="dropdown-menu b-radius-5 py-0">
-              <a href="/purchase/notapproved" class="dropdown-item font-size-12">Purchase</a>
-              <a href="/sales/notapproved" class="dropdown-item font-size-12">Sales</a>
-            </div>
-          </div>
-      </div>
+        <script>new Nav('nav-logs')</script>
     
         <div class="c-nav-item justify-content-end dropdown">
           <div class="nav-name" data-toggle="dropdown">
@@ -60,21 +40,26 @@
       <!-- END NAV -->
       <div class="d-flex font-w-600 mb-2 justify-content-center">
         <div class="justify-content-center c-nav-links">
-            <div onclick="location.href='/logs/in'">In</div>
-            <div onclick="location.href='/logs/out'" class="active">Out</div>
+            <div onclick="location.href='/logs/in'">Purchase</div>
+            <div onclick="location.href='/logs/out'" class="active">Sales</div>
             <div onclick="location.href='/logs/transfer'">Transfer</div>
             <div onclick="location.href='/logs/spoilage'">Spoilage</div>
         </div>
         </div>  
     
         <div class="container font-w-600">
+          <div id="loader-container" class="d-flex justify-content-center align-items-center">
+            <div id="loader"></div>
+          </div>
             <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
                 <thead class="thead-dark">
                 <tr class="">
                     <th class="b-tl-radius-10" style="border-top: 0px;">Ref. No.</th>
                     <th style="border-top: 0px;">Date</th>
                     <th style="border-top: 0px;">Customer</th>
-                    <th class="b-tr-radius-10" style="border-top: 0px;">Items</th>
+                    <th style="border-top: 0px;">Items</th>
+                    <th style="border-top: 0px;">Created By</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Total Cost</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -88,6 +73,8 @@
                       <span class="font-w-300">{{item.product.code}}</span> <span>{{item.product.name}}</span><br/>
                       {%endfor%}
                     </td>
+                    <td>{{sale.created_by}}</td>
+                    <td>₱{{sale.total_amount_due}}</td>
                 </tr>
                 {%endfor%}
                 </tbody>
@@ -115,19 +102,19 @@
           buttons: [
           {
             text: '<i class="fas fa-file-excel"></i>',
-            className: 'btn btn-success',
+            className: 'btn text-success',
             titleAttr: 'Export Excel',
             extend: 'excel'
           },
           {
             text: '<i class="fas fa-file-csv"></i>',
-            className: 'btn btn-danger',
+            className: 'btn text-warning',
             titleAttr: 'Export CSV',
             extend: 'csv'
           },
           {
             text: '<i class="fas fa-print"></i>',
-            className: 'btn btn-secondary',
+            className: 'btn',
             titleAttr: 'Print',
             extend: 'print'
           }
@@ -137,6 +124,11 @@
               className: 'btn'
             }
           }
+        },
+        "initComplete": function(){
+          $("#loader-container").hide()
+          $("#loader").hide()
+          $('#table').show()
         }
       });
   } );

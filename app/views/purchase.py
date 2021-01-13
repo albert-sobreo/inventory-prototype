@@ -40,7 +40,14 @@ def getItemRemaining(request):
     data = json.loads(request.body)
     item = Product.objects.get(pk=data['code'])
 
-    return JsonResponse({'remaining': item.quantity, 'warehouse': {'pk': item.warehouse.pk, 'name': item.warehouse.name}})
+    return JsonResponse({
+        'remaining': item.quantity, 
+        'warehouse': {
+            'pk': item.warehouse.pk, 
+            'name': item.warehouse.name
+            },
+        'cost_per_item': item.cost_per_item
+        })
 
 def purchaseProcess(request):
     data = json.loads(request.body)
@@ -49,6 +56,9 @@ def purchaseProcess(request):
     date = data['date']
     vendor = data['vendor']
     lines = data['lines']
+    total_amount_due = data['total_amount_due']
+
+    myUsername = request.session.get('username')
 
     if vendor == '':
         sweetify.sweetalert(request, icon='error', title="Error", text='Vendor is empty', persistent="Dismiss")
@@ -71,7 +81,9 @@ def purchaseProcess(request):
     po.ref_id = ref_id
     po.date = date
     po.vendor = Vendor.objects.get(pk=vendor)
+    po.total_amount_due = total_amount_due
     po.approved = False
+    po.created_by = User.objects.get(login__username=myUsername)
 
     po.save()
     
@@ -82,6 +94,8 @@ def purchaseProcess(request):
         pi.purchase_order = po
         pi.remaining = int(line['remaining'])
         pi.purchase_quantity = int(line['quantity'])
+        pi.cost_per_item = float(line['cost_per_item'])
+        pi.total_cost = float(line['total_cost'])
 
         pi.save()
         sweetify.sweetalert(request, icon='success', title='Success!', persistent='Dismiss')
