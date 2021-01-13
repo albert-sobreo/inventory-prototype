@@ -47,6 +47,8 @@ def salesProcess(request):
     lines = data['lines']
     total_amount_due = data['total_amount_due']
 
+    myUsername = request.session.get('username')
+
     if customer == '':
         sweetify.sweetalert(request, icon='error', title='Error', text='Customer is empty', persistent="Dismiss")
         return JsonResponse(0, safe=False)
@@ -70,6 +72,7 @@ def salesProcess(request):
     so.customer = Customer.objects.get(pk=customer)
     so.total_amount_due = total_amount_due
     so.approved = False
+    so.created_by = User.objects.get(login__username=myUsername)
 
     so.save()
 

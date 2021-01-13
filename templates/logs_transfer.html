@@ -58,6 +58,7 @@
                     <th style="border-top: 0px;">Date</th>
                     <th style="border-top: 0px;">New Warehouse</th>
                     <th style="border-top: 0px;">Items</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Created By</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,6 +72,7 @@
                       <span class="font-w-300">{{item.product.code}}</span> <span>{{item.product.name}}</span><br/>
                       {%endfor%}
                     </td>
+                    <td>{{transfer.created_by}}</td>
                 </tr>
                 {%endfor%}
                 </tbody>

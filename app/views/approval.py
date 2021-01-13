@@ -1,10 +1,9 @@
-from typing import Text
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 import sweetify
 from app.models import Product, User, Purchase_Order, Sales_Order
 import json
-from django.db.models import Avg, Max, Min, Sum
+from decimal import Decimal, ROUND_05UP
 
 def sales_notapproved(request):
     if request.session.is_empty():
@@ -52,13 +51,13 @@ def getPurchaseModalData(request):
 
     for element in object.purchase_item_set.all():
         items.append({
-            'code': element.product.code, 
-            'name': element.product.name, 
-            'quantity': element.purchase_quantity, 
-            'remaining':element.remaining,
+            'code': element.product.code,
+            'name': element.product.name,
+            'quantity': element.purchase_quantity,
+            'remaining':element.product.quantity,
             'cost_per_item': element.cost_per_item,
-            'total_cost': element.total_cost
-        })
+            'total_cost': element.total_cost,
+            })
 
     context = {
         'ref_id': object.ref_id,
@@ -81,9 +80,9 @@ def getSalesModalData(request):
             'code': element.product.code,
             'name': element.product.name,
             'quantity': element.sales_quantity,
-            'remaining': element.remaining,
+            'remaining': element.product.quantity,
             'cost_per_item': element.cost_per_item,
-            'total_cost': element.total_cost
+            'total_cost': element.total_cost,
         })
 
     context = {
@@ -103,6 +102,9 @@ def approvePurchase(request):
 
     for element in purchase.purchase_item_set.all():
         element.product.quantity += element.purchase_quantity
+        element.product.total_cost += element.total_cost
+        element.product.save()
+        element.product.cost_per_item = (Decimal((element.product.total_cost / element.product.quantity)))
         element.product.save()
 
     purchase.approved = True
@@ -119,22 +121,13 @@ def approveSales(request):
     sales = Sales_Order.objects.get(pk=pk)
 
     for element in sales.sales_item_set.all():
-        itemize = sales.sales_item_set.filter(product__pk=element.product.pk)
-        if itemize.count() > 1:
-            total_quantity =itemize.aggregate(total=Sum('sales_quantity'))
-            remaining = itemize.aggregate(max=Max('remaining'))
-
-            if total_quantity['total'] > remaining['max']:
-                sweetify.sweetalert(request, icon='error', title='Error', html="You are selling <b>" + str(total_quantity['total']) + "</b> {}. You only have: <b>".format(element.product.name) + str(remaining['max']) + "</b>.", persistent='Dismiss')
-                return JsonResponse(0, safe=0)
-
-    for element in sales.sales_item_set.all():
         if element.product.quantity < element.sales_quantity:
             sweetify.sweetalert(request, icon='error', title='Error', text="{} has {} items. You are selling {} items.".format(element.product.name, element.product.quantity, element.sales_quantity), persistent='Dismiss')
             return JsonResponse(0, safe=0)
     
     for element in sales.sales_item_set.all():
         element.product.quantity -= element.sales_quantity
+        element.product.total_cost -= element.total_cost
         element.product.save()
 
     sales.approved = True

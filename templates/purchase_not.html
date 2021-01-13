@@ -69,7 +69,7 @@
           <td>{{purchase.date}}</td>
           <td>{{purchase.vendor.name}}</td>
           <td>₱{{purchase.total_amount_due}}</td>
-          <td></td>
+          <td>{{purchase.created_by.first_name}} {{purchase.created_by.last_name}}</td>
         </tr>
         {% endfor %}
       </tbody>

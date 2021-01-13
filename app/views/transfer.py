@@ -44,6 +44,8 @@ def transferProcess(request):
     new_warehouse = data['new_warehouse']
     lines = data['lines']
 
+    myUsername = request.session.get('username')
+
     if Transfer.objects.filter(ref_id=ref_id).exists():
         tr = Transfer.objects.latest('pk')
 
@@ -61,7 +63,7 @@ def transferProcess(request):
     tr.ref_id = ref_id
     tr.date = date
     tr.warehouse = Warehouse.objects.get(pk=new_warehouse)
-    #b0ss
+    tr.created_by = User.objects.get(login__username=myUsername)
     tr.save()
 
     for line in lines:

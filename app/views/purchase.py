@@ -58,6 +58,8 @@ def purchaseProcess(request):
     lines = data['lines']
     total_amount_due = data['total_amount_due']
 
+    myUsername = request.session.get('username')
+
     if vendor == '':
         sweetify.sweetalert(request, icon='error', title="Error", text='Vendor is empty', persistent="Dismiss")
         return JsonResponse(0, safe=False)
@@ -81,6 +83,7 @@ def purchaseProcess(request):
     po.vendor = Vendor.objects.get(pk=vendor)
     po.total_amount_due = total_amount_due
     po.approved = False
+    po.created_by = User.objects.get(login__username=myUsername)
 
     po.save()
     

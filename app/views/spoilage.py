@@ -44,6 +44,8 @@ def spoilageProcess(request):
     date = data['date']
     lines = data['lines']
     total_lost = data['total_lost']
+    
+    myUsername = request.session.get('username')
 
     if Spoilage.objects.filter(ref_id=ref_id).exists():
         sp = Spoilage.objects.latest('pk')
@@ -62,6 +64,7 @@ def spoilageProcess(request):
     sp.ref_id = ref_id
     sp.date = date
     sp.total_lost = total_lost
+    sp.created_by = User.objects.get(login__username=myUsername)
     sp.save()
 
     for line in lines:
