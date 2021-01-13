@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/fontawesome.all.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="/static/js/nav.js"></script>
 </head>
 <body class="font-size-12">
     <!-- NAV -->
@@ -18,26 +19,7 @@
       <img src="/static/media/Group 117.svg" class="logo">
     </div>
 
-    <div class="justify-content-center navbar">
-      <div class="mx-3" onclick="location.href='#'">Dashboard</div>
-      <div class="mx-3" onclick="location.href='/in'">Purchase</div>
-      <div class="mx-3" onclick="location.href='/out'">Sales</div>
-      <div class="mx-3" onclick="location.href='/transfer'">Transfer</div>
-      <div class="mx-3" onclick="location.href='/spoilage'">Spoilage</div>
-      <div class="mx-3" onclick="location.href='/vendor'">Vendors</div>
-      <div class="mx-3" onclick="location.href='/inventory-page'">Inventory</div>
-      <div class="mx-3" onclick="location.href='/'">Warehouse</div>
-      <div class="mx-3" onclick="location.href='#'">Reports</div>
-      <div class="mx-3" onclick="location.href='/logs/in'">Logs</div>
-      <div class="mx-3 active" onclick="location.href='/customer'">Customers</div>
-      <div class="btn-group mx-3">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Approvals</span>
-        <div class="dropdown-menu b-radius-5 py-0">
-          <a href="/purchase/notapproved" class="dropdown-item font-size-12">Purchase</a>
-          <a href="/sales/notapproved" class="dropdown-item font-size-12">Sales</a>
-        </div>
-      </div>
-  </div>
+    <script>new Nav('nav-customers')</script>
 
     <div class="c-nav-item justify-content-end dropdown">
       <div class="nav-name" data-toggle="dropdown">
@@ -56,6 +38,9 @@
   </div>
   <!-- END NAV -->
   <div class="container" id="app">
+    <div id="loader-container" class="d-flex justify-content-center align-items-center">
+      <div id="loader"></div>
+    </div>
     <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
         <thead class="thead-dark">
         <tr class="">
@@ -257,6 +242,11 @@
               className: 'btn'
             }
           }
+        },
+        "initComplete": function(){
+          $("#loader-container").hide()
+          $("#loader").hide()
+          $('#table').show()
         }
       });
   } );

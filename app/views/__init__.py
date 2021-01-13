@@ -9,3 +9,4 @@ from .spoilage import *
 from .approval import *
 from .logs import *
 from .vc import *
+from .reports import *

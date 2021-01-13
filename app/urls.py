@@ -53,5 +53,6 @@ urlpatterns = [
     path('vendorsaveprocess/', views.vendors_save_process),
     path('customersaveprocess/', views.customers_save_process),
     path('getvendormodaldata/', views.getVendorModalData),
-    path('getcustomermodaldata/', views.getCustomerModalData)
+    path('getcustomermodaldata/', views.getCustomerModalData),
+    path('reports/costofgoodsold/', views.costOfGoodSold)
 ]

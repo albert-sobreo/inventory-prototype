@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.fields import EmailField
+from decimal import Decimal
+from django.db.models import Avg, Max, Min, Sum
 
 # Create your models here.
 
@@ -39,6 +41,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.code + ' ' + self.name
+
+    @property
+    def cost_sold(self):
+        #"%.2f" % a
+        cost_of_good_sold = self.sales_item_set.filter(sales_order__approved=True).aggregate(total=Sum('total_cost'))
+        return cost_of_good_sold
+
+    @property
+    def quantity_sold(self):
+        quantity_sold = self.sales_item_set.filter(sales_order__approved=True).aggregate(total=Sum('sales_quantity'))
+        return quantity_sold
 
 class Vendor(models.Model):
     name = models.CharField(max_length=255)

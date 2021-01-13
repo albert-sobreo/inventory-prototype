@@ -1,8 +1,10 @@
+from typing import Text
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 import sweetify
 from app.models import Product, User, Purchase_Order, Sales_Order
 import json
+from django.db.models import Avg, Max, Min, Sum
 
 def sales_notapproved(request):
     if request.session.is_empty():
@@ -115,6 +117,19 @@ def approveSales(request):
     pk = int(data['pk'])
 
     sales = Sales_Order.objects.get(pk=pk)
+
+    for element in sales.sales_item_set.all():
+        itemize = sales.sales_item_set.filter(product__pk=element.product.pk)
+        if itemize.count() > 1:
+            total_quantity =itemize.aggregate(total=Sum('sales_quantity'))
+            remaining = itemize.aggregate(max=Max('remaining'))
+
+            if total_quantity['total'] > remaining['max']:
+                sweetify.sweetalert(request, icon='error', title='Error', html="You are selling <b>" + str(total_quantity['total']) + "</b> {}. You only have: <b>".format(element.product.name) + str(remaining['max']) + "</b>.", persistent='Dismiss')
+                return JsonResponse(0, safe=0)
+        
+            sweetify.sweetalert(request, icon='success', title='TEST ONLY', text="GUCCI", persistent='Dismiss')
+            return JsonResponse(0, safe=0)
 
     for element in sales.sales_item_set.all():
         if element.product.quantity < element.sales_quantity:
