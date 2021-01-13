@@ -1,6 +1,5 @@
 class Nav{
     template = `<div class="justify-content-center navbar">
-                <div class="mx-3" id="nav-dashboard" onclick="location.href='#'">Dashboard</div>
                 <div class="mx-3" id="nav-purchase" onclick="location.href='/in'">Purchase</div>
                 <div class="mx-3" id="nav-sales" onclick="location.href='/out'">Sales</div>
                 <div class="mx-3" id="nav-transfer" onclick="location.href='/transfer'">Transfer</div>

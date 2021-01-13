@@ -127,9 +127,6 @@ def approveSales(request):
             if total_quantity['total'] > remaining['max']:
                 sweetify.sweetalert(request, icon='error', title='Error', html="You are selling <b>" + str(total_quantity['total']) + "</b> {}. You only have: <b>".format(element.product.name) + str(remaining['max']) + "</b>.", persistent='Dismiss')
                 return JsonResponse(0, safe=0)
-        
-            sweetify.sweetalert(request, icon='success', title='TEST ONLY', text="GUCCI", persistent='Dismiss')
-            return JsonResponse(0, safe=0)
 
     for element in sales.sales_item_set.all():
         if element.product.quantity < element.sales_quantity:
