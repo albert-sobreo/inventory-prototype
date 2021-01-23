@@ -1,7 +1,7 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 import sweetify
-from app.models import Product, User, Purchase_Order, Sales_Order
+from app.models import Spoilage, Transfer, User, Purchase_Order, Sales_Order
 import json
 from decimal import Decimal, ROUND_05UP
 
@@ -40,6 +40,7 @@ def purchase_approved(request):
         'me': User.objects.select_related().get(login__username=request.session.get('username')),
     }
     return render(request, 'purchase_approved.html', context)
+
 
 def getPurchaseModalData(request):
     data = json.loads(request.body)
@@ -132,5 +133,127 @@ def approveSales(request):
 
     sales.approved = True
     sales.save()
+
+    return JsonResponse(0, safe=0)
+
+# For Spoilage and Transfer
+
+def transfer_notapproved(request):
+    if request.session.is_empty():
+        return redirect('/login/')
+    context = {
+        'transfers': Transfer.objects.filter(approved=False),
+        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+    }
+    return render(request, 'transfer_not.html', context)
+
+def transfer_approved(request):
+    if request.session.is_empty():
+        return redirect('/login/')
+    context = {
+        'transfers': Transfer.objects.filter(approved=True),
+        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+    }
+    return render(request, 'transfer_approved.html', context)
+
+def spoilage_notapproved(request):
+    if request.session.is_empty():
+        return redirect('/login/')
+    context = {
+        'spoils': Spoilage.objects.filter(approved=False),
+        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+    }
+    return render(request, 'spoilage_not.html', context)
+
+def spoilage_approved(request):
+    if request.session.is_empty():
+        return redirect('/login/')
+    context = {
+        'spoils': Spoilage.objects.filter(approved=True),
+        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+    }
+    return render(request, 'spoilage_approved.html', context)
+
+def getTransferModalData(request):
+    data = json.loads(request.body)
+    pk = int(data['pk'])
+
+    object = Transfer.objects.get(pk=pk)
+
+    items = []
+
+    for element in object.transfer_item_set.all():
+        items.append({
+            'code': element.product.code,
+            'name': element.product.name,
+            'quantity': element.transfer_quantity,
+            'remaining':element.product.quantity
+            })
+
+    context = {
+        'ref_id': object.ref_id,
+        'warehouse': object.warehouse,
+        'pk': object.pk,
+        'items': items
+    }
+    return JsonResponse(context)
+
+def getSpoilageModalData(request):
+    data = json.loads(request.body)
+    pk = int(data['pk'])
+
+    object = Spoilage.objects.get(pk=pk)
+
+    items = []
+
+    for element in object.purchase_item_set.all():
+        items.append({
+            'code': element.product.code,
+            'name': element.product.name,
+            'quantity': element.spoilage_quantity,
+            'remaining':element.product.quantity,
+            'reason':element.reason,
+            'cost_per_item': element.cost_per_item,
+            'total_cost': element.total_cost,
+            })
+
+    context = {
+        'ref_id': object.ref_id,
+        'warehouse': object.warehouse,
+        'pk': object.pk,
+        'items': items
+    }
+    return JsonResponse(context)
+
+def approveTransfer(request):
+    data = json.loads(request.body)
+
+    pk = int(data['pk'])
+
+    transfer = Transfer.objects.get(pk=pk)
+
+    for element in transfer.transfer_item_set.all():
+        element.product.quantity += element.transfer_quantity
+        element.product.save()
+
+    transfer.approved = True
+
+    transfer.save()
+
+    return JsonResponse(0, safe=0)
+
+def approveSpoilage(request):
+    data = json.loads(request.body)
+
+    pk = int(data['pk'])
+
+    spoils = Spoilage.objects.get(pk=pk)
+
+    for element in spoils.spoilage_item_set.all():
+        element.product.quantity -= element.spoilage_quantity
+        element.product.save()
+        
+    spoils.approved = True
+    spoils.save()
 
     return JsonResponse(0, safe=0)

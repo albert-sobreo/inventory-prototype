@@ -64,6 +64,7 @@ def spoilageProcess(request):
     sp.ref_id = ref_id
     sp.date = date
     sp.total_lost = total_lost
+    sp.approved = False
     sp.created_by = User.objects.get(login__username=myUsername)
     sp.save()
 
