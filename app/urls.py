@@ -41,7 +41,6 @@ urlpatterns = [
     path('logs/spoilage/', views.spoilageLogsView),
     path('sales/approved/', views.sales_approved),
     path('sales/notapproved/', views.sales_notapproved),
-    path('sales/approved/', views.sales_approved),
     path('purchase/notapproved/', views.purchase_notapproved),
     path('purchase/approved/', views.purchase_approved),
     path('getpurchasemodaldata/', views.getPurchaseModalData),
@@ -54,5 +53,13 @@ urlpatterns = [
     path('customersaveprocess/', views.customers_save_process),
     path('getvendormodaldata/', views.getVendorModalData),
     path('getcustomermodaldata/', views.getCustomerModalData),
-    path('reports/costofgoodsold/', views.costOfGoodSold)
+    path('reports/costofgoodsold/', views.costOfGoodSold),
+    path('transfer/approved/', views.transfer_approved),
+    path('transfer/notapproved/', views.transfer_notapproved),
+    path('spoilage/notapproved/', views.spoilage_notapproved),
+    path('spoilage/approved/', views.spoilage_approved),
+    path('gettransfermodaldata/', views.getTransferModalData),
+    path('getspoilagemodaldata/', views.getSpoilageModalData),
+    path('approvetransfer/', views.approveTransfer),
+    path('approvespoilage', views.approveSpoilage)
 ]

@@ -68,13 +68,9 @@ def transferProcess(request):
     tr.save()
 
     for line in lines:
-        product = Product.objects.get(pk=int(line['code']))
-        product.warehouse = tr.warehouse
-        product.save()
-
         ti = Transfer_Item()
-
-        ti.product = product
+  
+        ti.product = Product.objects.get(pk=int(line['code']))
         ti.transfer = tr
         ti.remaining = int(line['remaining'])
         ti.transfer_quantity = int(line['quantity'])

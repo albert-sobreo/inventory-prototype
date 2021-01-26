@@ -233,8 +233,9 @@ def approveTransfer(request):
     transfer = Transfer.objects.get(pk=pk)
 
     for element in transfer.transfer_item_set.all():
-        element.product.quantity += element.transfer_quantity
+        element.product.warehouse = element.tr.warehouse
         element.product.save()
+        
 
     transfer.approved = True
 
@@ -251,7 +252,10 @@ def approveSpoilage(request):
 
     for element in spoils.spoilage_item_set.all():
         element.product.quantity -= element.spoilage_quantity
+        element.product.total_cost -= element.total_cost
         element.product.save()
+
+        
         
     spoils.approved = True
     spoils.save()
