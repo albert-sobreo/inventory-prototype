@@ -129,7 +129,7 @@ class Transfer(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
     description = models.TextField(blank=True, null=True)
-    approved = models.BooleanField()
+    approved = models.BooleanField(default=False)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 
@@ -148,7 +148,7 @@ class Transfer_Item(models.Model):
 class Spoilage(models.Model):
     ref_id = models.CharField(max_length=255)
     date = models.DateField()
-    approved = models.BooleanField()
+    approved = models.BooleanField(default=False)
     total_lost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
 

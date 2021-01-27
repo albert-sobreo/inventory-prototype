@@ -187,12 +187,12 @@ def getTransferModalData(request):
             'code': element.product.code,
             'name': element.product.name,
             'quantity': element.transfer_quantity,
-            'remaining':element.product.quantity
+            'old_warehouse':element.product.warehouse.name
             })
 
     context = {
         'ref_id': object.ref_id,
-        'warehouse': object.warehouse,
+        'new_warehouse': object.warehouse.name,
         'pk': object.pk,
         'items': items
     }
@@ -233,7 +233,7 @@ def approveTransfer(request):
     transfer = Transfer.objects.get(pk=pk)
 
     for element in transfer.transfer_item_set.all():
-        element.product.warehouse = element.tr.warehouse
+        element.product.warehouse = transfer.warehouse
         element.product.save()
         
 
