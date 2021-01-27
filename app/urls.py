@@ -61,5 +61,5 @@ urlpatterns = [
     path('gettransfermodaldata/', views.getTransferModalData),
     path('getspoilagemodaldata/', views.getSpoilageModalData),
     path('approvetransfer/', views.approveTransfer),
-    path('approvespoilage', views.approveSpoilage)
+    path('approvespoilage/', views.approveSpoilage)
 ]

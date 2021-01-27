@@ -206,7 +206,7 @@ def getSpoilageModalData(request):
 
     items = []
 
-    for element in object.purchase_item_set.all():
+    for element in object.spoilage_item_set.all():
         items.append({
             'code': element.product.code,
             'name': element.product.name,
@@ -219,7 +219,7 @@ def getSpoilageModalData(request):
 
     context = {
         'ref_id': object.ref_id,
-        'warehouse': object.warehouse,
+        'total_lost': object.total_lost,
         'pk': object.pk,
         'items': items
     }
