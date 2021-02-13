@@ -63,17 +63,14 @@ def transferProcess(request):
     tr.ref_id = ref_id
     tr.date = date
     tr.warehouse = Warehouse.objects.get(pk=new_warehouse)
+    tr.approved = False
     tr.created_by = User.objects.get(login__username=myUsername)
     tr.save()
 
     for line in lines:
-        product = Product.objects.get(pk=int(line['code']))
-        product.warehouse = tr.warehouse
-        product.save()
-
         ti = Transfer_Item()
-
-        ti.product = product
+  
+        ti.product = Product.objects.get(pk=int(line['code']))
         ti.transfer = tr
         ti.remaining = int(line['remaining'])
         ti.transfer_quantity = int(line['quantity'])

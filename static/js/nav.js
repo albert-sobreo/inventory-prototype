@@ -15,6 +15,8 @@ class Nav{
                     <div class="dropdown-menu b-radius-5 py-0">
                         <a href="/purchase/notapproved" class="dropdown-item font-size-12 font-w-600">Purchase</a>
                         <a href="/sales/notapproved" class="dropdown-item font-size-12 font-w-600">Sales</a>
+                        <a href="/transfer/notapproved" class="dropdown-item font-size-12 font-w-600">Transfer</a>
+                        <a href="/spoilage/notapproved" class="dropdown-item font-size-12 font-w-600">Spoilage</a> 
                     </div>
                 </div>
                 </div>`

@@ -64,18 +64,14 @@ def spoilageProcess(request):
     sp.ref_id = ref_id
     sp.date = date
     sp.total_lost = total_lost
+    sp.approved = False
     sp.created_by = User.objects.get(login__username=myUsername)
     sp.save()
 
     for line in lines:
-        product = Product.objects.get(pk=int(line['code']))
-        product.quantity -= int(line['quantity'])
-        product.total_cost -= Decimal(line['total_cost'])
-        product.save()
-
         si = Spoilage_Item()
 
-        si.product = product
+        si.product = Product.objects.get(pk=int(line['code']))
         si.spoilage = sp
         si.remaining = int(line['remaining'])
         si.spoilage_quantity = int(line['quantity'])
