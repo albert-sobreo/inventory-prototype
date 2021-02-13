@@ -166,3 +166,14 @@ class Spoilage_Item(models.Model):
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
+
+class Branch(models.Model):
+    name = models.CharField(max_length=255)
+    vendor = models.ManyToManyField(Vendor)
+    customer = models.ManyToManyField(Customer)
+    purchase_order = models.ManyToManyField(Purchase_Order)
+    sales_order = models.ManyToManyField(Sales_Order)
+    transfer = models.ManyToManyField(Transfer)
+    spoilage = models.ManyToManyField(Spoilage)
+    product = models.ManyToManyField(Product)
+    warehouse = models.ManyToManyField(Warehouse)
