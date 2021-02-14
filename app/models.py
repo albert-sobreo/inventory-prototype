@@ -5,22 +5,24 @@ from django.db.models import Avg, Max, Min, Sum
 
 # Create your models here.
 
-class Login(models.Model):
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    auth_level = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.username
-
 class User(models.Model):
+    username = models.CharField(max_length=255, null=True)
+    password = models.CharField(max_length=255, null=True)
+    branch = models.ForeignKey('Branch', on_delete=models.CASCADE, null=True, blank=True)
+    top_level = models.BooleanField(default=False)
+    auth_level = models.CharField(max_length=255, default='Employee')
+
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
-    login = models.ForeignKey(Login, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
+    
+    try:
+        def __str__(self):
+            return self.username
+    except:
+        def __str__(self):
+            return self.first_name + " " + self.last_name
+    
 
 class Warehouse(models.Model):
     name = models.CharField(max_length=255)
@@ -177,3 +179,6 @@ class Branch(models.Model):
     spoilage = models.ManyToManyField(Spoilage)
     product = models.ManyToManyField(Product)
     warehouse = models.ManyToManyField(Warehouse)
+
+    def __str__(self):
+        return self.name

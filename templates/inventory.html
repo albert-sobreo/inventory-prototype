@@ -85,7 +85,7 @@
               <div class="form-group">
                   <label for="warehouse">Warehouse</label>
                   <select name="warehouse" class="form-control py-0" id="warehouse">
-                    {% for warehouse in warehouses.all %}
+                    {% for warehouse in me.branch.warehouses.all %}
                     <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                     {% endfor %}
                   </select>
@@ -116,7 +116,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for item in items%}
+        {% for item in me.branch.product.all%}
         <tr>
             <td>{{item.code}}</td>
             <td>{{item.name}}</td>

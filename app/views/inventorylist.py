@@ -10,9 +10,7 @@ def inventory_page(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'items': Product.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
-        'warehouses': Warehouse.objects.all()
+        'me': User.objects.select_related().get(username=request.session.get('username')),
     }
     return render(request, 'inventory.html', context)
 
@@ -38,8 +36,7 @@ def warehouse_list(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'warehouses': Warehouse.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username'))
+        'me': User.objects.select_related().get(username=request.session.get('username'))
     }
     return render(request, 'warehouse.html', context)
 
