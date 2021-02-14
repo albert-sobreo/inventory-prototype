@@ -8,36 +8,44 @@ from decimal import Decimal, ROUND_05UP
 def sales_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'sales': Sales_Order.objects.filter(approved=False),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'sales': user.branch.sales_order.filter(approved=False),
+        'me': user
     }
     return render(request, 'sales_not.html', context)
 
 def sales_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'sales': Sales_Order.objects.filter(approved=True),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'sales': user.branch.sales_order.filter(approved=True),
+        'me': user
     }
     return render(request, 'sales_approved.html', context)
 
 def purchase_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
+    
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'purchases': Purchase_Order.objects.filter(approved=False),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'purchases': user.branch.purchase_order.filter(approved=False),
+        'me': user
     }
     return render(request, 'purchase_not.html', context)
 
 def purchase_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
+    
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'purchases': Purchase_Order.objects.filter(approved=True),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'purchases': user.branch.purchase_order.filter(approved=True),
+        'me': user
     }
     return render(request, 'purchase_approved.html', context)
 
@@ -141,36 +149,44 @@ def approveSales(request):
 def transfer_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'transfers': Transfer.objects.filter(approved=False),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'transfers': user.branch.transfer.filter(approved=False),
+        'me': user
     }
     return render(request, 'transfer_not.html', context)
 
 def transfer_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'transfers': Transfer.objects.filter(approved=True),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'transfers': user.branch.transfer.filter(approved=True),
+        'me': user
     }
     return render(request, 'transfer_approved.html', context)
 
 def spoilage_notapproved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'spoils': Spoilage.objects.filter(approved=False),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'spoils': user.branch.spoilage.filter(approved=False),
+        'me': user
     }
     return render(request, 'spoilage_not.html', context)
 
 def spoilage_approved(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
     context = {
-        'spoils': Spoilage.objects.filter(approved=True),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'spoils': user.branch.spoilage.filter(approved=True),
+        'me': user
     }
     return render(request, 'spoilage_approved.html', context)
 
