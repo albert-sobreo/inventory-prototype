@@ -51,7 +51,7 @@
         </tr>
         </thead>
         <tbody>
-          {% for customer in customers %}
+          {% for customer in me.branch.customer.all %}
         <tr>
           <td data-toggle="modal" data-target="#customerModal" class="receipt-link" @click="customerModalData({{customer.pk}})">{{customer.name}}</td>
           <td>{{customer.address}}</td>

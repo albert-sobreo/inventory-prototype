@@ -54,7 +54,7 @@
         </tr>
         </thead>
         <tbody>
-          {% for vendor in vendors %}
+          {% for vendor in me.branch.vendor.all %}
         <tr>
             <td data-toggle="modal" data-target="#vendorModal" class="receipt-link" @click="vendorModalData({{vendor.pk}})">{{vendor.name}}</td>
             <td>{{vendor.address}}</td>
