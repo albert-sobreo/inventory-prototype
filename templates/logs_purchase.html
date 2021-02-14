@@ -62,7 +62,7 @@
           </tr>
           </thead>
           <tbody>
-          {%for purchase in purchases.all%}
+          {%for purchase in me.branch.purchase_order.all%}
           <tr>
               <td>{{purchase.ref_id}}</td>
               <td>{{purchase.date}}</td>

@@ -62,7 +62,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {%for transfer in transfers.all%}
+                {%for transfer in me.branch.transfer.all%}
                 <tr>
                     <td>{{transfer.ref_id}}</td>
                     <td>{{transfer.date}}</td>

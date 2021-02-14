@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Out</title>
+    <title>Sales</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
@@ -56,7 +56,7 @@
   <div class="container-custom" id="app">
     <div class="row">
         <div class="col">
-            <span class="font-size-18 font-w-700">Inventory Out</span>
+            <span class="font-size-18 font-w-700">Sales</span>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
                 <label for="customer" class="font-w-600 font-size-14 mb-0">Customer</label>
                 <select name="customer" id="customer" class="py-0 form-control" v-model="customer" required>
                     <option value="" disabled selected>Select Customer</option>
-                    {% for customer in customers.all %}
+                    {% for customer in me.branch.customer.all %}
                     <option value="{{customer.pk}}">{{customer.name}}</option>
                     {% endfor %}
                 </select>
@@ -105,7 +105,7 @@
                     <select name="code" class="form-control py-0" v-model="line.code" @change="onCodeChange(line.code, index)" required>
                         <option value="" disabled>Select Item</option>
 
-                        {% for item in items.all %}
+                        {% for item in me.branch.product.all %}
                         <option value="{{item.pk}}">{{item.name}} | {{item.code}}</option>
                         {% endfor %}
 

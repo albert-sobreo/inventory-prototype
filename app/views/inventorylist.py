@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app.models import Warehouse, Product, User
+from app.models import Branch, Warehouse, Product, User
 import sweetify
 from decimal import Decimal
 
@@ -19,6 +19,7 @@ def warehouse_save_process(request):
         return redirect('/login/')
     name = request.GET['name']
     address = request.GET['address']
+    user = User.objects.get(username=request.session.get('username'))
 
     warehouse = Warehouse()
 
@@ -26,6 +27,7 @@ def warehouse_save_process(request):
     warehouse.address = address
     try:
         warehouse.save()
+        user.branch.warehouse.add(warehouse)
         sweetify.sweetalert(request, icon='success', title='Added Warehouse Successfully!', persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='YOU DID IT', text="YOU FUCKED IT UP", persistent='BRUH')
@@ -77,6 +79,8 @@ def inventory_save_process(request):
 
     warehouse_pk = int(request.GET['warehouse'])
 
+    user = User.objects.get(username=request.session['username'])
+
     product = Product()
 
     product.code = code
@@ -89,6 +93,7 @@ def inventory_save_process(request):
 
     try:
         product.save()
+        user.branch.product.add(product)
         sweetify.sweetalert(request, icon='success', title='Added Product Successfully', text='{} {} successfully added'.format(product.quantity, product.name), persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')

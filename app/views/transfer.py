@@ -8,9 +8,9 @@ import json
 def transferView(request):
     if request.session.is_empty():
         return redirect('/login/')
-    
+    user = User.objects.get(username=request.session.get('username'))
     try:
-        tr = Transfer.objects.latest('pk')
+        tr = user.branch.transfer.latest('pk')
 
         listed_ref_id = tr.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -28,11 +28,8 @@ def transferView(request):
         new_ref_id = 'T-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
     context = {
-        'items': Product.objects.all().order_by('name'),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'me': User.objects.select_related().get(username=request.session.get('username')),
         'new_ref_id': new_ref_id,
-        'customers': Customer.objects.all(),
-        'warehouses': Warehouse.objects.all(),
     }
     return render(request, 'transfer.html', context)
 
@@ -45,9 +42,10 @@ def transferProcess(request):
     lines = data['lines']
 
     myUsername = request.session.get('username')
+    user = User.objects.get(username=myUsername)
 
-    if Transfer.objects.filter(ref_id=ref_id).exists():
-        tr = Transfer.objects.latest('pk')
+    if user.branch.transfer.filter(ref_id=ref_id).exists():
+        tr = user.branch.transfer.latest('pk')
 
         listed_ref_id = tr.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -64,8 +62,10 @@ def transferProcess(request):
     tr.date = date
     tr.warehouse = Warehouse.objects.get(pk=new_warehouse)
     tr.approved = False
-    tr.created_by = User.objects.get(login__username=myUsername)
+    tr.created_by = User.objects.get(username=myUsername)
     tr.save()
+
+    user.branch.transfer.add(tr)
 
     for line in lines:
         ti = Transfer_Item()

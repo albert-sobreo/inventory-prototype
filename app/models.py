@@ -16,12 +16,8 @@ class User(models.Model):
     last_name = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
     
-    try:
-        def __str__(self):
-            return self.username
-    except:
-        def __str__(self):
-            return self.first_name + " " + self.last_name
+    def __str__(self):
+        return self.first_name + " " + self.last_name
     
 
 class Warehouse(models.Model):

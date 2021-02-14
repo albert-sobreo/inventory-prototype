@@ -31,6 +31,7 @@
       <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
         <div class="dropdown-header font-size-12">
             <span>{{me.first_name}} {{me.last_name}}</span><br>
+            <span class="font-size-10 py-0">{{me.branch.name}}</span><br>
             <span class="font-size-10 py-0">{{me.position}}</span>
         </div>
         <div class="dropdown-divider"></div>
@@ -49,13 +50,13 @@
             <h3 class="mb-3 font-w-700">Add Warehouse</h3>
 
             <div class="form-group">
-              <label for="itemcode">Warehouse Name</label>
-              <input name="name" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Item Code" autocomplete="off">
+              <label for="name">Warehouse Name</label>
+              <input name="name" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Warehouse Name" autocomplete="off">
             </div>
 
             <div class="form-group">
-              <label for="itemname">Warehouse Address</label>
-              <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Item Name" autocomplete="off">
+              <label for="address">Warehouse Address</label>
+              <input name="address" type="text" class="form-control"placeholder="Enter Address" autocomplete="off">
             </div>
             <button type="submit" class="btn btn-block mt-3 mb-3 btn-primary">Add Warehouse</button>
           </form>

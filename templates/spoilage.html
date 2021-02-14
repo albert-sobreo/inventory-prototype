@@ -99,7 +99,7 @@
                     <select name="code" class="form-control py-0" v-model="line.code" @change="onCodeChange(line.code, index)" required>
                         <option value="" disabled>Select Item</option>
 
-                        {% for item in items.all %}
+                        {% for item in me.branch.product.all %}
                         <option value="{{item.pk}}">{{item.name}} | {{item.code}}</option>
                         {% endfor %}
 

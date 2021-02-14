@@ -91,7 +91,7 @@
                     <select name="code" class="form-control py-0" v-model="line.code" @change="onCodeChange(line.code, index)" required>
                         <option value="" disabled>Select Item</option>
 
-                        {% for item in items.all %}
+                        {% for item in me.branch.product.all %}
                         <option value="{{item.pk}}">{{item.name}} | {{item.code}}</option>
                         {% endfor %}
 
@@ -119,7 +119,7 @@
                     <select name="new-warehouse" class="form-control py-0" v-model="new_warehouse" required>
                         <option value="" disabled>Select Warehouse</option>
 
-                        {% for warehouse in warehouses.all %}
+                        {% for warehouse in me.branch.warehouse.all %}
                         <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                         {% endfor %}
 
@@ -249,7 +249,7 @@
                   $('#date').validate()
                   if(document.getElementById('mainForm').checkValidity()){
                       Swal.fire({
-                        title: 'Confirm Purchase?',
+                        title: 'Confirm Transfer?',
                         html: this.lines.length + " item " + (this.lines.length > 1 ? "codes are" : "code is") + " included.",
                         icon: 'warning',
                         confirmButtonText: 'Yes',

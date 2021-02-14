@@ -63,7 +63,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {%for sale in sales%}
+                {%for sale in me.branch.sales_order.all%}
                 <tr>
                     <td>{{sale.ref_id}}</td>
                     <td>{{sale.date}}</td>

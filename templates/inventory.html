@@ -28,6 +28,7 @@
       <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
         <div class="dropdown-header font-size-12">
             <span>{{me.first_name}} {{me.last_name}}</span><br>
+            <span class="font-size-10 py-0">{{me.branch.name}}</span><br>
             <span class="font-size-10 py-0">{{me.position}}</span>
         </div>
         <div class="dropdown-divider"></div>
@@ -85,7 +86,7 @@
               <div class="form-group">
                   <label for="warehouse">Warehouse</label>
                   <select name="warehouse" class="form-control py-0" id="warehouse">
-                    {% for warehouse in me.branch.warehouses.all %}
+                    {% for warehouse in me.branch.warehouse.all %}
                     <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                     {% endfor %}
                   </select>

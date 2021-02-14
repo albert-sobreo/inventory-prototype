@@ -9,8 +9,11 @@ from time import sleep
 def inView(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
+
     try:
-        po = Purchase_Order.objects.latest('pk')
+        po = user.branch.purchase_order.objects.latest('pk')
 
         listed_ref_id = po.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -28,17 +31,15 @@ def inView(request):
         new_ref_id = 'PO-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
     context = {
-        'items': Product.objects.all().order_by('name'),
-        'warehouses': Warehouse.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'me': User.objects.get(username=request.session.get('username')),
         'new_ref_id': new_ref_id,
-        'vendors': Vendor.objects.all(),
     }
     return render(request, 'purchase-order.html', context)
 
 def getItemRemaining(request):
     data = json.loads(request.body)
-    item = Product.objects.get(pk=data['code'])
+    user = User.objects.get(username=request.session.get('username'))
+    item = user.branch.product.get(pk=data['code'])
 
     return JsonResponse({
         'remaining': item.quantity, 
@@ -59,13 +60,14 @@ def purchaseProcess(request):
     total_amount_due = data['total_amount_due']
 
     myUsername = request.session.get('username')
+    user = User.objects.get(username=myUsername)
 
     if vendor == '':
         sweetify.sweetalert(request, icon='error', title="Error", text='Vendor is empty', persistent="Dismiss")
         return JsonResponse(0, safe=False)
 
-    if Purchase_Order.objects.filter(ref_id=ref_id).exists():
-        po = Purchase_Order.objects.latest('pk')
+    if user.branch.purchase_order.filter(ref_id=ref_id).exists():
+        po = user.branch.purchase_order.latest('pk')
 
         listed_ref_id = po.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -83,9 +85,11 @@ def purchaseProcess(request):
     po.vendor = Vendor.objects.get(pk=vendor)
     po.total_amount_due = total_amount_due
     po.approved = False
-    po.created_by = User.objects.get(login__username=myUsername)
+    po.created_by = User.objects.get(username=myUsername)
 
     po.save()
+
+    user.branch.purchase_order.add(po)
     
     for line in lines:
         pi = Purchase_Item()
