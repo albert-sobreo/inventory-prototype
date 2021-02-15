@@ -27,3 +27,28 @@ class Nav{
         element.classList.add('active')
     }
 }
+
+class NavN{
+    template = `<div class="c-nav-item justify-content-end dropdown">
+                    <div class="nav-name" data-toggle="dropdown">
+                      <span id="name0"></span> <i class="fas fa-angle-down ml-1"></i>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
+                      <div class="dropdown-header font-size-12">
+                          <span id="name1"></span><br>
+                          <span id="branch" class="font-size-10 py-0"></span><br>
+                          <span id="position" class="font-size-10 py-0"></span>
+                      </div>
+                      <div class="dropdown-divider"></div>
+                      <a href="/logout" class="dropdown-item font-size-12">Logout</a>
+                    </div>
+                </div>`
+
+    constructor(fname, lname, branch, position){
+        document.write(this.template)
+        document.getElementById('name0').innerHTML = fname + " " + lname
+        document.getElementById('name1').innerHTML = fname + " " + lname
+        document.getElementById('branch').innerHTML = branch
+        document.getElementById('position').innerHTML = position
+    }
+}
