@@ -66,5 +66,12 @@ urlpatterns = [
     path('top-level/branch/<str:pk_branch>/inventory/', views.topLevelBranchInvnetory),
     path('top-level/home/', views.topLevelHome),
     path('getsidebarbranchdata/', views.getSidebarBranchData),
-    path('top-level/branch/<str:pk_branch>/warehouse/', views.topLevelBranchWarehouse)
+    path('top-level/branch/<str:pk_branch>/warehouse/', views.topLevelBranchWarehouse),
+    path('top-level/Customers/', views.topLevelCustomers),
+    path('top-level/Suppliers/', views.topLevelSuppliers),
+    path('top-level/Purchase/', views.topLevelPurchase),
+    path('top-level/Sales/', views.topLevelSales),
+    path('top-level/Transfers/', views.topLevelTransfers),
+    path('top-level/Spoilage/', views.topLevelSpoilage),
+    path('top-level/Approvals/', views.topLevelApprovals),
 ]
