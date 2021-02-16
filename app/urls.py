@@ -61,5 +61,7 @@ urlpatterns = [
     path('gettransfermodaldata/', views.getTransferModalData),
     path('getspoilagemodaldata/', views.getSpoilageModalData),
     path('approvetransfer/', views.approveTransfer),
-    path('approvespoilage/', views.approveSpoilage)
+    path('approvespoilage/', views.approveSpoilage),
+    path('top-level/branch/<str:pk_branch>/inventory/', views.topLevelBranchInvnetory),
+    path('top-level/home/', views.topLevelHome)
 ]

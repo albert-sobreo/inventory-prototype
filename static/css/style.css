@@ -196,7 +196,7 @@ body{
 }
 
 .active{
-    color: #339DE9;
+    color: #339DE9 !important;
 }
 
 .logo{
@@ -395,4 +395,71 @@ body{
 
 #loader-container{
     display: none;
+}
+
+.sidenav{
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #222A2E;
+    overflow: hidden;
+}
+
+.sidenav-brand{
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2C3235;
+}
+
+.sidenav-body{
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    overflow-x: hidden;
+}
+
+.sidenav-link, .wrapper-link{
+    padding: 15px 0px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #8B969C;
+    display: flex;
+    font-weight: 700;
+    padding-left: 25%;
+}
+
+.wrapper-link{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.wrapper-link:hover{
+    color: rgb(219, 219, 219);
+    text-decoration: none;
+}
+
+.sidenav-link:hover{
+    color: rgb(219, 219, 219);
+    text-decoration: none;
+}
+
+.sidenav-active{
+    color: white !important;
+}
+
+.sidenav-break{
+    padding: 15px 0px;
+}
+
+#wrapper {
+    background-color: #2C3235;
+    overflow: hidden;
+    transition: height 200ms;
+    height: 0;
+}
+#main{
+    margin-left: 200px;
 }
