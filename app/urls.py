@@ -65,5 +65,6 @@ urlpatterns = [
     path('approvespoilage/', views.approveSpoilage),
     path('top-level/branch/<str:pk_branch>/inventory/', views.topLevelBranchInvnetory),
     path('top-level/home/', views.topLevelHome),
-    path('getsidebarbranchdata/', views.getSidebarBranchData)
+    path('getsidebarbranchdata/', views.getSidebarBranchData),
+    path('top-level/branch/<str:pk_branch>/warehouse/', views.topLevelBranchWarehouse)
 ]

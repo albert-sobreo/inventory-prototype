@@ -167,12 +167,24 @@ body{
     width: 10%;
 }
 
+.c2-nav-item{
+    display: inline-flex;
+    align-items: center;
+    width: 20%;
+}
+
+.navbar2{
+    display: inline-flex;
+    align-items: center;
+    width: 60%;
+}
+
 .c-nav-links, .navbar-nav, .navbar{
     display: inline-flex;
     align-items: center;
     width: 80%;
 }
-.navbar div{
+.navbar div, .navbar2 div{
     cursor: pointer;
 }
 

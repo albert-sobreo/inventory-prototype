@@ -27,12 +27,15 @@ def loginprocess(request):
 
         request.session['start'] = True
         request.session['username'] = username
-        request.session['branch'] = user.branch.pk
         request.session['auth-level'] = user.auth_level
+        request.session['top-level'] = user.top_level
 
         request.session.save()
 
-        return redirect('/')
+        if user.top_level:
+            return redirect('/top-level/home/')
+        else:
+            return redirect('/')
 
 @never_cache
 def logout(request):

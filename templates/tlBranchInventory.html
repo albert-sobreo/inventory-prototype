@@ -21,7 +21,118 @@
         <sidebar active='branch'></sidebar>
     </div>
     <div id="main">
-      Inventory {{branch.name}}
+       <!-- NAVBAR -->
+        <div class="c-nav d-flex font-w-600 mb-3">
+            <!-- LEFT -->
+            <div class="c2-nav-item justify-content-start">
+                <span class="font-size-14">{{branch.name}}</span>
+            </div>
+            <!-- END LEFT -->
+
+            <!-- CENTER -->
+            <script>
+              new NavBC2('inventory', {{branch.pk}})
+          </script>
+            <!-- END CENTER -->
+            <!-- RIGHT -->
+            <script>
+                new NavN2('{{me.first_name}}', '{{me.last_name}}', '{{me.branch.name}}', '{{me.position}}')
+            </script>
+            <!-- END RIGHT -->
+        </div>
+        <!-- END NAVBAR -->
+        <div class="container" id="app">
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal">
+            <div class="modal-dialog">
+              <div class="modal-content b-radius-15">
+                <div class="modal-body">
+                  <form method="GET" action="#" class="form-container-1 py-2 px-1 mt-4 font-w-600 " autocomplete="off">{%csrf_token%}
+                    <h3 class="mb-3 font-w-700">Add Inventory</h3>
+      
+                    <div class="form-group row">
+                        <div class="col">
+                          <label for="itemcode">Item Code</label>
+                          <input name="code" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Item Code" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="itemname">Item Name</label>
+                          <input name="name" type="text" class="form-control" id="exampleInputPassword1" placeholder="Item Name" autocomplete="off">
+                        </div>
+                    </div>
+      
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input name="quantity" type="number" class="form-control" id="quantity" placeholder="Enter Quantity" autocomplete="off" v-model="quantity">
+                    </div>
+                    <div class="form-group row">
+                      <div class="col">
+                        <label for="cost-per-item">Cost per Item</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">₱</span>
+                          </div>
+                          <input type="number" step="0.01" name="cost-per-item" class="box-shadow-off form-control" placeholder="Enter Cost per item" v-model="cost_per_item">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label for="total-cost">Total Cost</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">₱</span>
+                          </div>
+                          <input type="number" step="0.01" name="total-cost" class="box-shadow-off form-control" placeholder="Enter Total Cost" v-model="total_cost" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="warehouse">Warehouse</label>
+                        <select name="warehouse" class="form-control py-0" id="warehouse">
+                          {% for warehouse in me.branch.warehouse.all %}
+                          <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="comment">Description:</label>
+                          <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
+                        </div>
+                    <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add inventory</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--END Modal-->
+          <div id="loader-container" class="d-flex justify-content-center align-items-center">
+            <div id="loader"></div>
+          </div>
+          <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+              <thead class="thead-dark">
+              <tr class="">
+                  <th class="b-tl-radius-10" style="border-top: 0px;">Item Code</th>
+                  <th style="border-top: 0px;">Item Name</th>
+                  <th style="border-top: 0px;">Warehouse</th>
+                  <th style="border-top: 0px;">Quantity</th>
+                  <th style="border-top: 0px;">Cost per Item</th>
+                  <th class="b-tr-radius-10" style="border-top: 0px;">Total Cost</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in branch.product.all%}
+              <tr>
+                  <td>{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.warehouse.name}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>₱<script>document.write(parseFloat('{{item.cost_per_item}}'))</script></td>
+                  <td class="font-w-600">₱{{item.total_cost}}</td>
+              </tr>
+              {% endfor %}
+
+              </tbody>
+          </table>
+        </div>
     </div>
 </body>
 
@@ -52,7 +163,7 @@
         {
           text: '<i class="fas fa-plus"></i>',
           className: 'btn btn-warning',
-          titleAttr: 'Add Warehouse',
+          titleAttr: 'Add Inventory',
           action: function(){
             $("#exampleModal").modal('show')
           }

@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group">
                       <label for="branch">Branch</label>
-                      <select name="branch" class="form-control py-0" id="branch" required>
+                      <select name="branch" class="form-control py-0" id="branch">
                         <option value="" disabled selected>Select Branch</option>
                         {% for branch in branches %}
                         <option value="{{branch.pk}}">{{branch.name}}</option>
