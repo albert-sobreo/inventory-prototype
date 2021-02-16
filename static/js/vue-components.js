@@ -37,8 +37,8 @@ Vue.component('sidebar', {
                             </div>
                         </div>
                         <a href="#" class="sidenav-link" id='employees'>Employees</a>
-                        <a href="#" class="sidenav-link" id='customers'>Customers</a>
-                        <a href="#" class="sidenav-link" id='suppliers'>Suppliers</a>
+                        <a href="/top-level/Customers/" class="sidenav-link" id='customers'>Customers</a>
+                        <a href="/top-level/Suppliers/" class="sidenav-link" id='suppliers'>Suppliers</a>
                         <div class="sidenav-break"></div>
                         <a href="#" class="sidenav-link" id='purchase'>Purchase</a>
                         <a href="#" class="sidenav-link" id='sales'>Sales</a>

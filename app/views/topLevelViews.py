@@ -1,13 +1,12 @@
 from django import http
 from django.shortcuts import render, redirect, HttpResponse
-from app.models import Spoilage, Branch, User
+from app.models import Spoilage, Branch, User, Customer, Vendor
 
 def topLevelHome(request):
     if request.session.is_empty():
+        if not request.session.get('top-level'):
+            return HttpResponse('access denied')
         return redirect('/login/')
-    print(request.session.get('top-level'))
-    if not request.session.get('top-level'):
-        return HttpResponse('access denied')
 
     context = {
         "me": User.objects.get(username=request.session.get('username')),
@@ -30,28 +29,74 @@ def topLevelBranchWarehouse(request, pk_branch):
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
-
     return render(request, 'tlBranchWarehouse.html', context)
 
-def topLevelCustomers(request, pk_branch):
+def topLevelBranchLogsPurchase(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
-    return render(request, 'tlCustomers.html', context)
+    return render(request, 'tlBranchLogsPurchase.html', context)
 
-def topLevelSuppliers(request, pk_branch):
+def topLevelBranchLogsSales(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
+    }
+    return render(request, 'tlBranchLogsSales.html', context)
+
+def topLevelBranchLogsTransfers(request, pk_branch):
+    branch = Branch.objects.get(pk=pk_branch)
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+        "branch": branch
+    }
+    return render(request, 'tlBranchLogsTransfers.html', context)
+
+def topLevelBranchLogsSpoilage(request, pk_branch):
+    branch = Branch.objects.get(pk=pk_branch)
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+        "branch": branch
+    }
+    return render(request, 'tlBranchLogsSpoilage.html', context)
+
+def topLevelBranchCostOfGoodSold(request, pk_branch):
+    branch = Branch.objects.get(pk=pk_branch)
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+        "branch": branch
+    }
+    return render(request, 'tlBranchCostOfGoodSold.html', context)
+
+
+def topLevelCustomers(request):
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+        'customers': Customer.objects.all(),
+    }
+    return render(request, 'tlCustomers.html', context)
+
+def topLevelSuppliers(request):
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+        'suppliers': Vendor.objects.all()
     }
     return render(request, 'tlSuppliers.html', context)
 
 def topLevelPurchase(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
@@ -60,6 +105,7 @@ def topLevelPurchase(request, pk_branch):
 def topLevelSales(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
@@ -68,6 +114,7 @@ def topLevelSales(request, pk_branch):
 def topLevelTransfers(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
@@ -76,6 +123,7 @@ def topLevelTransfers(request, pk_branch):
 def topLevelSpoilage(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }
@@ -84,6 +132,7 @@ def topLevelSpoilage(request, pk_branch):
 def topLevelApprovals(request, pk_branch):
     branch = Branch.objects.get(pk=pk_branch)
     context = {
+        "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
         "branch": branch
     }

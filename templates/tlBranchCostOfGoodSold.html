@@ -1,4 +1,5 @@
 {% load static %}
+{% load decimal2 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,21 +19,21 @@
 </head>
 <body class="font-size-12">
     <div id="sidebar-component">
-        <sidebar active='home'></sidebar>
+        <sidebar active='branch'></sidebar>
     </div>
     <div id="main">
-        <!-- NAVBAR -->
+       <!-- NAVBAR -->
         <div class="c-nav d-flex font-w-600 mb-3">
             <!-- LEFT -->
             <div class="c2-nav-item justify-content-start">
-                <span class="font-size-14">Home</span>
+                <span class="font-size-14">{{branch.name}}</span>
             </div>
             <!-- END LEFT -->
 
             <!-- CENTER -->
-            <div class="justify-content-center navbar2">
-
-            </div>
+            <script>
+                new NavBC2('reports', '{{branch.pk}}')
+            </script>
             <!-- END CENTER -->
             <!-- RIGHT -->
             <script>
@@ -41,59 +42,44 @@
             <!-- END RIGHT -->
         </div>
         <!-- END NAVBAR -->
-        <div class="container">
-            <div class="d-flex">
-                <span class="font-size-18 font-w-700">Overview</span>
+        <script>
+            new NavReportsTL('costofgoodsold', '{{branch.pk}}')
+        </script>
+
+        <div class="container">    
+            <div id="loader-container" class="d-flex justify-content-center align-items-center">
+                <div id="loader"></div>
             </div>
-            <div class="d-flex justify-content-between">
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3">
-                    <div class="d-flex justify-content-center align-items-center py-3 pr-2">
-                        <img src="/static/media/invalue.svg" alt="">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center pl-2">
-                        <div class="d-flex flex-column justify-content-center align-items-end">
-                            <span class="font-size-18 font-w-700" style="color: #28E324">₱ 24,050,222.50</span>
-                            <span class="font-size-12 font-w-700" style="color: #AEAEAE">Inventory Value</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
-                    <div class="d-flex justify-content-center align-items-center py-3 pr-2">
-                        <img src="/static/media/sales.svg" alt="">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
-                        <div class="d-flex flex-column justify-content-center align-items-end">
-                            <span class="font-size-18 font-w-700" style="color: #E3AE24">₱ 145,035.75</span>
-                            <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Sales</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
-                    <div class="d-flex justify-content-center align-items-center py-3 pr-2">
-                        <img src="/static/media/expenses.svg" alt="">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
-                        <div class="d-flex flex-column justify-content-center align-items-end">
-                            <span class="font-size-18 font-w-700" style="color: #24D8E3">₱ 132,869.50</span>
-                            <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Expenses</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
-                    <div class="d-flex justify-content-center align-items-center py-3 pr-2">
-                        <img src="/static/media/revenue.svg" alt="">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
-                        <div class="d-flex flex-column justify-content-center align-items-end">
-                            <span class="font-size-18 font-w-700" style="color: #5363F9">₱ 112,166.25</span>
-                            <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Revenue</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+                <thead class="thead-dark">
+                <tr class="">
+                    <th class="b-tl-radius-10" style="border-top: 0px;">Item Code</th>
+                    <th style="border-top: 0px;">Item Name</th>
+                    <th style="border-top: 0px;">Quantity Sold</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Cost of Goods Sold</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in branch.product.all %}
+                <tr>
+                    <td>{{item.code}}</td>
+                    <td>{{item.name}}</td>
+                    {% if item.quantity_sold.total == None %}
+                    <td>0</td>
+                    {% else %}
+                    <td>{{item.quantity_sold.total}}</td>
+                    {% endif %}
+        
+                    {% if item.cost_sold.total == None%}
+                    <td>₱0.00</td>
+                    {% else %}
+                    <td class="font-w-600">₱{{item.cost_sold.total|decimal}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
@@ -122,14 +108,6 @@
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
       buttons: {
         buttons: [
-        {
-          text: '<i class="fas fa-plus"></i>',
-          className: 'btn btn-warning',
-          titleAttr: 'Add Warehouse',
-          action: function(){
-            $("#exampleModal").modal('show')
-          }
-        },
         {
           text: '<i class="fas fa-file-excel"></i>',
           className: 'btn text-success',
@@ -184,8 +162,8 @@
 </script>
 
 <script>
-    new Vue({
-        el: '#sidebar-component'
-    })
+  new Vue({
+    el: '#sidebar-component'
+  })
 </script>
 </html>
