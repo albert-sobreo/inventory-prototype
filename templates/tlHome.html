@@ -41,11 +41,6 @@
 
 <!-- DATATABLES -->
 <script>
-    new Vue({
-        el: '#sidebar-component'
-    })
-</script>
-<script>
   $(document).ready(function() {
     $('#table').DataTable({
       language: { search: '', searchPlaceholder: 'Search'},
@@ -112,6 +107,12 @@
             }
         
           });
+    })
+</script>
+
+<script>
+    new Vue({
+        el: '#sidebar-component'
     })
 </script>
 </html>
