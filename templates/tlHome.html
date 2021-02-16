@@ -11,35 +11,14 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/fontawesome.all.css">
     <script src="/static/js/nav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="/static/js/vue-components.js"></script>
 
 
 </head>
 <body class="font-size-12">
-    <div class="sidenav">
-        <div class="sidenav-brand">
-            <!-- Insert Logo here -->
-            <img src="/static/media/admin.svg" alt="">
-        </div>
-        <div class="sidenav-body">
-            <a href="/top-level/home/" class="sidenav-link sidenav-active">Home</a>
-            <a href="#" class="sidenav-link" id="button" data-toggle="dropdown">Branch</a>
-            <div id="wrapper">
-                <div id="list">
-                    {% for sidebranch in sidebranches %}
-                    <a href="/top-level/branch/{{sidebranch.pk}}/inventory" class="wrapper-link">{{sidebranch.name}}</a>
-                    {% endfor %}
-                </div>
-            </div>
-            <a href="#" class="sidenav-link">Employees</a>
-            <a href="#" class="sidenav-link">Customers</a>
-            <a href="#" class="sidenav-link">Suppliers</a>
-            <div class="sidenav-break"></div>
-            <a href="#" class="sidenav-link">Purchase</a>
-            <a href="#" class="sidenav-link">Sales</a>
-            <a href="#" class="sidenav-link">Transfers</a>
-            <a href="#" class="sidenav-link">Spoilage</a>
-            <a href="#" class="sidenav-link">Approvals</a>
-        </div>
+    <div id="sidebar-component">
+        <sidebar active='home'></sidebar>
     </div>
     <div id="main">
         Home
@@ -61,6 +40,11 @@
 {% sweetify %}
 
 <!-- DATATABLES -->
+<script>
+    new Vue({
+        el: '#sidebar-component'
+    })
+</script>
 <script>
   $(document).ready(function() {
     $('#table').DataTable({
@@ -114,7 +98,7 @@
 <!-- END DATATABLES -->
 <script>
     $(function(){
-        var b = $('#button')
+        var b = $('#branch')
         var w = $('#wrapper')
         var l = $('#list')
         b.click(function() {

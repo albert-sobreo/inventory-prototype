@@ -11,3 +11,4 @@ from .logs import *
 from .vc import *
 from .reports import *
 from .topLevelViews import *
+from .restjson import *

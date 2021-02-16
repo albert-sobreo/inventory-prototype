@@ -1,3 +1,4 @@
+from app.views.restjson import getSidebarBranchData
 from app.views.vc import customers_save_process, vendors_save_process
 from app.views.sales import outView
 from django.contrib import admin
@@ -63,5 +64,6 @@ urlpatterns = [
     path('approvetransfer/', views.approveTransfer),
     path('approvespoilage/', views.approveSpoilage),
     path('top-level/branch/<str:pk_branch>/inventory/', views.topLevelBranchInvnetory),
-    path('top-level/home/', views.topLevelHome)
+    path('top-level/home/', views.topLevelHome),
+    path('getsidebarbranchdata/', views.getSidebarBranchData)
 ]
