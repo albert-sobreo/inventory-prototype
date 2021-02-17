@@ -489,15 +489,19 @@ body{
     width: 260px;
 }
 
-.home-box-2{
+.home-box-2, .home-box-3{
     height: 260px;
     width: 544px;
 }
 
-.home-box, .home-box-2{
+.home-box, .home-box-2, .home-box-3{
     background-color: #293339;
     box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
     border-radius: 15px;
+}
+
+.home-box-3{
+    background-color: #ffffff;
 }
 
 .home-box-primary-text{
@@ -516,4 +520,37 @@ body{
     color: #7CF87A;
     font-weight: 700;
     font-size: 18px;
+}
+
+.home-branch-primary-text{
+    color: black;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.home-branch-label{
+    color: #AEAEAE;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.home-branch-value, .home-branch-sales, .home-branch-expenses, .home-branch-revenue{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.home-branch-value{
+    color: #28E324
+}
+
+.home-branch-sales{
+    color: #E3AE24
+}
+
+.home-branch-expenses{
+    color: #24D8E3
+}
+
+.home-branch-revenue{
+    color: #5363F9
 }

@@ -53,7 +53,7 @@
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/invalue.svg" alt="">
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
+                    <div class="d-flex flex-column justify-content-center pl-2 flex-grow-1">
                         <div class="d-flex flex-column justify-content-center align-items-end">
                             <span class="font-size-18 font-w-700" style="color: #28E324">₱ 24,050,222.50</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Inventory Value</span>
@@ -65,7 +65,7 @@
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/sales.svg" alt="">
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
+                    <div class="d-flex flex-column justify-content-center pl-2 flex-grow-1">
                         <div class="d-flex flex-column justify-content-center align-items-end">
                             <span class="font-size-18 font-w-700" style="color: #E3AE24">₱ 145,035.75</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Sales</span>
@@ -89,7 +89,7 @@
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/revenue.svg" alt="">
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
+                    <div class="d-flex flex-column justify-content-center pl-2 flex-grow-1">
                         <div class="d-flex flex-column justify-content-center align-items-end">
                             <span class="font-size-18 font-w-700" style="color: #5363F9">₱ 112,166.25</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Revenue</span>
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <!-- MOST OVERVIEW -->
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mb-4">
                 <!-- BOX 1 -->
                 <div class="d-flex flex-column">
                     <div class="d-flex">
@@ -138,6 +138,124 @@
                     </div>
                     <div class="d-flex py-1 my-2 border home-box-2">
                         <div id="chart" class="d-flex" style="flex-grow: 1"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- BRANCH OVERVIEW -->
+            <div class="d-flex flex-column mb-4">
+                <div class="d-flex">
+                    <span class="font-size-18 font-w-700">Branch Overview</span>
+                </div>
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column p-4 my-2 home-box-3">
+                        <div class="d-flex mb-auto">
+                            <span class="home-branch-primary-text">Olongapo Branch</span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="d-flex flex-column flex-grow-1" style="gap: 10px; flex-basis: 0">
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/invalue.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-value">₱ 24,050,222.50</span>
+                                            <span class="home-branch-label">Inventory Value</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/sales.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-sales">₱ 144,035.75</span>
+                                            <span class="home-branch-label">Today's Sales</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column flex-grow-1" style="gap: 10px; flex-basis: 0">
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/expenses.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-value">₱ 102,555.50</span>
+                                            <span class="home-branch-label">Today's Expenses</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/revenue.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-sales">₱ 44,480.25</span>
+                                            <span class="home-branch-label">Today's Revenue</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column p-4 my-2 home-box-3">
+                        <div class="d-flex mb-auto">
+                            <span class="home-branch-primary-text">Manila Branch</span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="d-flex flex-column flex-grow-1" style="gap: 10px; flex-basis: 0">
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/invalue.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-value">₱ 24,050,222.50</span>
+                                            <span class="home-branch-label">Inventory Value</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/sales.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-sales">₱ 144,035.75</span>
+                                            <span class="home-branch-label">Today's Sales</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column flex-grow-1" style="gap: 10px; flex-basis: 0">
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/expenses.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-value">₱ 102,555.50</span>
+                                            <span class="home-branch-label">Today's Expenses</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex pr-1">
+                                        <img src="/static/media/revenue.svg" alt="">
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center pl-1">
+                                        <div class="d-flex flex-column justify-content-center align-items-start">
+                                            <span class="home-branch-sales">₱ 44,480.25</span>
+                                            <span class="home-branch-label">Today's Revenue</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -276,7 +394,7 @@
         legend: {
             show: true,
             position: 'top',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
         }        
       }
       
