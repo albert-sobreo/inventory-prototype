@@ -13,6 +13,7 @@
     <script src="/static/js/nav.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="/static/js/vue-components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
 </head>
@@ -42,15 +43,17 @@
         </div>
         <!-- END NAVBAR -->
         <div class="container">
+            <!-- OVERVIEW -->
             <div class="d-flex">
                 <span class="font-size-18 font-w-700">Overview</span>
             </div>
-            <div class="d-flex justify-content-between">
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3">
+            <!-- OVERVIEW DATA -->
+            <div class="d-flex justify-content-between mb-4">
+                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 260px;">
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/invalue.svg" alt="">
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2">
+                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
                         <div class="d-flex flex-column justify-content-center align-items-end">
                             <span class="font-size-18 font-w-700" style="color: #28E324">₱ 24,050,222.50</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Inventory Value</span>
@@ -58,7 +61,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
+                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 260px;">
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/sales.svg" alt="">
                     </div>
@@ -70,11 +73,11 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
+                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 260px;">
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/expenses.svg" alt="">
                     </div>
-                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 1;">
+                    <div class="d-flex flex-column justify-content-center pl-2" style="flex-grow: 2;">
                         <div class="d-flex flex-column justify-content-center align-items-end">
                             <span class="font-size-18 font-w-700" style="color: #24D8E3">₱ 132,869.50</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Expenses</span>
@@ -82,7 +85,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 240px;">
+                <div class="d-flex flex-row box-shadow-medium b-radius-15 my-2 px-3" style="width: 260px;">
                     <div class="d-flex justify-content-center align-items-center py-3 pr-2">
                         <img src="/static/media/revenue.svg" alt="">
                     </div>
@@ -91,6 +94,50 @@
                             <span class="font-size-18 font-w-700" style="color: #5363F9">₱ 112,166.25</span>
                             <span class="font-size-12 font-w-700" style="color: #AEAEAE">Today’s Revenue</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MOST OVERVIEW -->
+            <div class="d-flex justify-content-between">
+                <!-- BOX 1 -->
+                <div class="d-flex flex-column">
+                    <div class="d-flex">
+                        <span class="font-size-18 font-w-700">Most Sold Item</span>
+                    </div>
+                    <div class="d-flex flex-column p-4 my-2 p home-box">
+                        <div class="d-flex mb-auto flex-column">
+                            <span class="home-box-primary-text">Narra Planks 8x8</span>
+                            <span class="home-box-secondary-text">w-np-8</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="home-box-primary-text home-box-money">₱ 90,084.55</span>
+                            <span class="home-box-secondary-text">Total sales today</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOX 2 -->
+                <div class="d-flex flex-column">
+                    <div class="d-flex">
+                        <span class="font-size-18 font-w-700">Most Purchased Item</span>
+                    </div>
+                    <div class="d-flex flex-column p-4 my-2 p home-box">
+                        <div class="d-flex mb-auto flex-column">
+                            <span class="home-box-primary-text">Acacia Planks 90x90</span>
+                            <span class="home-box-secondary-text">w-ap-90</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="home-box-primary-text home-box-money">₱ 77,098.51</span>
+                            <span class="home-box-secondary-text">Total purchase today</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOX 3 -->
+                <div class="d-flex flex-column">
+                    <div class="d-flex">
+                        <span class="font-size-18 font-w-700">5-Day Report</span>
+                    </div>
+                    <div class="d-flex py-1 my-2 border home-box-2">
+                        <div id="chart" class="d-flex" style="flex-grow: 1"></div>
                     </div>
                 </div>
             </div>
@@ -187,5 +234,49 @@
     new Vue({
         el: '#sidebar-component'
     })
+</script>
+<script>
+    var options = {
+        chart: {
+          type: 'line',
+          height: '100%',
+          fontFamily: 'Poppins',
+          foreColor: '#a6a6a6',
+          toolbar: {
+              show: false
+          },
+          zoom: {
+              enabled: false
+          }
+        },
+        grid: {
+            show: true,
+            borderColor: '#5f5f5f'  
+        },
+        series: [
+            {
+              name: 'Sales',
+              data: [5,7,4,7,8]
+            },
+            {
+                name: 'Purchase',
+                data: [9,1,2,0,3]
+            }
+        ],
+        xaxis: {
+          categories: ['Nov 18', 'Nov 19', 'Nov 20', 'Nov 21', 'Nov 22']
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        legend: {
+            show: true,
+            position: 'top'
+        }        
+      }
+      
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      
+      chart.render();
 </script>
 </html>

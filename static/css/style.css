@@ -475,3 +475,45 @@ body{
 #main{
     margin-left: 200px;
 }
+
+.box-height-260{
+    height: 260px;
+}
+
+.box-width-260{
+    width: 260px;
+}
+
+.box-square-260, .home-box{
+    height: 260px;
+    width: 260px;
+}
+
+.home-box-2{
+    height: 260px;
+    width: 544px;
+}
+
+.home-box, .home-box-2{
+    background-color: #293339;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    border-radius: 15px;
+}
+
+.home-box-primary-text{
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.home-box-secondary-text{
+    color: #A6A6A6;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.home-box-money{
+    color: #7CF87A;
+    font-weight: 700;
+    font-size: 18px;
+}
