@@ -63,10 +63,10 @@ def registerprocess(request):
         user.username = username
         user.password = pbkdf2_sha256.encrypt(password, rounds=12000, salt_size=32)
         user.branch = Branch.objects.get(pk=branch)
-        if position == "b0ss":
-            user.auth_level = 'b0ss'
+        if position == "Head":
+            user.auth_level = 'Head'
         else:
-            user.auth_level = 'not b0ss'
+            user.auth_level = 'Empoloyee'
 
         user.first_name = first_name
         user.last_name = last_name
