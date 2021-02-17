@@ -238,9 +238,10 @@
 <script>
     var options = {
         chart: {
-          type: 'line',
+          type: 'area',
           height: '100%',
           fontFamily: 'Poppins',
+          fontWeight: 'bold',
           foreColor: '#a6a6a6',
           toolbar: {
               show: false
@@ -248,6 +249,9 @@
           zoom: {
               enabled: false
           }
+        },
+        dataLabels: {
+            enabled: false,
         },
         grid: {
             show: true,
@@ -271,7 +275,8 @@
         },
         legend: {
             show: true,
-            position: 'top'
+            position: 'top',
+            fontWeight: 'bold'
         }        
       }
       
