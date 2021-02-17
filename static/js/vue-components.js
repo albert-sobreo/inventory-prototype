@@ -36,15 +36,15 @@ Vue.component('sidebar', {
                                 <a v-for='branch in branches' :href="'/top-level/branch/'+ branch.pk +'/inventory/'" class="wrapper-link">{{branch.name}}</a>
                             </div>
                         </div>
-                        <a href="#" class="sidenav-link" id='employees'>Employees</a>
-                        <a href="/top-level/Customers/" class="sidenav-link" id='customers'>Customers</a>
-                        <a href="/top-level/Suppliers/" class="sidenav-link" id='suppliers'>Suppliers</a>
+                        <a href="/top-level/employees/" class="sidenav-link" id='employees'>Employees</a>
+                        <a href="/top-level/customers/" class="sidenav-link" id='customers'>Customers</a>
+                        <a href="/top-level/suppliers/" class="sidenav-link" id='suppliers'>Suppliers</a>
                         <div class="sidenav-break"></div>
-                        <a href="#" class="sidenav-link" id='purchase'>Purchase</a>
-                        <a href="#" class="sidenav-link" id='sales'>Sales</a>
-                        <a href="#" class="sidenav-link" id='transfers'>Transfers</a>
-                        <a href="#" class="sidenav-link" id='spoilage'>Spoilage</a>
-                        <a href="#" class="sidenav-link" id='approvals'>Approvals</a>
+                        <a href="/top-level/purchase/" class="sidenav-link" id='purchase'>Purchase</a>
+                        <a href="/top-level/sales/" class="sidenav-link" id='sales'>Sales</a>
+                        <a href="/top-level/transfers/" class="sidenav-link" id='transfers'>Transfers</a>
+                        <a href="/top-level/ppoilage/" class="sidenav-link" id='spoilage'>Spoilage</a>
+                        <a href="/top-level/approvals/" class="sidenav-link" id='approvals'>Approvals</a>
                     </div>
                 </div>`
 });

@@ -77,6 +77,13 @@ def topLevelBranchCostOfGoodSold(request, pk_branch):
     return render(request, 'tlBranchCostOfGoodSold.html', context)
 
 
+def topLevelEmployees(request):
+    context = {
+        "me": User.objects.get(username=request.session.get('username')),
+        'sidebranches': Branch.objects.all(),
+    }
+    return render(request, 'tlEmployees.html', context)
+
 def topLevelCustomers(request):
     context = {
         "me": User.objects.get(username=request.session.get('username')),
@@ -93,8 +100,8 @@ def topLevelSuppliers(request):
     }
     return render(request, 'tlSuppliers.html', context)
 
-def topLevelPurchase(request, pk_branch):
-    branch = Branch.objects.get(pk=pk_branch)
+def topLevelPurchase(request):
+    branch = Branch.objects.all()
     context = {
         "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
@@ -102,8 +109,8 @@ def topLevelPurchase(request, pk_branch):
     }
     return render(request, 'tlPurchase.html', context)
 
-def topLevelSales(request, pk_branch):
-    branch = Branch.objects.get(pk=pk_branch)
+def topLevelSales(request):
+    branch = Branch.objects.all()
     context = {
         "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
@@ -111,8 +118,8 @@ def topLevelSales(request, pk_branch):
     }
     return render(request, 'tlSales.html', context)
 
-def topLevelTransfers(request, pk_branch):
-    branch = Branch.objects.get(pk=pk_branch)
+def topLevelTransfers(request):
+    branch = Branch.objects.all()
     context = {
         "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
@@ -120,8 +127,8 @@ def topLevelTransfers(request, pk_branch):
     }
     return render(request, 'tlTransfers.html', context)
 
-def topLevelSpoilage(request, pk_branch):
-    branch = Branch.objects.get(pk=pk_branch)
+def topLevelSpoilage(request):
+    branch = Branch.objects.all()
     context = {
         "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
@@ -129,8 +136,8 @@ def topLevelSpoilage(request, pk_branch):
     }
     return render(request, 'tlSpoilage.html', context)
 
-def topLevelApprovals(request, pk_branch):
-    branch = Branch.objects.get(pk=pk_branch)
+def topLevelApprovals(request):
+    branch = Branch.objects.all()
     context = {
         "me": User.objects.get(username=request.session.get('username')),
         'sidebranches': Branch.objects.all(),
