@@ -13,7 +13,7 @@ def inView(request):
     user = User.objects.get(username=request.session.get('username'))
 
     try:
-        po = user.branch.purchase_order.objects.latest('pk')
+        po = user.branch.purchase_order.latest('pk')
 
         listed_ref_id = po.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -26,7 +26,8 @@ def inView(request):
         else:
             new_ref_id = 'PO-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
-    except:
+    except Exception as e:
+        print(e)
         listed_date = str(now.today()).split('-')
         new_ref_id = 'PO-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
