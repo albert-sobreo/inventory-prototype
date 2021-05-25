@@ -37,19 +37,7 @@
 
     <script>new Nav('nav-transfer')</script>
 
-    <div class="c-nav-item justify-content-end dropdown">
-      <div class="nav-name" data-toggle="dropdown">
-        <span>{{me.first_name}} {{me.last_name}}</span> <i class="fas fa-angle-down ml-1"></i>
-      </div>
-      <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
-        <div class="dropdown-header font-size-12">
-            <span>{{me.first_name}} {{me.last_name}}</span><br>
-            <span class="font-size-10 py-0">{{me.position}}</span>
-        </div>
-        <div class="dropdown-divider"></div>
-        <a href="/logout" class="dropdown-item font-size-12">Logout</a>
-      </div>
-    </div>
+    <script>new NavN('{{me.first_name}}', '{{me.last_name}}', '{{me.branch.name}}', '{{me.position}}')</script>
     
   </div>
   <!-- END NAV -->
@@ -91,7 +79,7 @@
                     <select name="code" class="form-control py-0" v-model="line.code" @change="onCodeChange(line.code, index)" required>
                         <option value="" disabled>Select Item</option>
 
-                        {% for item in items.all %}
+                        {% for item in me.branch.product.all %}
                         <option value="{{item.pk}}">{{item.name}} | {{item.code}}</option>
                         {% endfor %}
 
@@ -119,7 +107,7 @@
                     <select name="new-warehouse" class="form-control py-0" v-model="new_warehouse" required>
                         <option value="" disabled>Select Warehouse</option>
 
-                        {% for warehouse in warehouses.all %}
+                        {% for warehouse in me.branch.warehouse.all %}
                         <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                         {% endfor %}
 
@@ -249,7 +237,7 @@
                   $('#date').validate()
                   if(document.getElementById('mainForm').checkValidity()){
                       Swal.fire({
-                        title: 'Confirm Purchase?',
+                        title: 'Confirm Transfer?',
                         html: this.lines.length + " item " + (this.lines.length > 1 ? "codes are" : "code is") + " included.",
                         icon: 'warning',
                         confirmButtonText: 'Yes',

@@ -1,3 +1,4 @@
+from app.views.restjson import getSidebarBranchData
 from app.views.vc import customers_save_process, vendors_save_process
 from app.views.sales import outView
 from django.contrib import admin
@@ -61,5 +62,22 @@ urlpatterns = [
     path('gettransfermodaldata/', views.getTransferModalData),
     path('getspoilagemodaldata/', views.getSpoilageModalData),
     path('approvetransfer/', views.approveTransfer),
-    path('approvespoilage/', views.approveSpoilage)
+    path('approvespoilage/', views.approveSpoilage),
+    path('top-level/branch/<str:pk_branch>/inventory/', views.topLevelBranchInvnetory),
+    path('top-level/home/', views.topLevelHome),
+    path('getsidebarbranchdata/', views.getSidebarBranchData),
+    path('top-level/branch/<str:pk_branch>/warehouse/', views.topLevelBranchWarehouse),
+    path('top-level/branch/<str:pk_branch>/logs/purchase/', views.topLevelBranchLogsPurchase),
+    path('top-level/branch/<str:pk_branch>/logs/sales/', views.topLevelBranchLogsSales),
+    path('top-level/branch/<str:pk_branch>/logs/transfers/', views.topLevelBranchLogsTransfers),
+    path('top-level/branch/<str:pk_branch>/logs/spoilage/', views.topLevelBranchLogsSpoilage),
+    path('top-level/branch/<str:pk_branch>/reports/costofgoodsold/', views.topLevelBranchCostOfGoodSold),
+    path('top-level/employees/', views.topLevelEmployees),
+    path('top-level/customers/', views.topLevelCustomers),
+    path('top-level/suppliers/', views.topLevelSuppliers),
+    path('top-level/purchase/', views.topLevelPurchase),
+    path('top-level/sales/', views.topLevelSales),
+    path('top-level/transfers/', views.topLevelTransfers),
+    path('top-level/ppoilage/', views.topLevelSpoilage),
+    path('top-level/approvals/', views.topLevelApprovals),
 ]

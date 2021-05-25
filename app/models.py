@@ -5,22 +5,20 @@ from django.db.models import Avg, Max, Min, Sum
 
 # Create your models here.
 
-class Login(models.Model):
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    auth_level = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.username
-
 class User(models.Model):
+    username = models.CharField(max_length=255, null=True)
+    password = models.CharField(max_length=255, null=True)
+    branch = models.ForeignKey('Branch', on_delete=models.CASCADE, null=True, blank=True)
+    top_level = models.BooleanField(default=False)
+    auth_level = models.CharField(max_length=255, default='Employee')
+
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
-    login = models.ForeignKey(Login, on_delete=models.CASCADE)
-
+    
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.first_name + " " + self.last_name
+    
 
 class Warehouse(models.Model):
     name = models.CharField(max_length=255)
@@ -36,7 +34,7 @@ class Product(models.Model):
     quantity = models.IntegerField()
     cost_per_item = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
     total_cost = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
-    turnover = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    turnover = models.DecimalField(max_digits=24, decimal_places=5, null=True, blank=True)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -166,3 +164,17 @@ class Spoilage_Item(models.Model):
 
     def __str__(self):
         return self.product.code + ' ' + self.product.name
+
+class Branch(models.Model):
+    name = models.CharField(max_length=255)
+    vendor = models.ManyToManyField(Vendor, blank=True)
+    customer = models.ManyToManyField(Customer, blank=True)
+    purchase_order = models.ManyToManyField(Purchase_Order, blank=True)
+    sales_order = models.ManyToManyField(Sales_Order, blank=True)
+    transfer = models.ManyToManyField(Transfer, blank=True)
+    spoilage = models.ManyToManyField(Spoilage, blank=True)
+    product = models.ManyToManyField(Product, blank=True)
+    warehouse = models.ManyToManyField(Warehouse, blank=True)
+
+    def __str__(self):
+        return self.name

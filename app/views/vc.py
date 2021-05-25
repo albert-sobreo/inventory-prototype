@@ -7,9 +7,7 @@ def vendors_page(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'vendors': Vendor.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
-        
+        'me': User.objects.get(username=request.session.get('username')),
     }
     return render(request, 'vendors.html', context)
 
@@ -17,9 +15,7 @@ def customers_page(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'customers': Customer.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
-        
+        'me': User.objects.get(username=request.session.get('username')),
     }
     return render(request, 'customers.html', context)
 
@@ -27,6 +23,9 @@ def customers_page(request):
 def vendors_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
+
     name = request.GET['name']
     owner_first_name = request.GET['owner_first_name']
     owner_last_name = request.GET['owner_last_name']
@@ -51,6 +50,7 @@ def vendors_save_process(request):
 
     try:
         vendor.save()
+        user.branch.vendor.add(vendor)
         sweetify.sweetalert(request, icon='success', title='Added Vendor Successfully', text='{} successfully added'.format(vendor.name), persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')
@@ -92,6 +92,9 @@ def getVendorModalData(request):
 def customers_save_process(request):
     if request.session.is_empty():
         return redirect('/login/')
+
+    user = User.objects.get(username=request.session.get('username'))
+
     name = request.GET['name']
     owner_first_name = request.GET['owner_first_name']
     owner_last_name = request.GET['owner_last_name']
@@ -116,6 +119,7 @@ def customers_save_process(request):
 
     try:
         customer.save()
+        user.branch.customer.add(customer)
         sweetify.sweetalert(request, icon='success', title='Added Customer Successfully', text='{} successfully added'.format(customer.name), persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')

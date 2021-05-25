@@ -10,8 +10,10 @@ def outView(request):
     if request.session.is_empty():
         return redirect('/login/')
 
+    user = User.objects.get(username=request.session.get('username'))
+
     try:
-        so = Sales_Order.objects.latest('pk')
+        so = user.branch.sales_order.latest('pk')
 
         listed_ref_id = so.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -30,10 +32,8 @@ def outView(request):
 
     
     context = {
-        'items': Product.objects.all().order_by('name'),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'me': user,
         'new_ref_id': new_ref_id,
-        'customers': Customer.objects.all(),
     }
     return render(request, 'sales-order.html', context)
 
@@ -48,13 +48,14 @@ def salesProcess(request):
     total_amount_due = data['total_amount_due']
 
     myUsername = request.session.get('username')
+    user = User.objects.get(username=myUsername)
 
     if customer == '':
         sweetify.sweetalert(request, icon='error', title='Error', text='Customer is empty', persistent="Dismiss")
         return JsonResponse(0, safe=False)
 
-    if Sales_Order.objects.filter(ref_id=ref_id).exists():
-        so = Sales_Order.objects.latest('pk')
+    if user.branch.sales_order.filter(ref_id=ref_id).exists():
+        so = user.branch.sales_order.latest('pk')
 
         listed_ref_id = so.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -72,9 +73,10 @@ def salesProcess(request):
     so.customer = Customer.objects.get(pk=customer)
     so.total_amount_due = total_amount_due
     so.approved = False
-    so.created_by = User.objects.get(login__username=myUsername)
+    so.created_by = User.objects.get(username=myUsername)
 
     so.save()
+    user.branch.sales_order.add(so)
 
     for line in lines:
         si = Sales_Item()

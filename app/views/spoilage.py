@@ -10,8 +10,10 @@ def spoilageView(request):
     if request.session.is_empty():
         return redirect('/login/')
     
+    user = User.objects.get(username=request.session.get('username'))
+
     try:
-        tr = Spoilage.objects.latest('pk')
+        tr = user.branch.spoilage.latest('pk')
 
         listed_ref_id = tr.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -29,11 +31,8 @@ def spoilageView(request):
         new_ref_id = 'SP-{}-{}-0001'.format(listed_date[0], listed_date[1])
 
     context = {
-        'items': Product.objects.all().order_by('name'),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
+        'me': user,
         'new_ref_id': new_ref_id,
-        'customers': Customer.objects.all(),
-        'warehouses': Warehouse.objects.all(),
     }
     return render(request, 'spoilage.html', context)
 
@@ -46,9 +45,10 @@ def spoilageProcess(request):
     total_lost = data['total_lost']
     
     myUsername = request.session.get('username')
+    user = User.objects.get(username=request.session.get('username'))
 
-    if Spoilage.objects.filter(ref_id=ref_id).exists():
-        sp = Spoilage.objects.latest('pk')
+    if user.branch.spoilage.filter(ref_id=ref_id).exists():
+        sp = user.branch.spoilage.latest('pk')
 
         listed_ref_id = sp.ref_id.split('-')
         listed_date = str(now.today()).split('-')
@@ -65,8 +65,10 @@ def spoilageProcess(request):
     sp.date = date
     sp.total_lost = total_lost
     sp.approved = False
-    sp.created_by = User.objects.get(login__username=myUsername)
+    sp.created_by = User.objects.get(username=myUsername)
     sp.save()
+
+    user.branch.spoilage.add(sp)
 
     for line in lines:
         si = Spoilage_Item()

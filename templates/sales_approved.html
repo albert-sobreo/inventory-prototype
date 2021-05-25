@@ -25,19 +25,7 @@
 
     <script>new Nav('nav-approvals')</script>
 
-    <div class="c-nav-item justify-content-end dropdown">
-      <div class="nav-name" data-toggle="dropdown">
-        <span>{{me.first_name}} {{me.last_name}}</span> <i class="fas fa-angle-down ml-1"></i>
-      </div>
-      <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
-        <div class="dropdown-header font-size-12">
-            <span>{{me.first_name}} {{me.last_name}}</span><br>
-            <span class="font-size-10 py-0">{{me.position}}</span>
-        </div>
-        <div class="dropdown-divider"></div>
-        <a href="/logout" class="dropdown-item font-size-12">Logout</a>
-      </div>
-    </div>
+    <script>new NavN('{{me.first_name}}', '{{me.last_name}}', '{{me.branch.name}}', '{{me.position}}')</script>
     
   </div>
   <!-- END NAV -->
@@ -69,7 +57,7 @@
           <td>{{sale.date}}</td>
           <td>{{sale.customer.name}}</td>
           <th>₱{{sale.total_amount_due}}</th>
-          <td></td>
+          <td>{{sale.created_by.first_name}} {{sale.created_by.last_name}}</td>
         </tr>
         {% endfor %}
       </tbody>

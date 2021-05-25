@@ -167,12 +167,24 @@ body{
     width: 10%;
 }
 
+.c2-nav-item{
+    display: inline-flex;
+    align-items: center;
+    width: 20%;
+}
+
+.navbar2{
+    display: inline-flex;
+    align-items: center;
+    width: 60%;
+}
+
 .c-nav-links, .navbar-nav, .navbar{
     display: inline-flex;
     align-items: center;
     width: 80%;
 }
-.navbar div{
+.navbar div, .navbar2 div{
     cursor: pointer;
 }
 
@@ -196,7 +208,7 @@ body{
 }
 
 .active{
-    color: #339DE9;
+    color: #339DE9 !important;
 }
 
 .logo{
@@ -395,4 +407,150 @@ body{
 
 #loader-container{
     display: none;
+}
+
+.sidenav{
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #222A2E;
+    overflow: hidden;
+}
+
+.sidenav-brand{
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2C3235;
+}
+
+.sidenav-body{
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    overflow-x: hidden;
+}
+
+.sidenav-link, .wrapper-link{
+    padding: 15px 0px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #8B969C;
+    display: flex;
+    font-weight: 700;
+    padding-left: 25%;
+}
+
+.wrapper-link{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.wrapper-link:hover{
+    color: rgb(219, 219, 219);
+    text-decoration: none;
+}
+
+.sidenav-link:hover{
+    color: rgb(219, 219, 219);
+    text-decoration: none;
+}
+
+.sidenav-active{
+    color: white !important;
+}
+
+.sidenav-break{
+    padding: 15px 0px;
+}
+
+#wrapper {
+    background-color: #2C3235;
+    overflow: hidden;
+    transition: height 200ms;
+    height: 0;
+}
+#main{
+    margin-left: 200px;
+}
+
+.box-height-260{
+    height: 260px;
+}
+
+.box-width-260{
+    width: 260px;
+}
+
+.box-square-260, .home-box{
+    height: 260px;
+    width: 260px;
+}
+
+.home-box-2, .home-box-3{
+    height: 260px;
+    width: 544px;
+}
+
+.home-box, .home-box-2, .home-box-3{
+    background-color: #293339;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    border-radius: 15px;
+}
+
+.home-box-3{
+    background-color: #ffffff;
+}
+
+.home-box-primary-text{
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.home-box-secondary-text{
+    color: #A6A6A6;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.home-box-money{
+    color: #7CF87A;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.home-branch-primary-text{
+    color: black;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.home-branch-label{
+    color: #AEAEAE;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.home-branch-value, .home-branch-sales, .home-branch-expenses, .home-branch-revenue{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.home-branch-value{
+    color: #28E324
+}
+
+.home-branch-sales{
+    color: #E3AE24
+}
+
+.home-branch-expenses{
+    color: #24D8E3
+}
+
+.home-branch-revenue{
+    color: #5363F9
 }

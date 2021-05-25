@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app.models import Warehouse, Product, User
+from app.models import Branch, Warehouse, Product, User
 import sweetify
 from decimal import Decimal
 
@@ -10,9 +10,7 @@ def inventory_page(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'items': Product.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username')),
-        'warehouses': Warehouse.objects.all()
+        'me': User.objects.select_related().get(username=request.session.get('username')),
     }
     return render(request, 'inventory.html', context)
 
@@ -21,6 +19,7 @@ def warehouse_save_process(request):
         return redirect('/login/')
     name = request.GET['name']
     address = request.GET['address']
+    user = User.objects.get(username=request.session.get('username'))
 
     warehouse = Warehouse()
 
@@ -28,6 +27,7 @@ def warehouse_save_process(request):
     warehouse.address = address
     try:
         warehouse.save()
+        user.branch.warehouse.add(warehouse)
         sweetify.sweetalert(request, icon='success', title='Added Warehouse Successfully!', persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='YOU DID IT', text="YOU FUCKED IT UP", persistent='BRUH')
@@ -38,8 +38,7 @@ def warehouse_list(request):
     if request.session.is_empty():
         return redirect('/login/')
     context = {
-        'warehouses': Warehouse.objects.all(),
-        'me': User.objects.select_related().get(login__username=request.session.get('username'))
+        'me': User.objects.select_related().get(username=request.session.get('username'))
     }
     return render(request, 'warehouse.html', context)
 
@@ -80,6 +79,8 @@ def inventory_save_process(request):
 
     warehouse_pk = int(request.GET['warehouse'])
 
+    user = User.objects.get(username=request.session['username'])
+
     product = Product()
 
     product.code = code
@@ -92,6 +93,7 @@ def inventory_save_process(request):
 
     try:
         product.save()
+        user.branch.product.add(product)
         sweetify.sweetalert(request, icon='success', title='Added Product Successfully', text='{} {} successfully added'.format(product.quantity, product.name), persistent='Dismiss')
     except:
         sweetify.sweetalert(request, icon='error', title='Something went wrong', persistent='Dismiss')

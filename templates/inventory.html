@@ -21,19 +21,7 @@
 
     <script>new Nav('nav-inventory')</script>
 
-    <div class="c-nav-item justify-content-end dropdown">
-      <div class="nav-name" data-toggle="dropdown">
-        <span>{{me.first_name}} {{me.last_name}}</span> <i class="fas fa-angle-down ml-1"></i>
-      </div>
-      <div class="dropdown-menu dropdown-menu-left b-radius-5 py-0">
-        <div class="dropdown-header font-size-12">
-            <span>{{me.first_name}} {{me.last_name}}</span><br>
-            <span class="font-size-10 py-0">{{me.position}}</span>
-        </div>
-        <div class="dropdown-divider"></div>
-        <a href="/logout" class="dropdown-item font-size-12">Logout</a>
-      </div>
-    </div>
+    <script>new NavN('{{me.first_name}}', '{{me.last_name}}', '{{me.branch.name}}', '{{me.position}}')</script>
     
   </div>
   <!-- END NAV -->
@@ -85,7 +73,7 @@
               <div class="form-group">
                   <label for="warehouse">Warehouse</label>
                   <select name="warehouse" class="form-control py-0" id="warehouse">
-                    {% for warehouse in warehouses.all %}
+                    {% for warehouse in me.branch.warehouse.all %}
                     <option value="{{warehouse.pk}}">{{warehouse.name}}</option>
                     {% endfor %}
                   </select>
@@ -116,7 +104,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for item in items%}
+        {% for item in me.branch.product.all%}
         <tr>
             <td>{{item.code}}</td>
             <td>{{item.name}}</td>
@@ -129,7 +117,7 @@
         
         </tbody>
     </table>
-    
+  </div>
 </body>
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Level | Suppliers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/fontawesome.all.css">
+    <script src="/static/js/nav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="/static/js/vue-components.js"></script>
+
+
+</head>
+<body class="font-size-12">
+    <div id="sidebar-component">
+        <sidebar active='suppliers'></sidebar>
+    </div>
+    <div id="main">
+        <!-- NAVBAR -->
+        <div class="c-nav d-flex font-w-600 mb-3">
+            <!-- LEFT -->
+            <div class="c2-nav-item justify-content-start">
+                <span class="font-size-14">Customers</span>
+            </div>
+            <!-- END LEFT -->
+
+            <!-- CENTER -->
+            <div class="justify-content-center navbar2">
+
+            </div>
+            <!-- END CENTER -->
+            <!-- RIGHT -->
+            <script>
+                new NavN2('{{me.first_name}}', '{{me.last_name}}', '{{me.branch.name}}', '{{me.position}}')
+            </script>
+            <!-- END RIGHT -->
+        </div>
+        <!-- END NAVBAR -->
+        <div class="container" id="app">    
+            <div id="loader-container" class="d-flex justify-content-center align-items-center">
+              <div id="loader"></div>
+            </div>
+            <table id="table" class="table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+                <thead class="thead-dark">
+                <tr class="">
+                    <th class="b-tl-radius-10" style="border-top: 0px;">Vendor Name</th>
+                    <th style="border-top: 0px;">Address</th>
+                    <th style="border-top: 0px;">Email</th>
+                    <th class="b-tr-radius-10" style="border-top: 0px;">Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for vendor in suppliers.all %}
+                <tr>
+                    <td data-toggle="modal" data-target="#vendorModal" class="receipt-link" @click="vendorModalData({{vendor.pk}})">{{vendor.name}}</td>
+                    <td>{{vendor.address}}</td>
+                    <td>{{vendor.email}}</td>
+                    <td>{{vendor.landline}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- add vendor modal -->
+            <div class="modal fade" id="addVendorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content b-radius-15">
+                  <div class="modal-body">
+                    <form method="GET" action="/vendorsaveprocess/" class="form-container-1 py-2 px-1 mt-4 font-w-600 ">{%csrf_token%}
+                      <h3 class="mb-3 font-w-700">Add Vendor</h3>
+          
+                      <div class="form-group row">
+                          <div class="col">
+                            <label for="name">Name</label>
+                            <input name="name" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Name" autocomplete="off">
+                          </div>
+                          <div class="col">
+                            <label for="address">Address</label>
+                            <input name="address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" autocomplete="off">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col">
+                          <label for="owner_first_name">Owner First Name</label>
+                          <input name="owner_first_name" type="text" class="form-control" id="owner_first_name" placeholder="Enter Owner Name" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="owner_last_name">Owner Last Name</label>
+                          <input name="owner_last_name" type="text" class="form-control" id="owner_last_name" placeholder="Enter Owner Name" autocomplete="off">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="VendorEmail">Email</label>
+                          <input name="email" type="email" class="form-control" id="VendorEmail" placeholder="Enter Email" autocomplete="off">
+                      </div>
+                      <div class="form-group row">
+                        <div class="col">
+                          <label for="vendorPhone">Phone</label>
+                          <input name="mobile" type="text" class="form-control" id="vendorPhone" placeholder="Enter Phone Number" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="vendorLandline">Landline</label>
+                          <input name="landline" type="text" class="form-control" id="vendorLandline" placeholder="Enter Landline Number" autocomplete="off">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col">
+                          <label for="bank">Bank</label>
+                          <input name="bank" type="text" class="form-control" id="itemcode" aria-describedby="emailHelp" placeholder="Enter Bank" autocomplete="off">
+                        </div>
+                        <div class="col">
+                          <label for="bankNumber">Bank Number</label>
+                          <input name="bank_number" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Bank Number" autocomplete="off">
+                        </div>
+                      </div>
+                        <div class="form-group">
+                            <label for="comment">Description:</label>
+                            <textarea name="description" class="form-control" rows="5" id="comment" placeholder="Enter Description"></textarea>
+                          </div>
+                      <button type="submit" class="btn btn-block mt-5 mb-3 btn-primary">Add Vendor</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end add vendor modal -->
+            <div class="modal fade" id="vendorModal">
+              <div class="modal-dialog">
+                <div class="modal-content b-radius-15">
+                  <div class="modal-body">
+                    <div class="row my-5">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h1 class="font-w-700">[[modal.name]]</h1>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="font-w-700 font-size-14">Vendor Profile</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col d-flex flex-wrap mb-4">
+                        <div class="modal-info-container"><i class="fas fa-user mr-2 icon-gray"></i> [[modal.owner_first_name]] [[modal.owner_last_name]]</div>
+                        <div class="modal-info-container"><i class="fas fa-map-marker-alt mr-2 icon-gray"></i> [[modal.address]]</div>
+                        <div class="modal-info-container"><i class="fas fa-mobile mr-2 icon-gray"></i> [[modal.mobile]]</div>
+                        <div class="modal-info-container"><i class="fas fa-phone-alt mr-2 icon-gray"></i> [[modal.landline]]</div>
+                        <div class="modal-info-container"><i class="fas fa-envelope mr-2 icon-gray"></i> [[modal.email]]</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="font-w-700 font-size-14">Bank Information</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col d-flex flex-wrap mb-5">
+                        <div class="modal-info-container"><i class="fas fa-university mr-2 icon-gray"></i> [[modal.bank]]</div>
+                        <div class="modal-info-container"><i class="fas fa-credit-card mr-2 icon-gray"></i>[[modal.bank_number]]</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <h3 class="font-w-700">Purchase History</h3>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <table class="col table box-shadow-medium b-tl-radius-10 b-tr-radius-10">
+                          <thead>
+                            <th class="b-tl-radius-10" style="border-top: 0px;">Reference No.</th>
+                            <th style="border-top: 0px;">Date</th>
+                            <th class="b-tr-radius-10" style="border-top: 0px;">Total Cost</th>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in modal.items">
+                              <td class="font-w-600">[[item.code]]</td>
+                              <td class="font-w-600">[[item.date]]</td>
+                              <td class="font-w-600">₱[[item.total_cost]]</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="/static/js/jquery-3.5.1.slim.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/js/dataTables.buttons.min.js"></script>
+<script src="/static/js/buttons.flash.min.js"></script>
+<script src="/static/js/jszip.min.js"></script>
+<script src="/static/js/buttons.html5.min.js"></script>
+<script src="/static/js/buttons.print.min.js"></script>
+
+{% load sweetify %}
+{% sweetify %}
+
+<!-- DATATABLES -->
+<script>
+  $(document).ready(function() {
+    $('#table').DataTable({
+      language: { search: '', searchPlaceholder: 'Search'},
+      dom: "<'d-flex p-0 m-0 '<'p-0 m-0 justify-content-start d-flex flex-fill align-items-center flex-grow-0 mr-3 'l><'justify-content-center flex-fill 'B><'justify-content-end flex-fill  align-items-center'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      buttons: {
+        buttons: [
+        {
+          text: '<i class="fas fa-plus"></i>',
+          className: 'btn btn-warning',
+          titleAttr: 'Add Warehouse',
+          action: function(){
+            $("#addVendorModal").modal('show')
+          }
+        },
+        {
+          text: '<i class="fas fa-file-excel"></i>',
+          className: 'btn text-success',
+          titleAttr: 'Export Excel',
+          extend: 'excel'
+        },
+        {
+          text: '<i class="fas fa-file-csv"></i>',
+          className: 'btn text-warning',
+          titleAttr: 'Export CSV',
+          extend: 'csv'
+        },
+        {
+          text: '<i class="fas fa-print"></i>',
+          className: 'btn',
+          titleAttr: 'Print',
+          extend: 'print'
+        }
+      ],
+        dom: {
+          button: {
+            className: 'btn'
+          }
+        }
+      },
+      "initComplete": function(){
+        $("#loader-container").hide()
+        $("#loader").hide()
+        $('#table').show()
+      }
+    });
+} );
+</script>
+<!-- END DATATABLES -->
+<script>
+    $(function(){
+        var b = $('#branch')
+        var w = $('#wrapper')
+        var l = $('#list')
+        b.click(function() {
+
+            if (w.hasClass('open')) {
+              w.removeClass('open');
+              w.height(0);
+            } else {
+              w.addClass('open');
+              w.height(l.outerHeight(true));
+            }
+        
+          });
+    })
+</script>
+
+<script>
+    new Vue({
+        el: '#sidebar-component'
+    })
+</script>
+
+<script>
+    function getCookie(name) {
+      if (!document.cookie) {
+        return null;
+      }
+  
+      const xsrfCookies = document.cookie.split(';')
+        .map(c => c.trim())
+        .filter(c => c.startsWith(name + '='));
+  
+      if (xsrfCookies.length === 0) {
+        return null;
+      }
+      return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+    }
+    Server = {
+      getVendorModalData(pk){
+        payload = {
+          pk: pk
+        }
+  
+        fetch('/getvendormodaldata/', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+              'X-CSRFToken': getCookie('csrftoken')
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(res=>res.json())
+        .then(data => app.modal = data)
+      }
+    }
+  
+    var app = new Vue({
+      delimiters: ['[[', ']]'],
+      el: '#app',
+      data: {
+        modal: {
+          name: '',
+          owner_first_name: '',
+          owner_last_name: '',
+          address: '',
+          landline: '',
+          mobile: '',
+          bank: '',
+          bank_number: '',
+          items: [{
+            code: '',
+            date: '',
+            total_cost: '',
+          }],
+        }
+      },
+      methods: {
+        vendorModalData(pk){
+          Server.getVendorModalData(pk)
+        }
+      }
+    })
+  </script>
+</html>

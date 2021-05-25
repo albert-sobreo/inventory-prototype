@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, HttpResponse
-from ..models import Login, User
+from ..models import User, Branch
 from passlib.hash import pbkdf2_sha256
 from django.contrib.auth import logout as lg
 from django.views.decorators.cache import never_cache
@@ -17,21 +17,25 @@ def loginprocess(request):
         password = request.POST['password']
 
         try:
-            login = Login.objects.get(username = username)
+            user = User.objects.get(username = username)
 
         except:
             return HttpResponse("user doesn't exists")
 
-        if not pbkdf2_sha256.verify(password, login.password):
+        if not pbkdf2_sha256.verify(password, user.password):
             return HttpResponse("wrong password")
 
         request.session['start'] = True
         request.session['username'] = username
-        request.session['auth-level'] = login.auth_level
+        request.session['auth-level'] = user.auth_level
+        request.session['top-level'] = user.top_level
 
         request.session.save()
 
-        return redirect('/')
+        if user.top_level:
+            return redirect('/top-level/home/')
+        else:
+            return redirect('/')
 
 @never_cache
 def logout(request):
@@ -39,36 +43,34 @@ def logout(request):
     return redirect('/login/')
 
 def register(request):
-    return render(request, 'registration.html')
+    return render(request, 'registration.html', {'branches': Branch.objects.all()})
 
 def registerprocess(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         position = request.POST['position']
+        branch = request.POST['branch']
 
         first_name = request.POST['fname']
         last_name = request.POST['lname']
 
-        if Login.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).exists():
             return HttpResponse('Username already taken')
 
-        login = Login()
         user = User()
 
-        login.username = username
-        login.password = pbkdf2_sha256.encrypt(password, rounds=12000, salt_size=32)
-        if position == "b0ss":
-            login.auth_level = 'b0ss'
+        user.username = username
+        user.password = pbkdf2_sha256.encrypt(password, rounds=12000, salt_size=32)
+        user.branch = Branch.objects.get(pk=branch)
+        if position == "Head":
+            user.auth_level = 'Head'
         else:
-            login.auth_level = 'not b0ss'
-
-        login.save()
+            user.auth_level = 'Empoloyee'
 
         user.first_name = first_name
         user.last_name = last_name
         user.position = position
-        user.login = login
 
         user.save()
 
